@@ -23,3 +23,4 @@ npm run serve
 ```
 
 curl --header "Content-Type: application/json" -d "{\"companyName\":\"sdsfsd\",\"tinNumber\":\"134\", \"userName\":\"sdsfsd\", \"email\":\"sdfsd@gmail.com\", \"password\":\"asdfg\",\"cnfPassword\":\"asdfg\",\"address\":\"asdfg\",\"phoneNumber\":\"6464646464\"}" http://localhost:9000/api/visionapp/company/register
+
