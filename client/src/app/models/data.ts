@@ -7,15 +7,15 @@ import { Utils } from '../utils';
 @Injectable({
     providedIn: 'root'
 })
+
 export class Data {
 
     public storage: any;
 
-     constructor(private httpClient:HttpClient) { 
-        this.httpClient.get(`${Utils.getUserNameURL()}`).subscribe((data:Admin)=>{
-            console.log("data",data);
+     constructor(private httpClient: HttpClient) {
+        this.httpClient.get(Utils.getUserNameURL()).subscribe((data: Admin)=>{
             this.storage = data;
-           }) 
+        }) ;
     }
 
 }

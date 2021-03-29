@@ -37,20 +37,19 @@ export class DoughnutGraphComponent implements OnInit {
         new Chart('doughnut-graph-graph', {
             type: 'doughnut',
             data: {
-            labels: ['Data '],
+            labels: ['Boxes', 'Frames', 'Lens'],
             datasets: [ {
                 data: [
                     this.randomNumber(),
                     this.randomNumber(),
-                    this.randomNumber(),
-                    this.randomNumber(),
+                    this.randomNumber()
                 ],
                 backgroundColor: [
                     'rgba(255, 99, 132,.7)',
                     'rgba(92, 107, 192,.7)',
                     'rgba(66, 165, 245,.7)',
                     'rgba(38, 166, 154,.7)',
-                    'rgba(102, 187, 106,.7)'
+                    // 'rgba(102, 187, 106,.7)'
                 ],
             }]},
             options: {

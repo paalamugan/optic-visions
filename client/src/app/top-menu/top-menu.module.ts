@@ -27,10 +27,6 @@ import {
     MatSliderModule,
     MatProgressBarModule,
 } from '@angular/material';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptorService } from '../guards/token-interceptor.service';
-
-
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
 };
@@ -63,9 +59,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         MatSidenavModule,
         MatTabsModule,
         MatSliderModule,
-        MatProgressBarModule,
+        MatProgressBarModule
     ],
-
 
     exports: [
         SidemenuComponent,
@@ -82,12 +77,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         {
             provide: PERFECT_SCROLLBAR_CONFIG,
             useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-        },
-        // {
-        //     provide:HTTP_INTERCEPTORS,
-        //     useClass:TokenInterceptorService,
-        //     multi:true
-        //   }
+        }
     ]
 })
-export class TopMenuModule { }
+export class TopMenuModule {
+ }

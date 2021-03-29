@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-frame-type',
@@ -8,7 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class FrameTypeComponent implements OnInit {
 
-  constructor(private auth:AuthService) { }
+  constructor() { }
 
   ngOnInit() {
    

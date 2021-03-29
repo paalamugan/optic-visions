@@ -19,7 +19,6 @@ export class AdminProfileComponent implements OnInit {
 company:CompanySignup=new CompanySignup('','',1,'','','','','','','');
 currentCompany:CompanySignup=new CompanySignup('','',1,'','','','','','','');
 profile:Admin=new Admin('','','','','',this.company,'');
-userimage:any;
 currentpassword:string;
 Identifier:string;
 hide:boolean=true;
@@ -35,7 +34,6 @@ adminshow_2:boolean=true;
       if(data.Identifier==="admin"){
         this.Identifier=data.Identifier;
         this.profile=data;
-        this.userimage=Utils.APIURL+this.profile.company.userImage;
           this.currentpassword=this.profile.company.password;
       }else{
         this.router.navigateByUrl('login');
@@ -100,37 +98,6 @@ adminshow_2:boolean=true;
     
   }
   UpdateProfile(){
-    let formData=new FormData;
-    if(this.countfilelength >0){
-      if(this.selectedfile.type==="image/jpeg" || this.selectedfile.type==="image/png"){
-        formData.append('userImage', this.selectedfile);
-        formData.append('companyname', this.currentCompany.companyname);
-        formData.append('username', this.currentCompany.username);
-       formData.append('tin', this.currentCompany.tin);
-        formData.append('email', this.currentCompany.email);
-        formData.append('password', this.currentCompany.password);
-        formData.append('address', this.currentCompany.address);
-        formData.append('phonenumber', this.currentCompany.phonenumber);
-        formData.append('companyId',this.currentCompany.uuid);
-        this.signupService.UpdateFormDataCompany(formData,this.currentCompany.uuid).subscribe(
-          (resultData:any)=>{
-            this.router.navigateByUrl('login');
-          },
-          (err)=>{
-            if(err instanceof HttpErrorResponse){
-              if(err.status==300 || err.status===401){
-              this.router.navigateByUrl('login');
-              }
-            }
-                    }
-          );
-         }else{
-this.snackBar.open("Select Only Jpeg and Png format Image","Alert",{
-  duration:4000
-})
-         }
-      
-    }else{
       this.signupService.UpdateCompany(this.currentCompany).subscribe(
         (resultData:any)=>{
         this.router.navigateByUrl('login');
@@ -143,7 +110,6 @@ this.snackBar.open("Select Only Jpeg and Png format Image","Alert",{
           }
         }
         );
-    }
     
   }
   back(){

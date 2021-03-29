@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from '../guards/auth.guard';
 import { FrameMaterialComponent } from './glasses/frame-material/frame-material.component';
 import { FrameTypeComponent } from './glasses/frame-type/frame-type.component';
 import { LensTypeComponent } from './glasses/lens-type/lens-type.component';
@@ -14,20 +13,19 @@ import { BrandAddComponent } from './brands/brand-add/brand-add.component';
 import { FrameModelComponent } from './glasses/frame-model/frame-model.component';
 import { FrameModelAddComponent } from './glasses/frame-model-add/frame-model-add.component';
 
-
 const productroutes: Routes = [
-      { path: 'glasses/frame_material', component: FrameMaterialComponent,canActivate:[AuthGuard] },
-      { path: 'glasses/frame_material/add', component: FrameMaterialAddComponent,canActivate:[AuthGuard] },
-      { path: 'glasses/frame_model', component: FrameModelComponent,canActivate:[AuthGuard] },
-      { path: 'glasses/frame_model/add', component: FrameModelAddComponent,canActivate:[AuthGuard] },
-    { path: 'glasses/frame_type', component: FrameTypeComponent,canActivate:[AuthGuard] },
-    { path: 'glasses/frame_type/add', component: FrameTypeAddComponent,canActivate:[AuthGuard] },
-    { path: 'glasses/lens_type', component: LensTypeComponent,canActivate:[AuthGuard] },
-    { path: 'glasses/lens_type/add', component: LensTypeAddComponent,canActivate:[AuthGuard] },
-    { path: 'boxes/box_model', component: BoxModelComponent,canActivate:[AuthGuard] },
-    { path: 'boxes/box_model/add', component: BoxModelAddComponent,canActivate:[AuthGuard] },
-    { path: 'brands/brand', component: BrandComponent,canActivate:[AuthGuard] },
-    { path: 'brands/brand/add', component: BrandAddComponent,canActivate:[AuthGuard] },
+    { path: 'glasses/frame_material', component: FrameMaterialComponent },
+    { path: 'glasses/frame_material/add', component: FrameMaterialAddComponent },
+    { path: 'glasses/frame_model', component: FrameModelComponent },
+    { path: 'glasses/frame_model/add', component: FrameModelAddComponent },
+    { path: 'glasses/frame_type', component: FrameTypeComponent },
+    { path: 'glasses/frame_type/add', component: FrameTypeAddComponent },
+    { path: 'glasses/lens_type', component: LensTypeComponent },
+    { path: 'glasses/lens_type/add', component: LensTypeAddComponent },
+    { path: 'boxes/box_model', component: BoxModelComponent },
+    { path: 'boxes/box_model/add', component: BoxModelAddComponent },
+    { path: 'brands/brand', component: BrandComponent },
+    { path: 'brands/brand/add', component: BrandAddComponent },
   	
 ];
 

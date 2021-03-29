@@ -48,7 +48,7 @@ export class ListEmployeesComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   employeeEdit(employee:Employee){
-    this.router.navigate(['optical/employees/editemployees',employee.uuid]);
+    this.router.navigate(['employees/editemployees',employee.uuid]);
     // this.isPopupOpened = true;
  
     // const dialogRef = this.dialog.open(EditEmployeesComponent, {

@@ -1,16 +1,22 @@
-const jwt =require('jsonwebtoken');
-const env = require('../config/env.js');
-module.exports = async(req,res,next)=>{
-try{
-    const token = req.headers.authorization.split(' ')[1];
-    const payload = await jwt.verify(token,env.JWT_KEY);
-    req.userData = payload;
-    next();
-}catch(error)
-{
-    return res.status(401).send('Unauthorized request');
-    
-}
-  
-   
+const { verifyToken } = require("../common/utils");
+
+module.exports = async (req, res, next) => {
+
+    let baseUrl = req.baseUrl;
+
+    if (baseUrl.includes('login') || baseUrl.includes('register') || baseUrl.includes('health') || baseUrl.includes('forget')) {
+        return next();
+    }
+
+    try {
+        const token = req.headers.authorization.split(' ')[1];
+        const payload = await verifyToken(token);
+        req.currentUser = payload;
+        next();
+    } catch(error) {
+        let err = new Error('Unauthorized request');
+        err.status = 401;
+        next(err);
+    }
+
 }

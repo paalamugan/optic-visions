@@ -5,16 +5,19 @@ import { Utils } from '../utils';
 @Injectable({
   providedIn: 'root'
 })
+
 export class TokenInterceptorService implements HttpInterceptor {
 
   constructor() { }
 
-  intercept(req,next){
-    let tokenizedReq=req.clone({
+  intercept(req, next) {
+      
+    let tokenizedReq = req.clone({
       setHeaders:{
-        Authorization:`Bearer ${Utils.getToken()}`
+        Authorization: `Bearer ${Utils.isLoggedIn()}`
       }
     })
-    return next.handle(tokenizedReq)
+
+    return next.handle(tokenizedReq);
   }
 }

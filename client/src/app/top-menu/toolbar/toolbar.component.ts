@@ -2,8 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ToolbarHelpers } from './toolbar.helper';
 import { LoginService } from 'src/app/services/login.service';
 import { CompanySignup } from 'src/app/models/companysignup';
-import { Data } from 'src/app/models/data';
-import { Admin } from 'src/app/models/admin';
 
 
 @Component({

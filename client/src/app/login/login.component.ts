@@ -5,8 +5,8 @@ import {  AdminLogin,EmployeeLogin } from '../models/login';
 import { LoginService } from '../services/login.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material';
-import { AuthService } from '../services/auth.service';
 import { SharedService } from '../services/shared.service';
+import { Utils } from '../utils';
 declare var $: any;
 @Component({
   selector: 'app-login',
@@ -20,11 +20,14 @@ export class LoginComponent implements OnInit {
   adminlogin:AdminLogin=new AdminLogin('','');
   employeelogin:EmployeeLogin=new EmployeeLogin('','');
 adminhide:boolean=true;
+isLoading: boolean = false;
   constructor(private router: Router,private loginservice:LoginService,private snackBar:MatSnackBar) {
   }
 
   ngOnInit() {
-   
+    if (Utils.isLoggedIn()) {
+        this.router.navigate(['/dashboard']); 
+    }
   }
 
   admin(){
@@ -34,18 +37,21 @@ adminhide:boolean=true;
 this.adminhide=false;
   }
   loginAdmin() {
+      this.isLoading = true;
     this.loginservice.adminLogin(this.adminlogin)
       .subscribe(
        (res:any)=>{
-        this.router.navigate(['/optical/dashboard']);
+        this.isLoading = false;
+        this.router.navigate(['/dashboard']);
          localStorage.setItem('token',res.token);
        },
        err =>{
          if(err instanceof HttpErrorResponse){
-           if(err.status === 300){
-               this.snackBar.open(err.error,'Alert' ,{
-                 duration:3000
-              });
+           if(err.status){
+               this.isLoading = false;
+                this.snackBar.open(err.error,'Alert' ,{
+                    duration:3000
+               });
            }
          }
         
@@ -57,11 +63,11 @@ this.adminhide=false;
     .subscribe(
      (res:any)=>{
        if(res.Identifier === "employee-admin"){
-        this.router.navigate(['/optical/dashboard']);
+        this.router.navigate(['/dashboard']);
         localStorage.setItem('token',res.token);
         // localStorage.setItem('Identifier',res.Identifier_User);
         }else{
-        this.router.navigate(['/optical/employees']);
+        this.router.navigate(['/employees']);
         localStorage.setItem('token',res.token);
         
         // this.auth.setLoggedIn(res.Identifier);

@@ -138,7 +138,7 @@ this.newpassword=!this.newpassword;
       formData.append('employeeId',this.employee.employeeId);
       this.employeeservice.updateformdataEmployee(formData,this.employee.uuid).subscribe(
         (resultData:Employee)=>{
-         this.router.navigate(['optical/employees/listemployees']);
+         this.router.navigate(['employees/listemployees']);
         },
         (err)=>{
           if(err instanceof HttpErrorResponse){
@@ -156,7 +156,7 @@ this.newpassword=!this.newpassword;
     }else{
       this.employeeservice.updateemployee(this.employee).subscribe(
            (resultData:Employee)=>{
-            this.router.navigate(['optical/employees/listemployees']);
+            this.router.navigate(['employees/listemployees']);
            },
            (err)=>{
             if(err instanceof HttpErrorResponse){

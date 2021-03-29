@@ -1,0 +1,12 @@
+extend ./layouts/main.pug
+
+include ./components/title.pug
+
+block preheader
+    | #{`Registration in ${appName}`}.
+block content
+    p
+        span= t(`Hi `)
+        b= userName
+        | ,
+    p.fs-16= t('Thank you for registered in Optic Visions.')

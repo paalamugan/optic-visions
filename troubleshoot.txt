@@ -25,3 +25,37 @@ Solution:
 
 
     If that doesn't work, try it without @'localhost' part.
+
+
+
+Install postgres in linux
+
+1. Install 
+    sudo apt install postgresql
+
+2. Create new user
+    sudo -u postgres psql
+    postgres=# create database mydb;
+    postgres=# create user myuser with encrypted password 'mypass';
+    postgres=# grant all privileges on database mydb to myuser;
+
+
+3. Drop USER
+    sudo -u postgres psql
+    drop user myuser;
+
+    if you get error like -
+    role "myuser" cannot be dropped because some objects depend on it
+    DETAIL:  privileges for database mydb;
+
+    and then try this,
+        alter user myuser nologin;
+        or
+        REASSIGN owned by myuser to otheruser;
+
+4. Drop all tables
+
+    drop schema public cascade;
+    create schema public;
+    grant  all on SCHEMA public to postgres;
+    grant all on SCHEMA public  to PUBLIC;

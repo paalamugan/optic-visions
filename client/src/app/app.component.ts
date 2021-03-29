@@ -13,7 +13,7 @@ import {
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'OpticalVision';
+  title = 'OpticVisions';
 //   getRouteAnimation(outlet) {
       
 //     return outlet.activatedRouteData.animation

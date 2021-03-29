@@ -30,17 +30,21 @@
     }
 
     .mat-nav-list .mat-list-item .mat-list-icon{
-        @include mat-list-icon($icon-size);
+        @include mat-list-icon();
     }
     .mat-chip:not(.mat-basic-chip){
         @include mat-chip()
     }
     .mat-nav-list .mat-list-item {
         font-size: 14px;
+
+        &.is-active {
+            background: rgba(121, 134, 203, 0.5);
+        }
     }
     .imgposition{
         position: relative;
-        bottom: 6px;
+        bottom: 10px;
     }
    
 }

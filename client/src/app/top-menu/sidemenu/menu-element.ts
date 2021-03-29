@@ -1,88 +1,81 @@
 export const adminmenus = [
     {
         'name': 'Dashboard',
-        'icon': './assets/icon/dashboard.svg',
-        'link': false,
-        'open': false,
-        'chip': { 'value': 1, 'color': 'accent' },
-        'sub': [
-            {
-                'name': 'Dashboard',
-                'link': '/optical/dashboard',
-                'icon': './assets/icon/dashboard.svg',
-                'chip': false,
-                'open': true,
-                'Tooltip':'DashBoard'
-            }
-        ]
+        'icon': 'dashboard',
+        'open': true,
+        // 'chip': { 'value': 1, 'color': 'accent' },
+        'link': '/dashboard',
+        'Tooltip':'DashBoard'
     },
     {
         'name'   : 'Employees',
-        'icon'   : './assets/icon/Employee.svg',
+        'icon'   : 'employee',
         'open'   : false,
         'link'   : false,
         'sub'    :  [
                         {
                             'name': 'Add Employee',
-                            'icon': './assets/icon/addemployee.svg',
+                            'icon': 'add_employee',
                             'open'   : false,
-                            'link':'employees/addemployees',
+                            'chip': false,
+                            'link':'/employees/addemployees',
                             'Tooltip':'AddEmployee'
                         },
                         {
                             'name': 'List Employee',
-                            'icon': './assets/icon/listemployee.svg',
-                            'open'   : false,
-                            'link':'employees/listemployees',
+                            'icon': 'list_employee',
+                            'open': false,
+                            'chip': false,
+                            'link':'/employees/listemployees',
                             'Tooltip':'ListEmployee'
                         }
                     ]
     },
     {
         'name'   : 'Products',
-        'icon'   : './assets/icon/product.svg',
+        'icon'   : 'product',
         'open'   : false,
         'link'   : false,
         'sub'    :  [
                         {
                             'name': 'Glasses',
-                            'icon': './assets/icon/Spects.svg',
+                            'icon': 'spects',
                             'open'   : false,
                             'link':false,
                             'sub':[
                                 {
                                     'name': 'Frame Model',
-                                    'icon': './assets/icon/frame_type.svg',
+                                    'icon': 'frame_type',
                                     'open' : false,
-                                    'link':'products/glasses/frame_model',
+                                    'link':'/products/glasses/frame_model',
                                     'Tooltip':'FrameModel'
                                 },
                                     // {
                                     //     'name': 'Frame Material',
-                                    //     'icon': './assets/icon/frame_material.svg',
+                                    //     'icon': 'frame_material',
                                     //     'open' : false,
-                                    //     'link':'products/glasses/frame_material',
+                                    //     'link':'/products/glasses/frame_material',
                                     //     'Tooltip':'FrameMaterial'
                                     // },
                                     // {
                                     //     'name': 'Frame Type',
-                                    //     'icon': './assets/icon/frame_type.svg',
+                                    //     'icon': 'frame_type',
                                     //     'open': false,
-                                    //     'link':'products/glasses/frame_type',
+                                    //     'link':'/products/glasses/frame_type',
                                     //     'Tooltip':'FrameType'
                                     // },
                                     {
                                         'name': 'Lens Type',
-                                        'icon': './assets/icon/Lens.svg',
+                                        'icon': 'lens',
                                         'open': false,
-                                        'link':'products/glasses/lens_type',
+                                        'link':'/products/glasses/lens_type',
                                         'Tooltip':'LensType'
                                     },
                                     {
                                         'name': 'Brand',
-                                        'icon': './assets/icon/Brand.svg',
+                                        'icon': 'brand',
                                         'open'   : false,
-                                        'link':'products/brands/brand',
+                                        'link':'/products/brands/brand',
                                         'Tooltip':'Brand'
                                     },
                             
@@ -90,9 +83,9 @@ export const adminmenus = [
                         },
                         {
                             'name': 'Boxes',
-                            'icon': './assets/icon/Box.svg',
+                            'icon': 'box',
                             'open'   : false,
-                            'link':'products/boxes/box_model',
+                            'link':'/products/boxes/box_model',
                             'Tooltip':'Boxes'
                         }
                     ]
@@ -102,49 +95,49 @@ export const adminmenus = [
         
        {
             'name'   : 'Employees',
-            'icon'   : './assets/icon/Employee.svg',
+            'icon'   : 'employee',
             'open'   : false,
             'link'   : false,
             'sub'    :  [
                             {
                                 'name': 'List Employee',
-                                'icon': './assets/icon/listemployee.svg',
+                                'icon': 'list_employee',
                                 'open'   : false,
-                                'link':'employees/listemployees'
+                                'link':'/employees/listemployees'
                             }
                         ]
         },
         {
             'name'   : 'Products',
-            'icon'   : './assets/icon/product.svg',
+            'icon'   : 'product',
             'open'   : false,
             'link'   : false,
             'sub'    :  [
                             {
                                 'name': 'Glasses',
-                                'icon': './assets/icon/Spects.svg',
+                                'icon': 'spects',
                                 'open'   : false,
                                 'link':false,
                                 'sub':[
                                     {
                                         'name': 'Frame Model',
-                                        'icon': './assets/icon/frame_type.svg',
+                                        'icon': 'frame_type',
                                         'open' : false,
-                                        'link':'products/glasses/frame_model',
+                                        'link':'/products/glasses/frame_model',
                                         'Tooltip':'FrameModel'
                                     },
                                         {
                                             'name': 'Lens Type',
-                                            'icon': './assets/icon/Lens.svg',
+                                            'icon': 'lens',
                                             'open': false,
-                                            'link':'products/glasses/lens_type',
+                                            'link':'/products/glasses/lens_type',
                                             'Tooltip':'LensType'
                                         },
                                         {
                                             'name': 'Brand',
-                                            'icon': './assets/icon/Brand.svg',
+                                            'icon': 'brand',
                                             'open'   : false,
-                                            'link':'products/brands/brand',
+                                            'link':'/products/brands/brand',
                                             'Tooltip':'Brand'
                                         },
                                 
@@ -152,9 +145,9 @@ export const adminmenus = [
                             },
                             {
                                 'name': 'Boxes',
-                                'icon': './assets/icon/Box.svg',
+                                'icon': 'box',
                                 'open'   : false,
-                                'link':'products/boxes/box_model',
+                                'link':'/products/boxes/box_model',
                                 'Tooltip':'Boxes'
                             }
                         ]
@@ -320,12 +313,12 @@ export const adminmenus = [
     // {
     //     'name': 'Guarded Routes',
     //     'icon': 'mode_edit',
-    //     'link': '/optical/guarded-routes',
+    //     'link': '/guarded-routes',
     //     'open': false,
     // }, {
     //     'name': 'Scrumboard',
     //     'open': false,
-    //     'link': '/optical/scrumboard',
+    //     'link': '/scrumboard',
     //     'icon': 'grade',
     // }, {
     //     'name': 'Applications',

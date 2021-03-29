@@ -7,9 +7,9 @@ import { EditEmployeesComponent } from './edit-employees/edit-employees.componen
 
 
 const employeeroutes: Routes = [
-  	{ path: 'addemployees', component: AddEmployeesComponent,canActivate:[AuthGuard] },
-    { path: 'listemployees', component: ListEmployeesComponent,canActivate:[AuthGuard] },
-    { path: 'editemployees/:id', component: EditEmployeesComponent,canActivate:[AuthGuard] },
+  	{ path: 'addemployees', component: AddEmployeesComponent },
+    { path: 'listemployees', component: ListEmployeesComponent },
+    { path: 'editemployees/:id', component: EditEmployeesComponent },
   	
 ];
 

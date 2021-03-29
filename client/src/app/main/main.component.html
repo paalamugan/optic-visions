@@ -25,17 +25,31 @@
 </mat-sidenav-container> -->
 <!-- Below is another example of the home page that has a smaller menu that shows up when the main menu is hidden -->
 
-<mat-sidenav-container fullscreen>
+<div class="loader" *ngIf="isLoading">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+<mat-sidenav-container fullscreen *ngIf="!isLoading">
     <mat-sidenav [mode]="sideNavMode" class="sidenav" #sidenav [opened]="sideNavOpened" style="overflow: hidden;">
        
         <mat-toolbar color="primary">
             <img src="./assets/camera.png" width="36px">
           
-            <h1 class="logo">
-              
-                {{userCompanyname | uppercase}}
-                <!-- <span style="font-size: 12px;">com</span> -->
-            </h1>
+            <h1 class="logo">OPTIC VISIONS</h1>
       
         </mat-toolbar>
     

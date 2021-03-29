@@ -21,37 +21,28 @@ import { DashboardCrmModule } from '../dashboard-crm/dashboard-crm.module';
 
 import { TopMenuModule } from '../top-menu/top-menu.module';
 import { AuthGuard } from '../guards/auth.guard';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptorService } from '../guards/token-interceptor.service';
-import { AuthService } from '../services/auth.service';
-import { ForgetpasswordComponent } from '../forget/forgetpassword/forgetpassword.component';
-import { Data } from '../models/data';
-import { SharedService } from '../services/shared.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
 @NgModule({
     imports: [
         CommonModule,
         RouterModule.forChild(appRoutes),
         MatToolbarModule,
-        DashboardCrmModule,
         MatButtonModule,
         MatIconModule,
         MatTabsModule,
+        MatProgressSpinnerModule,
         TopMenuModule,
         MatSidenavModule,
+        DashboardCrmModule,
         PerfectScrollbarModule,
     ],
     declarations: [MainComponent],
-    providers: [AuthGuard,Data,AuthService,
+    providers: [AuthGuard,
         {
             provide: PERFECT_SCROLLBAR_CONFIG,
             useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-        },
-        // {
-        //     provide:HTTP_INTERCEPTORS,
-        //     useClass:TokenInterceptorService,
-        //     multi:true
-        //   }
-       
+        }
     ]
 })
 export class MainModule { }

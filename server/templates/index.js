@@ -1,0 +1,1 @@
+exports.emailTemplate = require('./email');

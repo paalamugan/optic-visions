@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../services/login.service';
-import { Admin } from '../models/admin';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,29 +10,23 @@ import { Router } from '@angular/router';
 export class DashboardCrmComponent implements OnInit {
 
     public dashCard = [
-        { colorDark: '#5C6BC0', colorLight: '#7986CB', number: 1221, title: 'SALES', icon: 'local_grocery_store' },
-        { colorDark: '#42A5F5', colorLight: '#64B5F6', number: 1221, title: 'LEADS', icon: 'new_releases' },
-        { colorDark: '#26A69A', colorLight: '#4DB6AC', number: 1221, title: 'ASSETS', icon: 'assignments' },
-        { colorDark: '#66BB6A', colorLight: '#81C784', number: 1221, title: 'BANKING', icon: 'account_balance' }
+        { colorDark: '#5C6BC0', colorLight: '#7986CB', number: 20, title: 'EMPLOYEES', icon: 'list_employee' },
+        { colorDark: '#42A5F5', colorLight: '#64B5F6', number: 154, title: 'BOXES', icon: 'box' },
+        { colorDark: '#26A69A', colorLight: '#4DB6AC', number: 250, title: 'FRAMES', icon: 'lens' },
+        { colorDark: '#66BB6A', colorLight: '#81C784', number: 348, title: 'LENS', icon: 'spects' }
     ];
 
-    tableData = [
-        { country: 'India', sales: 5400, percentage: '40%' },
-        { country: 'Us', sales: 3200, percentage: '30.33%' },
-        { country: 'Australia', sales: 2233, percentage: '18.056%' },
-        { country: 'Spaim', sales: 600, percentage: '6%' },
-        { country: 'China', sales: 200, percentage: '4.50%' },
-        { country: 'Brazil', sales: 100, percentage: '2.50%' },
-    ];
+    // tableData = [
+    //     { country: 'India', sales: 5400, percentage: '40%' },
+    //     { country: 'Us', sales: 3200, percentage: '30.33%' },
+    //     { country: 'Australia', sales: 2233, percentage: '18.056%' },
+    //     { country: 'Spaim', sales: 600, percentage: '6%' },
+    //     { country: 'China', sales: 200, percentage: '4.50%' },
+    //     { country: 'Brazil', sales: 100, percentage: '2.50%' },
+    // ];
 
-    constructor(private loginservice:LoginService,private router:Router) { }
+    constructor(private router:Router) { }
 
-    ngOnInit() {
-        this.loginservice.getUserName().subscribe((data:Admin)=>{
-            if(data.Identifier==="employee"){
-              this.router.navigateByUrl('login');
-            }
-            });
-    }
+    ngOnInit() {}
 
 }

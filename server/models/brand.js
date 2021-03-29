@@ -1,5 +1,6 @@
-module.exports =(sequelize,Datatypes)=>{
-    const Brand = sequelize.define('brand',{
+module.exports = (sequelize, Datatypes, options = {}) => {
+
+    const Brand = sequelize.define('Brand', {
         uuid: {
             type: Datatypes.UUID,
             defaultValue: Datatypes.UUIDV1,
@@ -12,9 +13,13 @@ module.exports =(sequelize,Datatypes)=>{
         code:{
             type:Datatypes.STRING
         }
-    },{
-        paranoid: true,
-        underscored: true
-      });
+    }, options);
+
+    Brand.associate = function(models) {
+        // associations can be defined here
+        Brand.belongsTo(models.CompanyUserInfo, { foreignKey: 'fk_companyid', targetKey: 'uuid', onDelete: 'CASCADE' });
+        // Brand.hasOne(models.FrameModel, { foreignKey: 'fk_brandid', sourceKey: 'uuid' });
+    };
+
     return Brand;
 }

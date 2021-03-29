@@ -1,51 +1,82 @@
+const fs = require('fs');
+const path = require('path');
+const Sequelize = require('sequelize');
+const basename = path.basename(__filename);
+
 const env = require('./env');
 const db ={};
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize(env.database,env.username,env.password,{
-    host:env.host,
-    dialect:env.dialect,
+
+let sequelize;
+let options = {
     // operatorAliases: Sequelize.Op,
+    dialect: env.dialect,
+    host:'localhost',
     define:{
         timestamps: true
     },
     pool:{
-        max:env.pool.max,
-        min:env.pool.min,
-        idle:env.pool.idle,
-        acquire:env.pool.acquire
+        max :5,
+        min:0,
+        idle:10000,
+        acquire:30000
     }
-});
+}
+
+if (process.env.NODE_ENV === "production") {
+    sequelize = new Sequelize(env.DATABASE_URL, options);
+} else {
+    // sequelize = new Sequelize(env.database, env.username, env.password, options);
+    sequelize = new Sequelize(env.DATABASE_URL, options);
+}
 
 sequelize.authenticate().then(() =>{
+
     console.log("Connection established sucessfully");
+
 })
 .catch((err)=>{
     console.log("Some thing problem in database connection",err);
 })
 
-db.Sequelize = Sequelize;
+// fs.readdirSync(__dirname)
+// .filter(file => {
+//     return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
+// })
+// .forEach(file => {
+//     const model =  require(path.join(__dirname, '/../models' ,file))(sequelize, Sequelize.DataTypes);
+//     db[model.name] = model;
+// });
+
+// Object.keys(db).forEach(modelName => {
+//     if (db[modelName].associate) {
+//         db[modelName].associate(db);
+//     }
+// });
+
 db.sequelize = sequelize;
+db.Sequelize = Sequelize;
 
 //Call Model data
-db.companyuserinfo      = require('../models/CompanyUserInfo')(sequelize,Sequelize);
-db.forgetpassword       = require('../models/ForgetPassword')(sequelize,Sequelize);
-db.signInInfo           = require('../models/SignInInfo')(sequelize,Sequelize);
-db.employeeSingnInInfo  = require('../models/EmpSignInInfo')(sequelize,Sequelize);
-db.companyEmpInfo       = require('../models/CompanyEmpInfo')(sequelize,Sequelize);
+db.companyuserinfo      = require('../models/company-user-info')(sequelize,Sequelize);
+db.forgetpassword       = require('../models/forget-password')(sequelize,Sequelize);
+db.signInInfo           = require('../models/signin-info')(sequelize,Sequelize);
+db.employeeSingnInInfo  = require('../models/employee-signin-info')(sequelize,Sequelize);
+db.companyEmpInfo       = require('../models/company-emp-info')(sequelize,Sequelize);
 
-db.productlist          = require('../models/ProductList')(sequelize,Sequelize);
-db.frametype            = require('../models/FrameType')(sequelize,Sequelize);
-db.framematerial        = require('../models/FrameMaterial')(sequelize,Sequelize);
-db.boxmodel             = require('../models/BoxModel')(sequelize,Sequelize);
-db.customer             = require('../models/Customer')(sequelize,Sequelize);
-db.eyeprescriptions     = require('../models/EyePrescription')(sequelize,Sequelize);
+db.productlist          = require('../models/product-list')(sequelize,Sequelize);
+db.frametype            = require('../models/frame-type')(sequelize,Sequelize);
+db.framematerial        = require('../models/frame-material')(sequelize,Sequelize);
+db.boxmodel             = require('../models/box-model')(sequelize,Sequelize);
+db.customer             = require('../models/customer')(sequelize,Sequelize);
+db.eyeprescriptions     = require('../models/eye-prescription')(sequelize,Sequelize);
 
-db.salesorder            = require('../models/SalesOrder')(sequelize,Sequelize);
-db.proditem              = require('../models/ProductItem')(sequelize,Sequelize);
-db.invoiceDetail         = require('../models/InvoiceDetail')(sequelize,Sequelize);
+db.salesorder            = require('../models/sales-order')(sequelize,Sequelize);
+db.proditem              = require('../models/product-item')(sequelize,Sequelize);
+db.invoiceDetail         = require('../models/invoice-detail')(sequelize,Sequelize);
 db.brand                 = require('../models/brand')(sequelize,Sequelize);
-db.framemodel            = require('../models/FrameModel')(sequelize,Sequelize);
-db.lenstype            = require('../models/LensType')(sequelize,Sequelize);
+db.framemodel            = require('../models/frame-model')(sequelize,Sequelize);
+db.lenstype            = require('../models/lens-type')(sequelize,Sequelize);
+
 /* Association */
 db.signInInfo.belongsTo(db.companyuserinfo,{foreignKey: 'fk_companyid', targetKey: 'uuid',onDelete: 'CASCADE'});
 db.employeeSingnInInfo.belongsTo(db.companyuserinfo,{foreignKey: 'fk_companyid', targetKey: 'uuid',onDelete: 'CASCADE'});
@@ -62,8 +93,8 @@ db.invoiceDetail.belongsTo(db.companyuserinfo,{foreignKey: 'fk_companyid', targe
 db.forgetpassword.belongsTo(db.companyuserinfo,{foreignKey: 'fk_companyid', targetKey: 'uuid',onDelete: 'CASCADE'});
 db.brand.belongsTo(db.companyuserinfo,{foreignKey: 'fk_companyid', targetKey: 'uuid',onDelete: 'CASCADE'});
 db.framemodel.belongsTo(db.companyuserinfo,{foreignKey: 'fk_companyid', targetKey: 'uuid',onDelete: 'CASCADE'});
-db.lenstype.belongsTo(db.companyuserinfo,{foreignKey: 'fk_companyid', targetKey: 'uuid',onDelete: 'CASCADE'});
-db.framemodel.belongsTo(db.brand,{foreignKey: 'fk_brandid',targetKey: 'uuid',onDelete: 'CASCADE'});  
+db.framemodel.belongsTo(db.brand,{foreignKey: 'fk_brandid',targetKey: 'uuid',onDelete: 'CASCADE'});
+db.lenstype.belongsTo(db.companyuserinfo,{foreignKey: 'fk_companyid', targetKey: 'uuid',onDelete: 'CASCADE'});  
 // db.employeeSingnInInfo.belongsTo(db.companyEmpInfo,{foreignKey:"employeeId"});
 
 db.salesorder.hasMany(db.eyeprescriptions,{as:'SalesOrderID'});

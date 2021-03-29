@@ -22,19 +22,20 @@ userCompanyname:string='';
   matDrawerOpened: boolean = false;
   matDrawerShow: boolean = true;
   sideNavMode: string = 'side';
+  isLoading: boolean = true;
 
   ngOnChanges() {
    this.visibility = this.isVisible ? 'shown' : 'hidden';
   }
 
 
-	constructor(private media: ObservableMedia,private loginservice:LoginService,private router:Router,private data:Data) {
+	constructor(private media: ObservableMedia,private loginservice:LoginService,private router:Router) {
    }
 
 	ngOnInit() {
-  
         this.loginservice.getUserName().subscribe((data:Admin)=>{
-            this.userCompanyname=data.companyname;
+            this.userCompanyname = data.companyname;
+            this.isLoading = false;
           },
           (err)=>{
             if(err instanceof HttpErrorResponse){

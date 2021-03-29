@@ -35,27 +35,21 @@ models : string[];
   }
   OnSubmit(form){
     // if(this.framematerial.quantity <= 0){
-    // this.frameMaterialService.getDummuyValue(this.framematerial).subscribe(
-    //   (data:FrameMaterial)=>{
-    //     this.framematerial=data;
+    //     this.framematerial=this.framematerial;
     //     this.Quantity.focus();
     //     const select=<HTMLInputElement>this.QuantitySelect.nativeElement;
     //     setTimeout(function() {  select.select(); }, 50);
     //     this.snackBar.open("Quantity is Greater Zero","Alert",{
     //      duration:3000
     //    });
-    // })
     //   }else if(this.framematerial.retailerPrice <= 0){
-    //     this.frameMaterialService.getDummuyValue(this.framematerial).subscribe(
-    //       (data:FrameMaterial)=>{
-    //         this.framematerial=data;
+    //         this.framematerial=this.framematerial;
     //         this.RetailerPrice.focus();
     //         const select=<HTMLInputElement>this.retailerpriceSelect.nativeElement;
     //         setTimeout(function() {  select.select(); }, 50);
     //         this.snackBar.open("RetailerPrice is Greater Zero","Alert",{
     //          duration:3000
     //        });
-    //     })
     //   }
     //   else{
 this.frameMaterialService.addFrameMaterial(this.framematerial).subscribe(

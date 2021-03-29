@@ -14,22 +14,20 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class EmployeeProfileComponent implements OnInit {
 
   
-  company:CompanySignup;
-  doj:Date;
-  dob:Date;
+  company:CompanySignup = null;
+  doj:Date = new Date();
+  dob:Date = new Date();
 employee:Employee=new Employee('','','','','','','',this.doj,this.dob,'','','',this.company);
 Identifier:string;
-username:string;
-companyname:string;
-userimage:any;
+userName:string;
+companyName:string;
 constructor(private loginservice:LoginService,private router:Router) { }
   ngOnInit() {
     this.loginservice.getUserName().subscribe((data:any)=>{
       if(data.Identifier=="employee" || data.Identifier=="employee-admin"){
-       this.userimage=Utils.APIURL+data.userImage;
         this.Identifier=data.Identifier;
-        this.username=data.username;
-        this.companyname=data.companyname;
+        this.userName=data.userName;
+        this.companyName=data.companyName;
         this.employee=data.employee;
       }else{
           this.router.navigateByUrl('login');

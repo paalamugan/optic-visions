@@ -15,6 +15,10 @@ var http = require('http');
 var port = normalizePort(process.env.PORT || '9000');
 app.set('port', port);
 
+// settings
+app.enable('trust proxy');
+app.disable('x-powered-by');
+
 /**
  * Create HTTP server.
  */
@@ -25,9 +29,7 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port,()=>{
-console.log("port running in "+port);
-});
+server.listen(port, () => console.log(`Server listening on port ${port}`));
 server.on('error', onError);
 server.on('listening', onListening);
 

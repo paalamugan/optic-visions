@@ -25,7 +25,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptorService } from '../guards/token-interceptor.service';
 import {MatDialogModule} from '@angular/material/dialog';
 import { EditEmployeesComponent } from './edit-employees/edit-employees.component';
-import { AuthService } from '../services/auth.service';
 @NgModule({
 	imports: [
 		CommonModule,
@@ -48,13 +47,7 @@ import { AuthService } from '../services/auth.service';
 		 MatDialogModule
 	],
 	declarations: [AddEmployeesComponent, ListEmployeesComponent,EditEmployeesComponent],
-	providers:[AuthGuard
-		// {
-        //     provide:HTTP_INTERCEPTORS,
-        //     useClass:TokenInterceptorService,
-        //     multi:true
-        //   }
-	],
+	providers:[AuthGuard],
 	entryComponents:[]
 })
 export class EmployeeModule { }

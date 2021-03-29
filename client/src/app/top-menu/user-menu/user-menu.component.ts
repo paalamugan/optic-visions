@@ -37,9 +37,9 @@ export class UserMenuComponent implements OnInit {
     this.loginservice.getUserName().subscribe((data:Admin)=>{
       this.currentUser=data;
     if(this.currentUser.Identifier=="admin"){
-       this.profileURL='/optical/profile/adminprofile/';
+       this.profileURL='/profile/adminprofile/';
       }else{
-        this.profileURL='/optical/profile/employeeprofile/';
+        this.profileURL='/profile/employeeprofile/';
        }
        this.avatar=this.currentUser.avatar;
     },

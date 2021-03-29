@@ -19,10 +19,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {  ReactiveFormsModule } from '@angular/forms';
 import {MatRadioModule} from '@angular/material/radio';
 import { FormsModule }   from '@angular/forms';
-import { AuthGuard } from '../guards/auth.guard';
 import {MatTableModule} from '@angular/material/table';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptorService } from '../guards/token-interceptor.service';
 import {MatDialogModule} from '@angular/material/dialog';
 import { FrameMaterialComponent } from './glasses/frame-material/frame-material.component';
 import { FrameTypeComponent } from './glasses/frame-type/frame-type.component';
@@ -70,13 +67,7 @@ import { LensTypeService } from '../services/lens-type.service';
 		 MatAutocompleteModule
 	],
 	declarations: [FrameMaterialComponent,FrameTypeComponent,LensTypeComponent,BoxModelComponent, BoxModelAddComponent, BoxModelEditComponent, LensTypeAddComponent, LensTypeEditComponent, FrameMaterialAddComponent, FrameMaterialEditComponent, FrameTypeAddComponent, FrameTypeEditComponent, FrameModelComponent, FrameModelAddComponent, FrameModelEditComponent, BrandComponent, BrandAddComponent, BrandEditComponent],
-	providers:[AuthGuard
-		// {
-        //     provide:HTTP_INTERCEPTORS,
-        //     useClass:TokenInterceptorService,
-        //     multi:true
-        //   }
-	],
+	providers:[],
 	entryComponents:[FrameMaterialEditComponent,FrameTypeEditComponent,LensTypeEditComponent,BoxModelEditComponent,BrandEditComponent,FrameModelEditComponent]
 })
 export class ProductModule { }

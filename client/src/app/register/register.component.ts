@@ -56,16 +56,16 @@ export class RegisterComponent implements OnInit {
     // Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$') //this is for the letters (both uppercase and lowercase) and numbers validation
  ])
 ],
-  cnfPassword: ['',Validators.compose([
-    Validators.required,
-    passValidator
- ])],
+//   cnfPassword: ['',Validators.compose([
+//     Validators.required,
+//     passValidator
+//  ])],
   address: ['',[Validators.required]],
-  phoneNumber: ['',Validators.compose([
-    Validators.required,
-    Validators.minLength(10),
-    Validators.pattern('^[0-9]*$') //this is for the number with  validation
- ])],
+//   phoneNumber: ['',Validators.compose([
+//     Validators.required,
+//     Validators.minLength(10),
+//     Validators.pattern('^[0-9]*$') //this is for the number with  validation
+//  ])],
 })
   ngOnInit() {
     ;( function ( document, window, index )
@@ -152,7 +152,7 @@ export class RegisterComponent implements OnInit {
              
             (err)=>{
               if(err instanceof HttpErrorResponse){
-                if(err.status === 300){
+                if(err.status){
                     this.snackbar.open(err.error,'Alert' ,{
                       duration:3000
                    });
@@ -163,8 +163,13 @@ export class RegisterComponent implements OnInit {
                  });
                  this.isLoadingResults = false;
                 }
+              } else {
+                this.snackbar.open(err.error,'Alert' ,{
+                    duration:3000
+                });
+                this.isLoadingResults = false;
               }
-            }
+            }, () => { this.isLoadingResults =false;}
             );
           }else{
             this.snackbar.open("Only supported format.(jpg, png, svg)", "Alert", { duration: 3000 });
@@ -202,6 +207,11 @@ export class RegisterComponent implements OnInit {
                  });
                  this.isLoadingResults = false;
                 }
+              } else {
+                this.snackbar.open(err.error,'Alert' ,{
+                    duration:3000
+                });
+                this.isLoadingResults = false;
               }
         }
         );
