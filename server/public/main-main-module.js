@@ -20364,6 +20364,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_login_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/login.service */ "./src/app/services/login.service.ts");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils */ "./src/app/utils.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -20373,6 +20374,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -20397,15 +20399,21 @@ var MainComponent = /** @class */ (function () {
     };
     MainComponent.prototype.ngOnInit = function () {
         var _this = this;
+        if (!_utils__WEBPACK_IMPORTED_MODULE_5__["Utils"].isLoggedIn()) {
+            this.router.navigate(['/login']);
+            return;
+        }
+        this.isLoading = true;
         this.loginservice.getUserName().subscribe(function (data) {
             _this.userCompanyname = data.companyname;
-            _this.isLoading = false;
         }, function (err) {
             if (err instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpErrorResponse"]) {
                 if (err.status === 401) {
                     _this.router.navigateByUrl('login');
                 }
             }
+        }, function () {
+            _this.isLoading = false;
         });
         this.media.subscribe(function (mediaChange) {
             _this.toggleView();

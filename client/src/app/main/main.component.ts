@@ -33,9 +33,16 @@ userCompanyname:string='';
    }
 
 	ngOnInit() {
+
+        if (!Utils.isLoggedIn()) {
+            this.router.navigate(['/login']); 
+            return;
+        }
+
+        this.isLoading = true;
+
         this.loginservice.getUserName().subscribe((data:Admin)=>{
             this.userCompanyname = data.companyname;
-            this.isLoading = false;
           },
           (err)=>{
             if(err instanceof HttpErrorResponse){
@@ -43,8 +50,10 @@ userCompanyname:string='';
                 this.router.navigateByUrl('login');
                }
             }
-          }
-          );
+          },
+          () => {
+            this.isLoading = false;
+          });
           
 		this.media.subscribe((mediaChange: MediaChange) => {
             this.toggleView();

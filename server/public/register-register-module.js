@@ -158,90 +158,34 @@ var RegisterComponent = /** @class */ (function () {
         var _this = this;
         var formData = new FormData();
         this.isLoadingResults = true;
-        if (this.countfilelength > 0) {
-            if (this.selectedfile.type.match(/jpeg|jpg|png|svg/)) {
-                formData.append('avatar', this.selectedfile);
-                formData.append('companyName', this.RegistrationForm.value.companyName);
-                formData.append('tin', this.RegistrationForm.value.tinNumber);
-                formData.append('userName', this.RegistrationForm.value.userName);
-                formData.append('email', this.RegistrationForm.value.email);
-                formData.append('password', this.RegistrationForm.value.password);
-                formData.append('address', this.RegistrationForm.value.address);
-                formData.append('phoneNumber', this.RegistrationForm.value.phoneNumber);
-                this.signupservice.submitRegister(formData)
-                    .subscribe(function (response) {
-                    _this.styleOne = false;
-                    // this.RegistrationForm.reset(true);
-                    //  this.selectedfile=null;
-                    _this.snackbar.open("Registration Success", "Success", {
-                        duration: 2000,
-                    });
-                    _this.isLoadingResults = false;
-                    _this.router.navigate(['/login']);
-                }, function (err) {
-                    if (err instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_6__["HttpErrorResponse"]) {
-                        if (err.status) {
-                            _this.snackbar.open(err.error, 'Alert', {
-                                duration: 3000
-                            });
-                            _this.isLoadingResults = false;
-                        }
-                        else {
-                            _this.snackbar.open(err.statusText, 'Alert', {
-                                duration: 3000
-                            });
-                            _this.isLoadingResults = false;
-                        }
-                    }
-                    else {
-                        _this.snackbar.open(err.error, 'Alert', {
-                            duration: 3000
-                        });
-                        _this.isLoadingResults = false;
-                    }
-                }, function () { _this.isLoadingResults = false; });
-            }
-            else {
-                this.snackbar.open("Only supported format.(jpg, png, svg)", "Alert", { duration: 3000 });
-                this.isLoadingResults = false;
-            }
-        }
-        else {
-            formData.append('avatar', this.selectedfile);
-            formData.append('companyName', this.RegistrationForm.value.companyName);
-            formData.append('tin', this.RegistrationForm.value.tinNumber);
-            formData.append('userName', this.RegistrationForm.value.userName);
-            formData.append('email', this.RegistrationForm.value.email);
-            formData.append('password', this.RegistrationForm.value.password);
-            formData.append('address', this.RegistrationForm.value.address);
-            formData.append('phoneNumber', this.RegistrationForm.value.phoneNumber);
-            this.signupservice.submitRegister(formData)
-                .subscribe(function (response) {
-                _this.styleOne = false;
-                // this.RegistrationForm.reset(true);
-                //  this.selectedfile=null;
-                _this.snackbar.open("Registration Success", "Success", {
-                    duration: 2000,
-                });
-                _this.isLoadingResults = false;
-                _this.router.navigate(['/login']);
-            }, function (err) {
-                if (err instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_6__["HttpErrorResponse"]) {
-                    if (err.status === 300) {
-                        _this.snackbar.open(err.error, 'Alert', {
-                            duration: 3000
-                        });
-                        _this.isLoadingResults = false;
-                    }
-                }
-                else {
-                    _this.snackbar.open(err.error, 'Alert', {
-                        duration: 3000
-                    });
-                    _this.isLoadingResults = false;
-                }
+        //   formData.append('avatar', this.selectedfile);
+        formData.append('companyName', this.RegistrationForm.value.companyName);
+        formData.append('tin', this.RegistrationForm.value.tinNumber);
+        formData.append('userName', this.RegistrationForm.value.userName);
+        formData.append('email', this.RegistrationForm.value.email);
+        formData.append('password', this.RegistrationForm.value.password);
+        formData.append('address', this.RegistrationForm.value.address);
+        formData.append('phoneNumber', this.RegistrationForm.value.phoneNumber);
+        this.signupservice.submitRegister(formData)
+            .subscribe(function (response) {
+            _this.isLoadingResults = false;
+            _this.styleOne = false;
+            // this.RegistrationForm.reset(true);
+            //  this.selectedfile=null;
+            _this.snackbar.open("Registration Success", "Success", {
+                duration: 2000,
             });
-        }
+            _this.router.navigate(['/login']);
+        }, function (err) {
+            if (err instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_6__["HttpErrorResponse"]) {
+                _this.isLoadingResults = false;
+                _this.snackbar.open(err.error.error, 'Alert', {
+                    duration: 3000
+                });
+            }
+        }, function () {
+            _this.isLoadingResults = false;
+        });
     };
     RegisterComponent.prototype.movetologin = function () {
         this.router.navigate(['/login']);

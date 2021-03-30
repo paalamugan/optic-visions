@@ -14,7 +14,7 @@ export class TokenInterceptorService implements HttpInterceptor {
       
     let tokenizedReq = req.clone({
       setHeaders:{
-        Authorization: `Bearer ${Utils.isLoggedIn()}`
+        Authorization: `Bearer ${Utils.getToken()}`
       }
     })
 

@@ -5,13 +5,17 @@ const path = require("path");
 const session = require("express-session");
 const config = require('./config');
 const app = express();
+const RedisStore = require('connect-redis')(session);
+
+global.rootPath = path.resolve(__dirname);
 
 const env = process.env.NODE_ENV || 'development';
 const MONTH_IN_MILLISECONDS = 2629743000;
 
-global.rootPath = path.resolve(__dirname);
-
+// Settings
 app.set('env', env);
+app.enable('trust proxy');
+app.disable('x-powered-by');
 
 // Logging
 if (env === 'development') {
@@ -27,7 +31,7 @@ if (env === 'development') {
             // return res.statusCode < 400;
             return req.path.indexOf('.') !== -1;
         },
-        stream: require('fs').createWriteStream('/var/log/app/api_logstash.log', {
+        stream: require('fs').createWriteStream('/tmp/optic_visions_api.log', {
             flags: 'a'
         })
     }));
@@ -36,7 +40,16 @@ if (env === 'development') {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
-app.use("/", express.static(path.join(__dirname, "public")));
+app.use('/', express.static(path.join(__dirname, "public")));
+
+app.use((req, res, next) => {
+
+    if (req.path.includes('/api')) {
+        return next();
+    }
+
+    return res.sendFile(`${rootPath}/public/index.html`);
+})
 
 app.use(session({
     resave: false,
@@ -50,7 +63,7 @@ app.use(session({
     //     // host: config.redis.hostname,
     //     // port: config.redis.port,
     //     // pass: config.redis.password,
-    //     client: redisClient
+    //     // client: redisClient
     // })
 }));
 
@@ -208,7 +221,7 @@ app.use(function (err, req, res, next) {
   res.locals.error = req.app.get("env") === "development" ? err : {};
   // render the error page
 
-  res.status(err.status || res.status || 400);
+  res.status(err.status || 400);
   res.json({ error: err.message || err });
 });
 
