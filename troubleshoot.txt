@@ -1,5 +1,5 @@
 Install mysql in linux
-
+chnaged iam
 https://medium.com/@alef.duarte/cant-connect-to-local-mysql-server-through-socket-var-run-mysqld-mysqld-sock-155d580f3a06
 
 Errors:
