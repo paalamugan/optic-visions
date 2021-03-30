@@ -2,7 +2,7 @@ Install mysql in linux
 
 https://medium.com/@alef.duarte/cant-connect-to-local-mysql-server-through-socket-var-run-mysqld-mysqld-sock-155d580f3a06
 
-Errors
+Errors:
 
 1. Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
 
