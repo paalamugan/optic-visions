@@ -106,4 +106,4 @@ dist
 # Only for deploy branch
 client/*
 
-iam root
+locales/*
