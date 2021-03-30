@@ -7,7 +7,7 @@ const config = require(global.rootPath + '/config');
 
 const basename = path.basename(__filename);
 const options = {
-    host: config.dbHost,
+    // host: config.dbHost,
     dialect: config.dbDialect,
     // operatorAliases: Sequelize.Op,
     define: {
@@ -30,7 +30,10 @@ const db = {};
 let sequelize;
 
 if (process.env.NODE_ENV === "production") {
-    options.dialectOptions = { ssl: true };
+    options.dialectOptions = {  ssl: {
+        rejectUnauthorized: false, // very important
+      }
+    };
     sequelize = new Sequelize(config.dbUrl, options);
 } else {
     sequelize = new Sequelize(config.dbName, config.dbUserName, config.dbPassword, options);
