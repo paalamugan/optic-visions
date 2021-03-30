@@ -39,29 +39,27 @@ this.adminhide=false;
   loginAdmin() {
       this.isLoading = true;
     this.loginservice.adminLogin(this.adminlogin)
-      .subscribe(
-       (res:any)=>{
-        this.isLoading = false;
-        this.router.navigate(['/dashboard']);
-         localStorage.setItem('token',res.token);
-       },
-       err =>{
-         if(err instanceof HttpErrorResponse){
-           if(err.status){
-               this.isLoading = false;
-                this.snackBar.open(err.error,'Alert' ,{
-                    duration:3000
-               });
-           }
-         }
-        
-       }
-      );
+        .subscribe((res:any) => {
+            this.isLoading = false;
+            this.router.navigate(['/dashboard']);
+            localStorage.setItem('token',res.token);
+        },
+        (err) => {
+            if(err instanceof HttpErrorResponse) {
+                this.isLoading = false;
+                this.snackBar.open(err.error.error, 'Alert', {
+                        duration:3000
+                });
+            }
+        },
+        () => {
+            this.isLoading = false;
+        });
   }
   loginEmployee() {
     this.loginservice.employeeLogin(this.employeelogin)
-    .subscribe(
-     (res:any)=>{
+    .subscribe((res:any)=>{
+        this.isLoading = false;
        if(res.Identifier === "employee-admin"){
         this.router.navigate(['/dashboard']);
         localStorage.setItem('token',res.token);
@@ -74,17 +72,17 @@ this.adminhide=false;
        }
         
      },
-     err =>{
-       if(err instanceof HttpErrorResponse){
-         if(err.status === 300){
-             this.snackBar.open(err.error,'Alert' ,{
-               duration:3000
+     (err) => {
+        if(err instanceof HttpErrorResponse) {
+            this.isLoading = false;
+            this.snackBar.open(err.error.error, 'Alert', {
+                    duration:3000
             });
-         }
-       }
-      
-     }
-    );
+        }
+    },
+    () => {
+        this.isLoading = false;
+    });
 }
   signup(){
     this.router.navigate(['/register']);
@@ -119,25 +117,28 @@ this.adminhide=false;
 }
   forgetPassword(){
     if(this.adminlogin.email != ""){
+        this.isLoading = true;
       this.loginservice.forgetPassword(this.adminlogin)
       .subscribe(
         (data:any)=>{
+            this.isLoading = false;
           if(data.success === true){
             this.showNotification('top','center');
           }
           this.adminlogin.email=null;
           this.adminlogin.password=null;
       },
-      (err)=>{
-        if(err instanceof HttpErrorResponse){
-          if(err.status === 300){
-              this.snackBar.open(err.error,'Alert' ,{
-                duration:3000
-             });
-          }
+      (err) => {
+        if(err instanceof HttpErrorResponse) {
+            this.isLoading = false;
+            this.snackBar.open(err.error.error, 'Alert', {
+                    duration:3000
+            });
         }
-      }
-      )
+    },
+    () => {
+        this.isLoading = false;
+    });
     }else{
       this.snackBar.open('Email Field is Not Empty','Alert',{
         duration:3000

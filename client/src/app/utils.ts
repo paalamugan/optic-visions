@@ -72,16 +72,19 @@ export class Utils {
     }
     
     //guard
-    static loggedIn() {
-        return !!localStorage.getItem('token');
-    }
 
     static getToken(){
         return localStorage.getItem('token');
     }
 
+    static setToken(token) {
+        return localStorage.setItem('token', token);
+    }
+
     static isLoggedIn() {
-        return localStorage.getItem('token');
+        let token = this.getToken();
+        if (token === "undefined" || token === "null") return false;
+        return !!token;
     }
 
     static isLoggedOut() {

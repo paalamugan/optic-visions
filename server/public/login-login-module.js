@@ -87,19 +87,20 @@ var LoginComponent = /** @class */ (function () {
             localStorage.setItem('token', res.token);
         }, function (err) {
             if (err instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpErrorResponse"]) {
-                if (err.status) {
-                    _this.isLoading = false;
-                    _this.snackBar.open(err.error, 'Alert', {
-                        duration: 3000
-                    });
-                }
+                _this.isLoading = false;
+                _this.snackBar.open(err.error.error, 'Alert', {
+                    duration: 3000
+                });
             }
+        }, function () {
+            _this.isLoading = false;
         });
     };
     LoginComponent.prototype.loginEmployee = function () {
         var _this = this;
         this.loginservice.employeeLogin(this.employeelogin)
             .subscribe(function (res) {
+            _this.isLoading = false;
             if (res.Identifier === "employee-admin") {
                 _this.router.navigate(['/dashboard']);
                 localStorage.setItem('token', res.token);
@@ -112,12 +113,13 @@ var LoginComponent = /** @class */ (function () {
             }
         }, function (err) {
             if (err instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpErrorResponse"]) {
-                if (err.status === 300) {
-                    _this.snackBar.open(err.error, 'Alert', {
-                        duration: 3000
-                    });
-                }
+                _this.isLoading = false;
+                _this.snackBar.open(err.error.error, 'Alert', {
+                    duration: 3000
+                });
             }
+        }, function () {
+            _this.isLoading = false;
         });
     };
     LoginComponent.prototype.signup = function () {
@@ -151,8 +153,10 @@ var LoginComponent = /** @class */ (function () {
     LoginComponent.prototype.forgetPassword = function () {
         var _this = this;
         if (this.adminlogin.email != "") {
+            this.isLoading = true;
             this.loginservice.forgetPassword(this.adminlogin)
                 .subscribe(function (data) {
+                _this.isLoading = false;
                 if (data.success === true) {
                     _this.showNotification('top', 'center');
                 }
@@ -160,12 +164,13 @@ var LoginComponent = /** @class */ (function () {
                 _this.adminlogin.password = null;
             }, function (err) {
                 if (err instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpErrorResponse"]) {
-                    if (err.status === 300) {
-                        _this.snackBar.open(err.error, 'Alert', {
-                            duration: 3000
-                        });
-                    }
+                    _this.isLoading = false;
+                    _this.snackBar.open(err.error.error, 'Alert', {
+                        duration: 3000
+                    });
                 }
+            }, function () {
+                _this.isLoading = false;
             });
         }
         else {

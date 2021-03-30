@@ -808,7 +808,7 @@ var TokenInterceptorService = /** @class */ (function () {
     TokenInterceptorService.prototype.intercept = function (req, next) {
         var tokenizedReq = req.clone({
             setHeaders: {
-                Authorization: "Bearer " + _utils__WEBPACK_IMPORTED_MODULE_1__["Utils"].isLoggedIn()
+                Authorization: "Bearer " + _utils__WEBPACK_IMPORTED_MODULE_1__["Utils"].getToken()
             }
         });
         return next.handle(tokenizedReq);
@@ -931,10 +931,12 @@ var LoginService = /** @class */ (function () {
             }, function (err) {
                 if (err instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpErrorResponse"]) {
                     if (err.status === 401) {
+                        _utils__WEBPACK_IMPORTED_MODULE_2__["Utils"].isLoggedOut();
                         _this.router.navigateByUrl('login');
                     }
                 }
-            });
+                observer.error(err);
+            }, function () { observer.complete(); });
         });
     };
     LoginService.prototype.forgetPassword = function (adminlogin) {
@@ -2212,14 +2214,17 @@ var Utils = /** @class */ (function () {
         return EMPLOYEE_URL + EMPLOYEE_LOGIN_ACTION;
     };
     //guard
-    Utils.loggedIn = function () {
-        return !!localStorage.getItem('token');
-    };
     Utils.getToken = function () {
         return localStorage.getItem('token');
     };
+    Utils.setToken = function (token) {
+        return localStorage.setItem('token', token);
+    };
     Utils.isLoggedIn = function () {
-        return localStorage.getItem('token');
+        var token = this.getToken();
+        if (token === "undefined" || token === "null")
+            return false;
+        return !!token;
     };
     Utils.isLoggedOut = function () {
         return localStorage.removeItem('token');

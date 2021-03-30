@@ -127,58 +127,8 @@ export class RegisterComponent implements OnInit {
   signUp(){
    let formData = new FormData();
     this.isLoadingResults = true;
-        if ( this.countfilelength > 0) { 
-          if(this.selectedfile.type.match(/jpeg|jpg|png|svg/)){
-            formData.append('avatar', this.selectedfile);
-            formData.append('companyName', this.RegistrationForm.value.companyName);
-            formData.append('tin', this.RegistrationForm.value.tinNumber);
-            formData.append('userName', this.RegistrationForm.value.userName);
-            formData.append('email', this.RegistrationForm.value.email);
-            formData.append('password', this.RegistrationForm.value.password);
-            formData.append('address', this.RegistrationForm.value.address);
-            formData.append('phoneNumber', this.RegistrationForm.value.phoneNumber);
-            this.signupservice.submitRegister(formData)
-            .subscribe(
-              (response)=>{
-                this.styleOne=false;
-                // this.RegistrationForm.reset(true);
-                //  this.selectedfile=null;
-                  this.snackbar.open("Registration Success", "Success", {
-                  duration: 2000,
-                        });
-                  this.isLoadingResults = false;
-                this.router.navigate(['/login']);
-              },
-             
-            (err)=>{
-              if(err instanceof HttpErrorResponse){
-                if(err.status){
-                    this.snackbar.open(err.error,'Alert' ,{
-                      duration:3000
-                   });
-                   this.isLoadingResults = false;
-                }else{
-                  this.snackbar.open(err.statusText,'Alert' ,{
-                    duration:3000
-                 });
-                 this.isLoadingResults = false;
-                }
-              } else {
-                this.snackbar.open(err.error,'Alert' ,{
-                    duration:3000
-                });
-                this.isLoadingResults = false;
-              }
-            }, () => { this.isLoadingResults =false;}
-            );
-          }else{
-            this.snackbar.open("Only supported format.(jpg, png, svg)", "Alert", { duration: 3000 });
-            this.isLoadingResults = false;
-          }
-               
-               
-        }else{
-          formData.append('avatar', this.selectedfile);
+
+        //   formData.append('avatar', this.selectedfile);
           formData.append('companyName', this.RegistrationForm.value.companyName);
           formData.append('tin', this.RegistrationForm.value.tinNumber);
           formData.append('userName', this.RegistrationForm.value.userName);
@@ -189,33 +139,27 @@ export class RegisterComponent implements OnInit {
           this.signupservice.submitRegister(formData)
           .subscribe(
             (response)=>{
+                this.isLoadingResults = false;
               this.styleOne=false;
               // this.RegistrationForm.reset(true);
               //  this.selectedfile=null;
                 this.snackbar.open("Registration Success", "Success", {
                 duration: 2000,
                       });
-                this.isLoadingResults = false;
               this.router.navigate(['/login']);
             },
            
-          (err)=>{
-            if(err instanceof HttpErrorResponse){
-              if(err.status === 300){
-                  this.snackbar.open(err.error,'Alert' ,{
-                    duration:3000
-                 });
-                 this.isLoadingResults = false;
+            (err) => {
+                if(err instanceof HttpErrorResponse) {
+                    this.isLoadingResults = false;
+                    this.snackbar.open(err.error.error, 'Alert', {
+                            duration:3000
+                    });
                 }
-              } else {
-                this.snackbar.open(err.error,'Alert' ,{
-                    duration:3000
-                });
+            },
+            () => {
                 this.isLoadingResults = false;
-              }
-        }
-        );
-      }
+            });
      
     }
     movetologin(){

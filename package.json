@@ -5,14 +5,16 @@
   "main": "./server/app.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon ./server/bin/www",
-    "serve": "NODE_ENV=production node ./server/bin/www"
+    "prod": "NODE_ENV=production node ./server/bin/www"
   },
   "author": "Paalamugan",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
+    "connect-redis": "^5.1.0",
     "cors": "^2.8.4",
+    "cron": "^1.8.2",
     "email-templates": "^8.0.4",
     "express": "^4.16.3",
     "express-promise-router": "^4.1.0",
@@ -28,6 +30,7 @@
     "nodemailer-html-to-text": "^3.1.0",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
+    "redis": "^3.0.2",
     "request": "^2.88.0",
     "sequelize": "^6.6.2"
   },

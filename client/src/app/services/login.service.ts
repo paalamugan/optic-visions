@@ -37,10 +37,12 @@ export class LoginService {
         }, (err) =>{
             if(err instanceof HttpErrorResponse){
                 if(err.status===401){
+                    Utils.isLoggedOut();
                     this.router.navigateByUrl('login');
                 }
             }
-        });
+            observer.error(err)
+        }, () => {observer.complete()});
       });
 
   }
