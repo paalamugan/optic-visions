@@ -30,7 +30,8 @@ const db = {};
 let sequelize;
 
 if (process.env.NODE_ENV === "production") {
-    sequelize = new Sequelize(config.dbUrl);
+    options.dialectOptions = { ssl: true };
+    sequelize = new Sequelize(config.dbUrl, options);
 } else {
     sequelize = new Sequelize(config.dbName, config.dbUserName, config.dbPassword, options);
 }
@@ -58,7 +59,7 @@ db.Sequelize = Sequelize;
 
 sequelize.authenticate().then(() => {
     console.log("Connection established sucessfully");
-    // sequelize.sync({ force: true }); // if force values is true, it will drop all exist table and create new table, if false Only create table if not exist.  
+    sequelize.sync({ force: true }); // if force values is true, it will drop all exist table and create new table, if false Only create table if not exist.  
 }).catch((err)=>{
     console.error("Some thing problem in database connection", err);
 });
