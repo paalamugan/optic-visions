@@ -9,11 +9,15 @@ const saltRounds = 10;
 
 exports.registerCompany = async (req, res, next) => {
 
+    let body = req.body;
+
+    Object.keys(body).forEach(key => (!body[key] || body[key] === 'undefined') && delete body[key]);
+ 
     if (req.file) {
-        req.body.avatar = req.file && `/images/${ req.file.filename}`;
+        body.avatar = req.file && `/images/${ req.file.filename}`;
     }
 
-    if (!req.body.email) {
+    if (!body.email) {
         return next(new Error("Email is missing"));
     }
 
@@ -22,18 +26,18 @@ exports.registerCompany = async (req, res, next) => {
         let company = await CompanyUserInfo.findOne({
             where: {
                 [Op.or]: [
-                    { email: req.body.email }
+                    { email: body.email }
                 ],
             },
         });
 
-        if (company && company.email === req.body.email) {
+        if (company && company.email === body.email) {
             throw new Error("Already email registered!");
         }
 
-        req.body.password =  await bcrypt.hash(req.body.password, saltRounds);
+        body.password =  await bcrypt.hash(body.password, saltRounds);
 
-        let user = await CompanyUserInfo.create(req.body);
+        let user = await CompanyUserInfo.create(body);
 
         await SigninInfo.create({ 
             fk_companyid: user.uuid, 
