@@ -105,5 +105,3 @@ dist
 
 # Only for deploy branch
 client/*
-
-locales/*
