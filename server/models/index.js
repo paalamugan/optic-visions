@@ -30,6 +30,11 @@ const db = {};
 let sequelize;
 
 if (process.env.NODE_ENV === "production") {
+    options.dialectOptions = {  
+        ssl: {
+            rejectUnauthorized: false
+        }
+    }
     sequelize = new Sequelize(config.dbUrl, options);
 } else {
     sequelize = new Sequelize(config.dbName, config.dbUserName, config.dbPassword, options);
