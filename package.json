@@ -6,8 +6,8 @@
   "scripts": {
     "server": "NODE_ENV=development && nodemon ./server/bin/www",
     "prod": "NODE_ENV=production && node ./server/bin/www",
-    "install-client": "cd client && npm install",
-    "build": "cd client && npm run build",
+    "client:install": "cd client && npm install",
+    "client:build": "cd client && npm run build",
     "client": "cd client && npm run start",
     "dev": "concurrently -n 'server, client' -c 'red, green' \"npm run server\" \"npm run client\""
   },

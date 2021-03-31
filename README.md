@@ -19,7 +19,7 @@ npm install
 
 - For client
 ```shell
-npm run install-client
+npm run client:install
 ```
 
 ## Development
@@ -43,7 +43,7 @@ npm run dev
 
 - Build a client code
 ```
-npm run build
+npm run client:build
 ```
 
 - Start a production server
