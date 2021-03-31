@@ -7,7 +7,7 @@ const config = require('../config');
 const { emailTemplate } = require('../templates');
 
 let mailer = {
-    from: '"Optic Visions" <success@opticvisions.tk>',
+    from: '"Optic Visions" <support@opticvisions.tk>',
     smtp: config.mailtrap
 };
 

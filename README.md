@@ -1,31 +1,79 @@
-# Optic Visions
+# GET STARTED
 
-Run Mysql server via docker
+**One Time Only**
 
- docker run -d --name mysql -p 3306:3306 -e MYSQL_USER=paalan -e MYSQL_PASSWORD=paalan -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=opticalvision -v /mnt/e/development/git/OpticalVisionApi-NodeJs/data/db/mysql:/data/db mysql:latest
-
-Optical Application using NodeJs Rest Api
-
+Install postgresql
+```shell
+sudo apt install postgresql
 ```
+- Make sure postgres server is running or not
+```
+sudo service postgresql start
+```
+## Install Dependencies
+
+- For server
+```shell
 npm install
 ```
 
-## Development
-- Start a development server
+- For client
+```shell
+npm run install-client
 ```
+
+## Development
+
+- For server
+```shell
+npm run server
+```
+
+- For client
+```shell
+npm run client
+```
+
+- If simultaneously start a both server and client
+```shell
 npm run dev
 ```
 
 ## Production
+
+- Build a client code
+```
+npm run build
+```
+
 - Start a production server
 ```
-npm run serve
+npm run prod
 ```
 
-curl --header "Content-Type: application/json" -d "{\"companyName\":\"sdsfsd\",\"tinNumber\":\"134\", \"userName\":\"sdsfsd\", \"email\":\"sdfsd@gmail.com\", \"password\":\"asdfg\",\"cnfPassword\":\"asdfg\",\"address\":\"asdfg\",\"phoneNumber\":\"6464646464\"}" http://localhost:9000/api/visionapp/company/register
+### Tips
 
-
-Heroku Connecting database
+- Create Heroku app
 ```shell
-    heroku addons:create heroku-postgresql:hobby-dev
+heroku create optic-visions
+```
+
+- Link with a existing heroku app
+```
+heroku git:remote -a optic-visions
+```
+
+- Push your code to heroku
+```
+git push heroku deploy<branch_name>
+```
+
+- Add postgres database addons in Heroku.
+```shell
+heroku addons:create heroku-postgresql:hobby-dev
+```
+
+- See heroku terminal logs
+```shell
+heroku logs --tail
 ```
