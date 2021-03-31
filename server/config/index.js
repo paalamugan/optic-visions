@@ -12,7 +12,7 @@ module.exports = {
     mailgun: { // all emails are delivered to destination (production)
         domain: 'mail.opticvisions.com',
         apiKey: process.env.MAILGUN_API_KEY,
-        fromOpticVisions: 'Optic Visions <mail@opticvisions.com>'
+        fromOpticVisions: 'Optic Visions <support@opticvisions.com>'
     },
     sendgrid: { // all emails are delivered to destination (production)
         host: 'smtp.sendgrid.net',

@@ -4,13 +4,16 @@ const createError = require('http-errors');
 const path = require("path");
 const session = require("express-session");
 const config = require('./config');
-const app = express();
 const RedisStore = require('connect-redis')(session);
 
 global.rootPath = path.resolve(__dirname);
 
 const env = process.env.NODE_ENV || 'development';
 const MONTH_IN_MILLISECONDS = 2629743000;
+
+require('./common/health-check');
+
+const app = express();
 
 // Settings
 app.set('env', env);
