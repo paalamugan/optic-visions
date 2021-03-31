@@ -51,6 +51,17 @@ npm run build
 npm run prod
 ```
 
+## Deploy in heroku
+
+- Switch branch into deploy
+```shell
+git checkout deploy
+```
+- Merge Main branch changes to deploy branch
+```shell
+git merge main
+```
+
 ### Tips
 
 - Create Heroku app
