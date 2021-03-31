@@ -2,7 +2,7 @@ const { CronJob } = require('cron');
 const http = require('http');
 const https = require('https');
 const config = require('../config');
-console.log("config", config)
+
 let doActivity = () => {
     const service = process.env.NODE_ENV === 'production' ? https : http;
     const req = service.get(`${config.siteUrl}/api/health`);
