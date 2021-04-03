@@ -2,7 +2,6 @@ import { CompanySignup } from "./companysignup";
 
 export class Employee{
     constructor( public uuid:string,
-        public employeeId:string,
         public employeeName:string,
         public mobileNumber:string,
         public employeeEmail:string,
@@ -11,7 +10,7 @@ export class Employee{
         public DOB:Date,
         public DOJ:Date,
         public adminAccess:string,
-        public userImage:string,
+        public avatar:string,
         public fk_companyid:string,
         public companySignUp:CompanySignup
           ){}

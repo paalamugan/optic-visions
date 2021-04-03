@@ -21,7 +21,7 @@
           <div fxLayout="row" fxLayout.xs="column" fxLayoutGap.gt-md="20px">
             <div fxFlex="50" class="example-container">
                 <mat-form-field class="full-width">
-                  <input matInput type="text" placeholder="CompanyName" formControlName="companyName" required>
+                  <input matInput type="text" placeholder="CompanyName" name="companyName" formControlName="companyName" required>
                   <mat-error *ngFor="let validation of account_validation_messages.companyname">
                     <mat-error class="error-message" *ngIf="RegistrationForm.get('companyName').hasError(validation.type) && (RegistrationForm.get('companyName').dirty || RegistrationForm.get('companyName').touched)">{{validation.message}}</mat-error>
                   </mat-error>
@@ -29,60 +29,37 @@
             </div>
             <div fxFlex="50" class="example-container">
               <mat-form-field class="full-width">
-                <input matInput placeholder="Tin Number" formControlName="tinNumber" id="tinNumber">
-  
+                <input matInput type="text" placeholder="UserName" name="userName" formControlName="userName" required>
+                <mat-error *ngFor="let validation of account_validation_messages.username">
+                  <mat-error class="error-message" *ngIf="RegistrationForm.get('userName').hasError(validation.type) && (RegistrationForm.get('userName').dirty || RegistrationForm.get('userName').touched)">{{validation.message}}</mat-error>
+                </mat-error>
               </mat-form-field>
             </div>
           </div>
           <div fxLayout="row" fxLayout.xs="column" fxLayoutGap.gt-md="20px">
             <div fxFlex="50" class="example-container">
                 <mat-form-field class="full-width">
-                    <input matInput type="text" placeholder="UserName" formControlName="userName" required>
-                    <mat-error *ngFor="let validation of account_validation_messages.username">
-                      <mat-error class="error-message" *ngIf="RegistrationForm.get('userName').hasError(validation.type) && (RegistrationForm.get('userName').dirty || RegistrationForm.get('userName').touched)">{{validation.message}}</mat-error>
-                    </mat-error>
-                  </mat-form-field>
-              <!-- <mat-form-field class="example-container" fxFlex="100">
-                <input matInput placeholder="UserName" formControlName="userName" id="userName"
-                  required>
-  
-              </mat-form-field>
-              <span *ngIf="isValid('userName')">userName is required</span> -->
-            </div>
-            <div fxFlex="50" class="example-container">
-                <mat-form-field class="full-width">
-                    <input matInput type="email" placeholder="Email" formControlName="email" required>
+                    <input matInput type="email" name="email" placeholder="Email" formControlName="email" required>
                     <mat-error *ngFor="let validation of account_validation_messages.email">
                       <mat-error class="error-message" *ngIf="RegistrationForm.get('email').hasError(validation.type) && (RegistrationForm.get('email').dirty || RegistrationForm.get('email').touched)">{{validation.message}}</mat-error>
                     </mat-error>
                   </mat-form-field>
-                <!-- <mat-form-field>
-                  <input matInput placeholder="Email" formControlName="email"  id="email"
-                    required>
-    
-                </mat-form-field>
-                <span *ngIf="isValid('email')">Entered email is invalid</span> -->
               </div>
-          
+              <div fxFlex="50" class="example-container">
+                <mat-form-field class="full-width">
+                    <input matInput placeholder="Password" name="password" [type]="hide ? 'password' : 'text'" formControlName="password" required>
+                    <mat-icon matSuffix class="cursor" (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                    <mat-error *ngFor="let validation of account_validation_messages.password">
+                      <mat-error class="error-message" *ngIf="RegistrationForm.get('password').hasError(validation.type) && (RegistrationForm.get('password').dirty || RegistrationForm.get('password').touched)">{{validation.message}}</mat-error>
+                    </mat-error>
+                  </mat-form-field>
+              </div>
           </div>
          
   
-          <div fxLayout="row" fxLayout.xs="column" fxLayoutGap.gt-md="20px">
-              <div fxFlex="100" class="example-container">
-                  <mat-form-field class="full-width">
-                      <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" formControlName="password" required>
-                      <mat-icon matSuffix class="cursor" (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-                      <mat-error *ngFor="let validation of account_validation_messages.password">
-                        <mat-error class="error-message" *ngIf="RegistrationForm.get('password').hasError(validation.type) && (RegistrationForm.get('password').dirty || RegistrationForm.get('password').touched)">{{validation.message}}</mat-error>
-                      </mat-error>
-                    </mat-form-field>
-                  <!-- <mat-form-field>
-                    <input matInput placeholder="Password" type="password" formControlName="password" id="pass">
-                     <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>  
-                  </mat-form-field>
-                  <span *ngIf="isValid('password')">Password is a mandatory field</span> -->
-                </div>
-            <!-- <div fxFlex="50" class="example-container">
+          <!-- <div fxLayout="row" fxLayout.xs="column" fxLayoutGap.gt-md="20px">
+
+            <div fxFlex="50" class="example-container">
                 <mat-form-field class="full-width">
                     <input matInput placeholder="Confirm Password" [type]="hide ? 'password' : 'text'" formControlName="cnfPassword"  [errorStateMatcher]="parentErrorStateMatcher" required>
                     <mat-icon matSuffix class="cursor" (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
@@ -95,43 +72,45 @@
     
                 </mat-form-field>
                 <span *ngIf="isValid('cnfPassword')">Password and confirm password should match</span>
-              </div> -->
+              </div>
            
-          </div>
+          </div> -->
   
           <div fxLayout="row" fxLayout.xs="column" fxLayoutGap.gt-md="20px">
             <div fxFlex="50" class="example-container">
-                <mat-form-field class="full-width" hintLabel="Max 256 characters">
-                    <input matInput type="text" #input maxlength="256" placeholder="Address" formControlName="address" required>
-                    <mat-hint align="end">{{input.value?.length || 0}}/256</mat-hint>
-                    <mat-error *ngFor="let validation of account_validation_messages.address">
-                      <mat-error class="error-message" *ngIf="RegistrationForm.get('address').hasError(validation.type) && (RegistrationForm.get('address').dirty || RegistrationForm.get('address').touched)">{{validation.message}}</mat-error>
-                    </mat-error>
-                  </mat-form-field>
-              <!-- <mat-form-field class="example-container" fxFlex="100">
-                
-                <input matInput placeholder="Address" formControlName="address"  id="address"
-                  required>
-  
-              </mat-form-field>
-              <span *ngIf="isValid('address')">address is required</span> -->
-            </div>
+              <mat-form-field class="full-width" hintLabel="Max 10 numbers">
+                  <span matPrefix>+91 &nbsp;</span>
+                  <input matInput type="text" #input1 maxlength="10" name="phoneNumber" placeholder="PhoneNumber" formControlName="phoneNumber">
+                  <!-- <mat-icon matSuffix>mode_edit</mat-icon> -->
+                  <!-- <mat-hint align="end">{{input1.value?.length || 0}}/10</mat-hint>
+                  <mat-error *ngFor="let validation of account_validation_messages.phonenumber">
+                    <mat-error class="error-message" *ngIf="RegistrationForm.get('phoneNumber').hasError(validation.type) && (RegistrationForm.get('phoneNumber').dirty || RegistrationForm.get('phoneNumber').touched)">{{validation.message}}</mat-error>
+                  </mat-error> -->
+                </mat-form-field>
+            <!-- <mat-form-field class="example-container" fxFlex="100">
+              <input matInput placeholder="Phone Number" type="number" formControlName="phoneNumber" id="phoneNumber"
+                required>
+
+            </mat-form-field>
+            <span *ngIf="isValid('phoneNumber')">phoneNumber is required</span> -->
+          </div>
             <div fxFlex="50" class="example-container">
-                <mat-form-field class="full-width" hintLabel="Max 10 numbers">
-                    <span matPrefix>+91 &nbsp;</span>
-                    <input matInput type="text" #input1 maxlength="10" placeholder="PhoneNumber" formControlName="phoneNumber">
-                    <!-- <mat-icon matSuffix>mode_edit</mat-icon> -->
-                    <!-- <mat-hint align="end">{{input1.value?.length || 0}}/10</mat-hint>
-                    <mat-error *ngFor="let validation of account_validation_messages.phonenumber">
-                      <mat-error class="error-message" *ngIf="RegistrationForm.get('phoneNumber').hasError(validation.type) && (RegistrationForm.get('phoneNumber').dirty || RegistrationForm.get('phoneNumber').touched)">{{validation.message}}</mat-error>
-                    </mat-error> -->
-                  </mat-form-field>
-              <!-- <mat-form-field class="example-container" fxFlex="100">
-                <input matInput placeholder="Phone Number" type="number" formControlName="phoneNumber" id="phoneNumber"
-                  required>
+              <mat-form-field class="full-width">
+                <input matInput placeholder="Tin Number" name="tinNumber" formControlName="tinNumber" id="tinNumber">
   
               </mat-form-field>
-              <span *ngIf="isValid('phoneNumber')">phoneNumber is required</span> -->
+            </div>
+
+          </div>
+          <div fxLayout="row" fxLayout.xs="column" fxLayoutGap.gt-md="20px" style="margin-bottom: 20px">
+            <div fxFlex="100" class="example-container">
+              <mat-form-field class="full-width" hintLabel="Max 256 characters">
+                <input matInput type="text" #input maxlength="256" name="address" placeholder="Address" formControlName="address">
+                <mat-hint align="end">{{input.value?.length || 0}}/256</mat-hint>
+                <mat-error *ngFor="let validation of account_validation_messages.address">
+                  <mat-error class="error-message" *ngIf="RegistrationForm.get('address').hasError(validation.type) && (RegistrationForm.get('address').dirty || RegistrationForm.get('address').touched)">{{validation.message}}</mat-error>
+                </mat-error>
+              </mat-form-field>
             </div>
           </div>
          <!-- <div fxLayout="row">

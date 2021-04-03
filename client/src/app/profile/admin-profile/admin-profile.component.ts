@@ -29,6 +29,7 @@ countfilelength:number;
 adminshow_1:boolean=false;
 adminshow_2:boolean=true;
   selectedfile:File=null;
+  isLoading: boolean = false;
   ngOnInit() {
     this.loginservice.getUserName().subscribe((data:Admin)=>{
       if(data.Identifier==="admin"){
@@ -51,15 +52,21 @@ adminshow_2:boolean=true;
    
   }
   editProfile(){
+      this.isLoading = true;
     this.signupService.getOne(this.profile.company).subscribe((resultData:CompanySignup)=>{
       this.currentCompany=resultData;
       this.adminshow_2=false;
     this.adminshow_1=true;
-    this.profiledetails="Edit Profile Details"
+    this.profiledetails="Edit Profile Details";
+    this.isLoading = false;
     },
     (err)=>{
       if(err instanceof HttpErrorResponse){
-        if(err.status==300 || err.status===401){
+        this.isLoading = false;
+        this.snackBar.open(err.error.error, "Error", {
+            duration: 5000,
+        });
+        if(err.status===401){
         this.router.navigateByUrl('login');
         }
       }
@@ -68,43 +75,33 @@ adminshow_2:boolean=true;
     
     
   }
-  password_error:boolean=false;
-  OnChangePassword(){
-    this.passwordDisabled=!this.passwordDisabled;
-    if(this.passwordDisabled==true){
-      this.currentCompany.password=this.currentpassword;
-      this.eyeicon=true;
-      this.password_error=false;
-    }else{
-      this.currentCompany.password="";
-      this.eyeicon=false;
-      this.password_error=true;
-    }
-    
-  }
-  passwordtextchanged(event){
-    if(this.currentCompany.password === ""){
-      this.password_error=true;
-     
-    }else{
-      this.password_error=false;
-    }
-  }
+
   onFileChange(event){
     this.countfilelength=event.target.files.length;
     this.selectedfile=<File>event.target.files[0];
-   
-   
-    
   }
+
   UpdateProfile(){
+
+      if (this.currentCompany.newPassword !== this.currentCompany.cnfNewPassword) {
+        this.snackBar.open("New Password and Confirm new password should match!", "Error", {
+            duration: 2000,
+        });
+        return;
+      }
+      this.isLoading = true;
       this.signupService.UpdateCompany(this.currentCompany).subscribe(
         (resultData:any)=>{
+            this.isLoading = false;
         this.router.navigateByUrl('login');
         },
         (err)=>{
           if(err instanceof HttpErrorResponse){
-            if(err.status==300 || err.status===401){
+            this.isLoading = false;
+            this.snackBar.open(err.error.error, "Error", {
+                duration: 5000,
+            });
+            if(err.status===401){
             this.router.navigateByUrl('login');
             }
           }
@@ -125,6 +122,9 @@ adminshow_2:boolean=true;
        
        (err)=>{
         if(err instanceof HttpErrorResponse){
+            this.snackBar.open(err.error.error, "Error", {
+                duration: 5000,
+            });
           if(err.status===401){
           this.router.navigateByUrl('login');
           }

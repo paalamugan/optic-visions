@@ -42,9 +42,11 @@ userCompanyname:string='';
         this.isLoading = true;
 
         this.loginservice.getUserName().subscribe((data:Admin)=>{
+            this.isLoading = false;
             this.userCompanyname = data.companyname;
           },
           (err)=>{
+            this.isLoading = false;
             if(err instanceof HttpErrorResponse){
               if(err.status===401){
                 this.router.navigateByUrl('login');

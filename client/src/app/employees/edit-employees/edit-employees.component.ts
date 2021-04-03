@@ -13,21 +13,19 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./edit-employees.component.scss']
 })
 export class EditEmployeesComponent implements OnInit {
-  dob:Date;
-  doj:Date;
+  dob:Date = null;
+  doj:Date = null;
 DOBtoString:string;
 DOJtoString:string;
   hide=true;
   styleOne:boolean;
   selectedfile:File=null;
-  companysignup:CompanySignup;
-  newpassword:boolean=true;
-  newpasswordvalue:string="";
-  currentpassword:string="";
+  companysignup:CompanySignup = null;
   // constructor( private dialogRef: MatDialogRef<EditEmployeesComponent>, @Inject(MAT_DIALOG_DATA) public data: Employee) { }
   constructor(private route:ActivatedRoute,private loginservice:LoginService, private employeeservice:EmployeeService,private router:Router,private snackBar:MatSnackBar){}
-  employee:Employee=new Employee("","",'','','','','',this.dob,this.doj,'','','',this.companysignup);
+  employee:Employee=new Employee("",'','','','','',this.dob,this.doj,'','','',this.companysignup);
   countfilelength:number;
+  isLoading: boolean = false;
   onFileChange(event) {
     // let count=<File>event.target.files
     this.styleOne=true;
@@ -65,18 +63,20 @@ DOJtoString:string;
       });
     }( document, window, 0 ));
     let id =this.route.snapshot.params['id'];
+    this.isLoading = true;
     this.loginservice.getUserName().subscribe((data:Admin)=>{
       if(data.Identifier==="admin" || data.Identifier==="employee-admin"){
         this.employeeservice.getemployee(id).subscribe(
           (data:Employee)=>{
+              this.isLoading = false;
             this.employee=data;
-            this.currentpassword=this.employee.employeePassword;
             let CDOB=new Date(data.DOB);
             this.employee.DOB=CDOB;
             let CDOJ=new Date(data.DOJ);
             this.employee.DOJ=CDOJ;
           },
           (err)=>{
+              this.isLoading = false;
             if(err instanceof HttpErrorResponse){
               if(err.status===401){
                 this.router.navigateByUrl('login');
@@ -89,6 +89,7 @@ DOJtoString:string;
       }
     },
     (err)=>{
+        this.isLoading = false;
       if(err instanceof HttpErrorResponse){
        if(err.status === 401){
           this.router.navigateByUrl('login');
@@ -101,17 +102,8 @@ DOJtoString:string;
    
   }
   
-  OnChangePassword(){
-this.newpassword=!this.newpassword;
-
-  }
   OnSubmit(){
     let formData=new FormData;
-    if(this.newpasswordvalue===""){
-      this.employee.employeePassword=this.currentpassword;
-      }else{
-      this.employee.employeePassword=this.newpasswordvalue;
-    }
 //     if(this.dob!=this.employee.DOB){
 // this.DOBtoString=this.employee.DOB.toLocaleDateString();
 //     }else{
@@ -123,51 +115,48 @@ this.newpassword=!this.newpassword;
 //             this.DOJtoString=JSON.stringify(this.employee.DOJ);
 //           }
 
-    if(this.countfilelength >0){
-      if(this.selectedfile.type==="image/jpeg" || this.selectedfile.type==="image/png"){
-      formData.append('userImage', this.selectedfile);
-      formData.append('employeeName', this.employee.employeeName);
-      formData.append('mobileNumber', this.employee.mobileNumber);
-     formData.append('employeeEmail', this.employee.employeeEmail);
-      formData.append('employeePassword', this.employee.employeePassword);
-      formData.append('address', this.employee.address);
-     formData.append('DOB', this.employee.DOB.toUTCString());
-      formData.append('DOJ', this.employee.DOJ.toUTCString());
-      formData.append('adminAccess',this.employee.adminAccess);
-      formData.append('fk_companyid',this.employee.fk_companyid);
-      formData.append('employeeId',this.employee.employeeId);
-      this.employeeservice.updateformdataEmployee(formData,this.employee.uuid).subscribe(
-        (resultData:Employee)=>{
-         this.router.navigate(['employees/listemployees']);
-        },
-        (err)=>{
-          if(err instanceof HttpErrorResponse){
+//     if(this.countfilelength >0){
+//       if(this.selectedfile.type==="image/jpeg" || this.selectedfile.type==="image/png"){
+//       formData.append('avatar', this.selectedfile);
+//       formData.append('employeeName', this.employee.employeeName);
+//       formData.append('mobileNumber', this.employee.mobileNumber);
+//      formData.append('employeeEmail', this.employee.employeeEmail);
+//       formData.append('employeePassword', this.employee.employeePassword);
+//       formData.append('address', this.employee.address);
+//      formData.append('DOB', this.employee.DOB.toUTCString());
+//       formData.append('DOJ', this.employee.DOJ.toUTCString());
+//       formData.append('adminAccess',this.employee.adminAccess);
+//       formData.append('fk_companyid',this.employee.fk_companyid);
+//       this.employeeservice.updateformdataEmployee(formData,this.employee.uuid).subscribe(
+//         (resultData:Employee)=>{
+//          this.router.navigate(['employees/listemployees']);
+//         },
+//         (err)=>{
+//           if(err instanceof HttpErrorResponse){
+//             if(err.status===401){
+//               this.router.navigateByUrl('login');
+//              }
+//           }
+//         }
+//         );
+//       }else{
+//           this.snackBar.open("Select Only Jpeg and Png format Image","Alert",{
+//             duration:10000
+// })
+//       }
+//     }else{
+    this.isLoading = true;
+    this.employeeservice.updateemployee(this.employee).subscribe((resultData:Employee)=>{
+        this.isLoading = false;
+        this.router.navigate(['employees/listemployees']);
+    },
+    (err)=>{
+        this.isLoading = false;
+        if(err instanceof HttpErrorResponse){
             if(err.status===401){
-              this.router.navigateByUrl('login');
-             }
-          }
-        }
-        );
-      }else{
-          this.snackBar.open("Select Only Jpeg and Png format Image","Alert",{
-            duration:10000
-})
-      }
-    }else{
-      this.employeeservice.updateemployee(this.employee).subscribe(
-           (resultData:Employee)=>{
-            this.router.navigate(['employees/listemployees']);
-           },
-           (err)=>{
-            if(err instanceof HttpErrorResponse){
-              if(err.status===401){
-                this.router.navigateByUrl('login');
-               }
+            this.router.navigateByUrl('login');
             }
-           });
+        }
+    });
     }
-  
-   
-   
-  }
 }

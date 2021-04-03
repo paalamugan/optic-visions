@@ -24,7 +24,6 @@ exports.addNewEmployee = async(req, res, next) => {
     let hash = await bcrypt.hash(body.employeePassword, saltRounds);
 
     let data = {
-        employeeId: data.companyName + '-' + Date.now(),
         employeeName: body.employeeName,
         mobileNumber: body.mobileNumber,
         employeeEmail: body.employeeEmail,
@@ -87,7 +86,8 @@ exports.getEmpDetails = async(req, res, next) => {
         where: {
            uuid: req.params.id,
            fk_companyid: req.currentUser.companyId
-        }
+        },
+        attributes: { exclude: ['employeePassword'] }
     })
 
     if (!empinfo) {
@@ -107,39 +107,17 @@ exports.updateEmpDetails = async(req, res, next) => {
         return next(new Error("No record Found"));
     }
 
-    if (body.currentPassword && body.newPassword) {
-
-        let result = await bcrypt.compare(body.currentPassword, employee.password);
-
-        if (!result) {
-            return next(new Error("Wrong Password!"));
-        }
-
-        body.password = await bcrypt.hash(body.newPassword, saltRounds);
+    if (body.employeePassword) {
+        body.employeePassword = await bcrypt.hash(body.employeePassword, saltRounds);
     }
 
-    let data = {
-        employeeName: body.employeeName,
-        mobileNumber: body.mobileNumber,
-        employeeEmail: body.employeeEmail,
-        employeePassword: body.employeePassword,
-        address: body.address,
-        DOB: body.DOB,
-        DOJ: body.DOJ,
-        adminAccess: body.adminAccess
-    }
-
-    if (body.password) {
-        data.password = body.password;
-    }
-
-    employee = await CompanyEmpInfo.update(data, { 
+    employee = await CompanyEmpInfo.update(body, { 
         where : { 
-            [Op.and]: [{ employeeId: body.employeeId }, { fk_companyid: body.fk_companyid }] 
+            [Op.and]: [{ uuid: employee.uuid }, { fk_companyid: body.fk_companyid }] 
         }
     });
 
-    return res.json(employee);
+    return res.json({ success: true });
   
 }
 
@@ -148,8 +126,9 @@ exports.getAllEmpDetails = async(req,res)=>{
     let result = await CompanyEmpInfo.findAndCountAll({
         where:{ fk_companyid :req.currentUser.companyId},
         include:[{
-            model:CompanyUserInfo
-        }]
+            model: CompanyUserInfo
+        }],
+        attributes: { exclude: ['employeePassword'] }
     })
         return res.json(result.rows);
 

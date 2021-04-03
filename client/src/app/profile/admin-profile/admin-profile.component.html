@@ -1,5 +1,8 @@
 <div class="main-content">
   <div class="container-fluid">
+    <div class="example-loading-shade" *ngIf="isLoading">
+      <mat-spinner></mat-spinner>
+    </div>
       <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="20px" fxLayout.xs="column">
           <div fxFlex="30">
               <div class="card card-profile">
@@ -121,105 +124,94 @@
                   </div>
                   <div class="card-body">
                       <form #userForm="ngForm">
-                          <div fxLayout="row" fxLayoutGap="10px" fxLayout.xs="column" >
-                              <div fxFlex="40" class="example-container">
+                        <div fxLayout="row" fxLayoutGap="10px" fxLayout.xs="column" >
+                            <div fxFlex="50" class="example-container">
+                              <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Company Name" type="text" name="companyname" #companyName="ngModel" [(ngModel)]="currentCompany.companyName" required>
+                                </mat-form-field>
+                                <mat-error class="error-message mat-body-1 center-align" *ngIf="companyName.touched && !companyName.valid">
+                                    <mat-error *ngIf="companyName.errors.required">Company Name is Required</mat-error>
+                              
+                                    </mat-error>
+                            </div>
+                            
+                            <div fxFlex="50" class="example-container">
                                 <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Company Name" type="text" name="companyname" #companyName="ngModel" [(ngModel)]="currentCompany.companyName" required>
-                                  </mat-form-field>
-                                  <mat-error class="error-message mat-body-1 center-align" *ngIf="companyName.touched && !companyName.valid">
-                                      <mat-error *ngIf="companyName.errors.required">Company Name is Required</mat-error>
+                                  <input matInput placeholder="User Name" type="text" name="username" #userName="ngModel" [(ngModel)]="currentCompany.userName" required>
+                                </mat-form-field>
+                                <mat-error class="error-message mat-body-1 center-align" *ngIf="userName.touched && !userName.valid">
+                                    <mat-error *ngIf="userName.errors.required">User Name is Required</mat-error>
+                              
+                                    </mat-error>
+                            </div>
+
+                        </div>
+                        <div fxLayout="row" fxLayoutGap="10px" fxLayout.xs="column">
+                            <div fxFlex="50" class="example-container">
+                              <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Email Address" type="email" name="email" #Email="ngModel" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" [(ngModel)]="currentCompany.email" required>
                                 
-                                      </mat-error>
-                              </div>
-                             
-                              <div fxFlex="40" class="example-container">
-                                  <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="User Name" type="text" name="username" #userName="ngModel" [(ngModel)]="currentCompany.userName" required>
-                                  </mat-form-field>
-                                  <mat-error class="error-message mat-body-1 center-align" *ngIf="userName.touched && !userName.valid">
-                                      <mat-error *ngIf="userName.errors.required">User Name is Required</mat-error>
-                                
-                                      </mat-error>
-                              </div>
-                              <div fxFlex="20" class="example-container">
-                                  <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Tin Number" type="text" name="tin" [(ngModel)]="currentCompany.tin">
-                                  </mat-form-field>
-                              </div>
+                              </mat-form-field>
+                              <mat-error class="error-message mat-body-1 center-align" *ngIf="Email.touched && !Email.valid">
+                                  <mat-error *ngIf="Email.errors.required">Email is Required</mat-error>
+                                  <mat-error *ngIf="Email.errors.pattern">Not Valid Email</mat-error>
+                            </mat-error>
+                            </div>
+                            <div fxFlex="50" class="example-container">
+                              <mat-form-field class="example-full-width">
+                                  <span matPrefix>+91 &nbsp;</span>
+                                <input matInput placeholder="Phone Number" type="number" name="phonenumber" maxlength="10" [(ngModel)]="currentCompany.phoneNumber">
+                                <mat-icon matSuffix>mode_edit</mat-icon>
+                              </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxLayout="row" fxLayoutGap="10px" fxLayout.xs="column">
+                            <div fxFlex="50" class="example-container">
+                              <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Address" type="text" name="address" [(ngModel)]="currentCompany.address">
+                              </mat-form-field>
+                            </div>
+                            <div fxFlex="50" class="example-container">
+                              <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Tin Number" type="text" name="tin" [(ngModel)]="currentCompany.tin">
+                              </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxLayoutGap="10px" fxLayout="column" style="margin: 10px 0 7px 0;">
+                          <div fxFlex="100">
+                            <h6 style="padding-left: 10px; margin-bottom: 0;"><b>Change Password</b></h6>
                           </div>
-                          <div fxLayout="row" fxLayoutGap="10px" fxLayout.xs="column">
-                              <div fxFlex="40" class="example-container">
-                                <mat-form-field class="example-full-width">
-                                  <input matInput placeholder="Email Address" type="email" name="email" #Email="ngModel" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" [(ngModel)]="currentCompany.email" required>
-                                 
+                          <div fxFlex="100">
+                            <div fxLayout="row" fxLayoutGap="10px">
+                              <div fxFlex="33.5"  class="example-container">
+                                <mat-form-field class="full-width">
+                                  <input matInput placeholder="Current Password" [type]="hide ? 'password' : 'text'" name="currentPassword" [(ngModel)]="currentCompany.currentPassword">
+                                  <mat-icon class="cursor" matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon> 
                                 </mat-form-field>
-                                <mat-error class="error-message mat-body-1 center-align" *ngIf="Email.touched && !Email.valid">
-                                    <mat-error *ngIf="Email.errors.required">Email is Required</mat-error>
-                                    <mat-error *ngIf="Email.errors.pattern">Not Valid Email</mat-error>
-                              </mat-error>
                               </div>
-                              <div fxFlex="60"  class="example-container">
-                              <div fxLayout.xs="row" fxLayoutGap="10px">
-                              <div fxFlex="60" fxFlex.xs="50" class="example-container">
-                                <mat-form-field class="example-full-width">
-                                  <input matInput placeholder="Password" (keyup)="passwordtextchanged($event)" [type]="hide ? 'password' : 'text'" name="password" [(ngModel)]="currentCompany.password" [disabled]="passwordDisabled" required>
-                                  <mat-icon class="cursor" [hidden]="eyeicon" matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon> 
+                              <div fxFlex="33.5"  class="example-container">
+                                <mat-form-field class="full-width">
+                                  <input matInput placeholder="New Password" [type]="hide ? 'password' : 'text'" name="newPassword" [(ngModel)]="currentCompany.newPassword">
+                                  <mat-icon class="cursor" matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon> 
                                 </mat-form-field>
-                                <mat-error *ngIf="password_error" class="error-message mat-body-1 center-align">
-                                   Password is Required
-                              </mat-error>
                               </div>
-                              <div fxFlex="40" fxFlex.xs="50" class="example-container">
-                                  
-                                      <button mat-raised-button color="primary" class="mat-subheading-2 button-style" (click)="OnChangePassword()">Change Password</button>
-                                
-                                </div>
+                              <div fxFlex="33.5" class="example-container">
+                                <mat-form-field class="full-width">
+                                    <input matInput placeholder="Confirm New Password" [type]="hide ? 'password' : 'text'" name="cnfNewPassword" [(ngModel)]="currentCompany.cnfNewPassword">
+                                    <mat-icon class="cursor" matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                                  </mat-form-field>
                               </div>
                             </div>
                           </div>
-                          <div fxLayout="row" fxLayoutGap="10px" fxLayout.xs="column">
-                              <div fxFlex="50" class="example-container">
-                                <mat-form-field class="example-full-width">
-                                  <input matInput placeholder="Address" type="text" name="address" [(ngModel)]="currentCompany.address" #Address="ngModel" required>
-                                </mat-form-field>
-                                <mat-error class="error-message mat-body-1 center-align" *ngIf="Address.touched && !Address.valid">
-                                    <mat-error *ngIf="Address.errors.required">Address is Required</mat-error>
-                              </mat-error>
-                              </div>
-                              <div fxFlex="50" class="example-container">
-                                  <mat-form-field class="example-full-width">
-                                      <span matPrefix>+91 &nbsp;</span>
-                                    <input matInput placeholder="Phone Number" type="tel" name="phonenumber" maxlength="10" [(ngModel)]="currentCompany.phoneNumber" #phoneNumber="ngModel" required>
-                                    <mat-icon matSuffix>mode_edit</mat-icon>
-                                  </mat-form-field>
-                                  <mat-error class="error-message mat-body-1 center-align" *ngIf="phoneNumber.touched && !phoneNumber.valid">
-                                      <mat-error *ngIf="phoneNumber.errors.required">phoneNumber is Required</mat-error>
-                                </mat-error>
-                                </div>
-                          </div>
-                          <!-- <div fxLayout="row" fxLayoutGap="10px">
-                              <div fxFlex="100" class="example-container file_margin">
-                               
-                                  <input type="file" (change)="onFileChange($event)" name="file" id="file">
-        
-                              </div>
-                          </div> -->
-                          <div fxLayout="row" fxLayoutAlign="start start">
-                            
-                              <div fxFlex="50">
-                                    <div fxFlex="100">
-                                            <button mat-raised-button type="submit" color="primary" (click)="UpdateProfile()" [disabled]="userForm.invalid">Update Profile</button>
-                                    </div>
-                                    <div fxFlex="100">
-                                            <button mat-raised-button type="submit" color="primary" (click)="back()">Back</button>
-                                    </div>
-                       
-                         
-                          </div>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start start">
                           
-                      </div>
-                         
-                          <div class="clearfix"></div>
+                          <div fxFlex="50" style="padding-left: 10px;">
+                            <button mat-raised-button style="margin-right: 10px;" type="submit" color="primary" (click)="UpdateProfile()" [disabled]="userForm.invalid">Update Profile</button>
+                            <button mat-raised-button type="submit" color="primary" (click)="back()">Back</button>
+                          </div>
+                        
+                        </div>
                       </form>
                   </div>
               </div>

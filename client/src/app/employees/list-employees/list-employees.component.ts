@@ -15,25 +15,27 @@ import { Admin } from 'src/app/models/admin';
   styleUrls: ['./list-employees.component.scss']
 })
 export class ListEmployeesComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'image','employeeid', 'employeeName', 'employeeEmail','address','mobileNumber','DOB','DOJ','adminAccess','edit'];
+  displayedColumns: string[] = ['position', 'avatar', 'employeeName', 'employeeEmail','address','mobileNumber','DOB','DOJ','adminAccess','edit'];
   public employees: Array<Employee> = [];
   editHidden:boolean=false;
   public dataSource = new MatTableDataSource<Employee>(this.employees);
-  Apiurl:string="";
   constructor(private employeeservice:EmployeeService,private loginservice:LoginService,private router:Router,private dialog?: MatDialog) { }
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  isLoading: boolean = false;
   ngOnInit() {
+    this.isLoading = true;
     this.loginservice.getUserName().subscribe((data:Admin)=>{
       if(data.Identifier==="employee"){
         this.editHidden=true;
       }
         this.employeeservice.getAllemployee().subscribe((resultData:Array<Employee>)=>{
+            this.isLoading = false;
           this.employees=resultData;
-          this.Apiurl=Utils.APIURL;
             this.dataSource = new MatTableDataSource<Employee>(this.employees);
             this.dataSource.paginator = this.paginator;
           },
           (err)=>{
+            this.isLoading = false;
             if(err instanceof HttpErrorResponse){
               if(err.status===401){
                 this.router.navigateByUrl('login');

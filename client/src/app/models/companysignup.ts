@@ -1,13 +1,16 @@
 export class CompanySignup{
     constructor(public uuid:string,
-        public companyname:string,
+        public companyName:string,
         public customid:number,
         public tin:string,
-        public username:string,
+        public userName:string,
         public email:string,
         public password:string,
         public address:string,
-        public phonenumber:string,
-        public userImage:string
+        public phoneNumber:string,
+        public avatar:string,
+        public currentPassword?: string,
+        public newPassword?: string,
+        public cnfNewPassword?: string,
         ){}
 }

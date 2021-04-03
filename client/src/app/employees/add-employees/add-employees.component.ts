@@ -14,16 +14,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-employees.component.scss']
 })
 export class AddEmployeesComponent implements OnInit {
-  dob:Date = new Date();
-  doj:Date = new Date();
-  hiddenDOJ:boolean=true;
+  dob:Date = null;
+  doj:Date = null;
   hide=true;
-  styleOne:boolean;
   selectedfile:File=null;
   companysignup:CompanySignup = null;
-  employee:Employee=new Employee("","",'','','','','',this.dob,this.doj,'','','',this.companysignup);
+  employee:Employee=new Employee("",'','','','','',this.dob,this.doj,'','','',this.companysignup);
   today = new Date();
   minDate = new Date(this.today);
+  isLoading: boolean = false;
   @ViewChild('nameInput') nameInput: MatInput;
   @ViewChild('nameSelect') nameSelect: ElementRef;
   constructor(private employeeservice:EmployeeService,private loginservice:LoginService,private router:Router,private snackBar:MatSnackBar) {
@@ -78,70 +77,68 @@ export class AddEmployeesComponent implements OnInit {
   addEvent(event: MatDatepickerInputEvent<Date>){
     var dobdate=event.value.getFullYear()+18;
     this.minDate = new Date(dobdate, 0, 1);
-    this.hiddenDOJ=false;
   }
   onFileChange(event) {
-   this.styleOne=true;
    this.countfilelength=event.target.files.length;
     this.selectedfile=<File>event.target.files[0];
     }
 
   OnSubmit(){
-    if(this.employee.DOB === undefined){
-      this.snackBar.open("Fill DOB Date Field",'Alert' ,{
+
+    if(!this.employee.DOB){
+      return this.snackBar.open("Fill Date of birth Field",'Alert' ,{
         duration:4000
      });
-    }else if(this.employee.DOJ === undefined){
-        this.snackBar.open("Fill DOJ Date Field",'Alert' ,{
+    }
+
+    if(!this.employee.DOJ){
+        return this.snackBar.open("Fill Date of joining Field",'Alert' ,{
           duration:4000
       })
     }
-    else{
-     this.employee.companySignUp=this.companysignup;
-   let formData=new FormData;
-      formData.append('avatar', this.selectedfile);
-      formData.append('employeeName', this.employee.employeeName);
-      formData.append('mobileNumber', this.employee.mobileNumber);
-     formData.append('employeeEmail', this.employee.employeeEmail);
-      formData.append('employeePassword', this.employee.employeePassword);
-      formData.append('address', this.employee.address);
-     formData.append('DOB', this.employee.DOB.toUTCString());
-      formData.append('DOJ', this.employee.DOJ.toUTCString());
-      formData.append('adminAccess',this.employee.adminAccess);
-      formData.append('uuid',this.employee.companySignUp.uuid);
-      this.employeeservice.addEmployee(formData)
-      .subscribe(
-        (response)=>{
-         this.styleOne=false;
-         this.selectedfile=null;
-         this.snackBar.open("Employee successfully Added",'Ok' ,{
+
+    this.employee.companySignUp=this.companysignup;
+    let formData=new FormData;
+    formData.append('avatar', this.selectedfile);
+    formData.append('employeeName', this.employee.employeeName);
+    formData.append('mobileNumber', this.employee.mobileNumber);
+    formData.append('employeeEmail', this.employee.employeeEmail);
+    formData.append('employeePassword', this.employee.employeePassword);
+    formData.append('address', this.employee.address);
+    formData.append('DOB', this.employee.DOB.toUTCString());
+    formData.append('DOJ', this.employee.DOJ.toUTCString());
+    formData.append('adminAccess',this.employee.adminAccess);
+    formData.append('uuid',this.employee.companySignUp.uuid);
+
+    this.isLoading = true;
+    this.employeeservice.addEmployee(formData).subscribe((response) => {
+        this.isLoading = false;
+        this.snackBar.open("Employee successfully Added",'Ok' ,{
            duration:3000
         });
+        this.employee = new Employee("",'','','','','',null,null,'','','',this.companysignup);
         this.nameInput.focus();
-        this.employee=new Employee("","",'','','','','',this.dob,this.doj,'','','',this.companysignup);
-       // this.employee=this.employee;
-        },
-        (err)=>{
-         if(err instanceof HttpErrorResponse){
-           if(err.status === 300){
-               this.snackBar.open(err.error.error,'Alert' ,{
-                 duration:3000
-              });
-              this.employee=err.error.data;
-              var DOBDate = new Date(err.error.data.DOB);
-              var DOJDate = new Date(err.error.data.DOJ);
-              this.employee.DOB=DOBDate;
-              this.employee.DOJ=DOJDate;
-               this.nameInput.focus();
-               const nameselect=<HTMLInputElement>this.nameSelect.nativeElement;
-               setTimeout(function() {  nameselect.select(); }, 50);
-           }else if(err.status === 401){
-            this.router.navigateByUrl('login');
-           }
-         }
+    },
+    (err) => {
+        if(err instanceof HttpErrorResponse){
+            this.isLoading = false;
+            if (err.status === 401) {
+                return this.router.navigateByUrl('login');
+            }
+
+            this.snackBar.open(err.error.error,'Alert' ,{
+                duration:3000
+            });
+
+            // this.employee=err.error.data;
+            // var DOBDate = new Date(err.error.data.DOB);
+            // var DOJDate = new Date(err.error.data.DOJ);
+            // this.employee.DOB=DOBDate;
+            // this.employee.DOJ=DOJDate;
+            // this.nameInput.focus();
+            // const nameselect=<HTMLInputElement>this.nameSelect.nativeElement;
+            // setTimeout(function() {  nameselect.select(); }, 50);
         }
-        
-        );
-    }
+    });
   }
 }

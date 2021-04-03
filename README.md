@@ -24,6 +24,9 @@ npm run client:install
 
 ## Development
 
+```shell
+cp .env-example .env
+```
 - For server
 ```shell
 npm run server

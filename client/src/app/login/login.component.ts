@@ -41,8 +41,9 @@ this.adminhide=false;
     this.loginservice.adminLogin(this.adminlogin)
         .subscribe((res:any) => {
             this.isLoading = false;
-            this.router.navigate(['/dashboard']);
+            localStorage.removeItem('token');
             localStorage.setItem('token',res.token);
+            this.router.navigateByUrl('/dashboard');
         },
         (err) => {
             if(err instanceof HttpErrorResponse) {
@@ -60,16 +61,14 @@ this.adminhide=false;
     this.loginservice.employeeLogin(this.employeelogin)
     .subscribe((res:any)=>{
         this.isLoading = false;
-       if(res.Identifier === "employee-admin"){
-        this.router.navigate(['/dashboard']);
+        localStorage.removeItem('token');
         localStorage.setItem('token',res.token);
-        // localStorage.setItem('Identifier',res.Identifier_User);
-        }else{
-        this.router.navigate(['/employees']);
-        localStorage.setItem('token',res.token);
-        
-        // this.auth.setLoggedIn(res.Identifier);
-       }
+
+        if(res.Identifier === "employee-admin") {
+            this.router.navigateByUrl('/dashboard');
+        } else {
+            this.router.navigateByUrl('/employees');
+        }
         
      },
      (err) => {

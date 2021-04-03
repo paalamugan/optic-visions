@@ -21,6 +21,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatDialogModule} from '@angular/material/dialog';
 import { AdminProfileComponent } from './admin-profile/admin-profile.component';
 import { EmployeeProfileComponent } from './employee-profile/employee-profile.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { AuthGuard } from '../guards/auth.guard';
 @NgModule({
 	imports: [
@@ -41,7 +42,8 @@ import { AuthGuard } from '../guards/auth.guard';
 		 MatTableModule,
 		 MatSnackBarModule,
 		 MatPaginatorModule,
-		 MatDialogModule
+		 MatDialogModule,
+         MatProgressSpinnerModule
 	],
 	declarations: [AdminProfileComponent, EmployeeProfileComponent],
 	providers:[AuthGuard],

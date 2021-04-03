@@ -6,16 +6,6 @@ module.exports = (sequelize, Datatypes, options = {}) => {
             defaultValue: Datatypes.UUIDV1,
             primaryKey: true
         },
-        employeeId:{
-            type:Datatypes.STRING,
-           
-           // autoIncrement: true,
-            allowNull:false
-        },
-        customid:{
-            type:Datatypes.INTEGER,
-            allowNull:false
-       },
         employeeName:{
             type:Datatypes.STRING,
             allowNull:false
@@ -43,7 +33,7 @@ module.exports = (sequelize, Datatypes, options = {}) => {
         },
         adminAccess:{
             type:Datatypes.ENUM,
-            values:['yes','no']
+            values:['Yes','No']
         },
         avatar:{
             type:Datatypes.STRING

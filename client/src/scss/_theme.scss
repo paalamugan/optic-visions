@@ -100,10 +100,12 @@ body{
 
 .loader-container {
     background-color: #e0e0e0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 2000;
     position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2000;
 
     -moz-animation: cssAnimation 1s ease-in 3s forwards;
     /* Firefox */

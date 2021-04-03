@@ -17,7 +17,7 @@ export class EmployeeProfileComponent implements OnInit {
   company:CompanySignup = null;
   doj:Date = new Date();
   dob:Date = new Date();
-employee:Employee=new Employee('','','','','','','',this.doj,this.dob,'','','',this.company);
+employee:Employee=new Employee('','','','','','',this.doj,this.dob,'','','',this.company);
 Identifier:string;
 userName:string;
 companyName:string;

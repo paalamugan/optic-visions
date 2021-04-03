@@ -53,12 +53,13 @@ export class UserMenuComponent implements OnInit {
     );
   }
   nagivateurl(){
-   this.router.navigate([this.profileURL]);
+    this.router.navigate([this.profileURL]);
     this.isOpen=false;
   }
   logout(){
-   localStorage.removeItem('token');
-  //  localStorage.removeItem('Identifier');
-this.router.navigate(['/login']);
+    localStorage.removeItem('token');
+    this.loginservice.resetUserName();
+    //localStorage.removeItem('Identifier');
+    this.router.navigate(['/login']);
   }
 }

@@ -25,6 +25,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptorService } from '../guards/token-interceptor.service';
 import {MatDialogModule} from '@angular/material/dialog';
 import { EditEmployeesComponent } from './edit-employees/edit-employees.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 @NgModule({
 	imports: [
 		CommonModule,
@@ -44,7 +45,8 @@ import { EditEmployeesComponent } from './edit-employees/edit-employees.componen
 		 MatTableModule,
 		 MatSnackBarModule,
 		 MatPaginatorModule,
-		 MatDialogModule
+		 MatDialogModule,
+         MatProgressSpinnerModule
 	],
 	declarations: [AddEmployeesComponent, ListEmployeesComponent,EditEmployeesComponent],
 	providers:[AuthGuard],

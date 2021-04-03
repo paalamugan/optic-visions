@@ -25,6 +25,11 @@ export class LoginService {
   employeeLogin(employeelogin:EmployeeLogin){
     return this.httpClient.post(`${Utils.employeeLoginURL()}`,employeelogin);
   }
+
+  resetUserName() {
+    this.currentUser = null;
+  }
+  
   getUserName() {
 
       if (this.currentUser) {
