@@ -92,11 +92,8 @@ var RegisterComponent = /** @class */ (function () {
             //     Validators.required,
             //     passValidator
             //  ])],
-            address: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]],
-            phoneNumber: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].compose([
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].minLength(10),
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].pattern('^[0-9]*$') //this is for the number with  validation
-                ])],
+            address: [''],
+            phoneNumber: [''],
         });
         // this.Registeration = new FormGroup({
         //   companyName: new FormControl(null, Validators.required),

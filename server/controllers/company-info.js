@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const { CompanyUserInfo, SigninInfo, ForgetPassword, Sequelize } = require('../models');
 const Op = Sequelize.Op;
 
-const { sendRegisterMail } = require("../common/mailer");
+const { sendRegisterMail, sendForgetPasswordMail } = require("../common/mailer");
 const { getToken } = require("../common/utils");
 
 const saltRounds = 10;
@@ -120,21 +120,28 @@ exports.ForgetPassword = async (req, res, next) => {
 
     if (!forgetpass) {
         result = await ForgetPassword.create({ tempPassword: tempPassword, fk_companyid: admin.uuid });
+        forgetpass = result.dataValues;
     } else {
-        result = await ForgetPassword.update({ tempPassword: tempPassword }, { where: { fk_companyid: admin.uuid }});
+        result = await ForgetPassword.update({ tempPassword: tempPassword }, { where: { fk_companyid: admin.uuid }, returning: true, plain: true });
+        forgetpass = result[1].dataValues;
     }
 
-    await sendForgetPasswordMail(user.email, { userName: user.userName, tempPassword: result.tempPassword, uuid: result.uuid });
+    await sendForgetPasswordMail(admin.email, { userName: admin.userName, tempPassword: forgetpass.tempPassword, uuid: forgetpass.uuid });
+
     return res.json({ success: true });
 
 };
 
 exports.GetForgetPassword = async (req, res, next) => {
 
-    let data = await ForgetPassword.findById(req.params.id);
+    if (!req.params.id) {
+        throw new Error("Id is missing")
+    }
+
+    let data = await ForgetPassword.findByPk(req.params.id);
 
     if (!data) {
-        let err = new Error("No Record Found");
+        let err = new Error("No Record Found.");
         err.status = 403;
         return next(err);
     }
@@ -148,7 +155,7 @@ exports.UpdateForgetPassword = async (req, res, next) => {
         throw new Error("Id is missing");
     }
 
-    let company = await CompanyUserInfo.findById(req.params.id);
+    let company = await CompanyUserInfo.findByPk(req.params.id);
 
     if (!company) {
       throw new Error("No Data found!");
@@ -206,6 +213,10 @@ exports.updateDetails = async (req, res, next) => {
         return next(new Error("No record avaiable for :" + req.params.companyName));
     }
 
+    if (body.currentPassword && !body.newPassword) {
+        return next(new Error("New Password is missing!"));
+    }
+    
     if (body.currentPassword && body.newPassword) {
 
         let result = await bcrypt.compare(body.currentPassword, companydetail.password);

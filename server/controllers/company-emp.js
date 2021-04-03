@@ -54,7 +54,7 @@ exports.Employeelogin = async(req, res, next) => {
         return next(new Error('Email is not Registerd'));
     }
 
-    const employeeValue = employeedetail.adminAccess === 'yes' ? 'employee-admin' : 'employee';
+    const employeeValue = employeedetail.adminAccess === 'Yes' ? 'employee-admin' : 'employee';
 
     let comparePassword = await bcrypt.compare(body.password, employeedetail.employeePassword);
 
@@ -104,7 +104,7 @@ exports.updateEmpDetails = async(req, res, next) => {
     let employee = await CompanyEmpInfo.findOne({ where: { uuid: req.params.id }});
 
     if (!employee) {
-        return next(new Error("No record Found"));
+        return next(new Error("No record Found."));
     }
 
     if (body.employeePassword) {

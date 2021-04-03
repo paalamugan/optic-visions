@@ -126,5 +126,5 @@ exports.sendForgetPasswordMail = async (to, data) => {
         data: data
     }
 
-    return await sendToMail("forget-passowrd", body);
+    return await sendToMail("forget-password", body);
 }

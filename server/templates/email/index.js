@@ -68,7 +68,7 @@ const emailTemplate = async (templateName, templateData) => {
         throw new Error(`Invalid template name: ${templateName}!. template name must be mention inside data.js file.`);
     }
 
-    templateData = getTemplateData(_.assign(templateObj, templateData));
+    templateData = getTemplateData(_.assign({}, templateObj, templateData));
 
     try {
         let html = email.render(templateName, templateData);
