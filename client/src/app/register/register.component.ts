@@ -60,11 +60,12 @@ export class RegisterComponent implements OnInit {
 //     Validators.required,
 //     passValidator
 //  ])],
-  address: ['',[Validators.required]],
-  phoneNumber: ['',Validators.compose([
-    Validators.minLength(10),
-    Validators.pattern('^[0-9]*$') //this is for the number with  validation
- ])],
+  address: [''],
+  phoneNumber: [''],
+//   phoneNumber: ['',Validators.compose([
+//     Validators.minLength(10),
+//     Validators.pattern('^[0-9]*$') //this is for the number with  validation
+//  ])],
 })
   ngOnInit() {
     ;( function ( document, window, index )

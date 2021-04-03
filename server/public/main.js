@@ -651,7 +651,7 @@ var ForgetPassword_validation_messages = {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div fxLayout=\"column\" fxFlexFill fxLayoutAlign=\"center center\" style=\"background-color:whitesmoke\">\n\t\n    <mat-card style=\"min-width: 45%;\">\n     \n        <mat-card-title  style=\"text-align:center\" class=\"opticvision\">\n           \n              <img src=\"assets/camera.png\" width=\"50px\"> \n              <span>ptic Visions</span>\n         \n          </mat-card-title>\n          <mat-card-content class=\"opticvision_1\">\n            \t<h3 class=\"heading_1\">FORGET PASSWORD Block</h3>\n              <form [hidden]=\"content_hide\" [formGroup]=\"UpdatePasswordForm\"  class=\"example-container\" fxLayout=\"column\" fxLayoutAlign=\"start stretch\" #passwordForm=\"ngForm\">\n                  <mat-form-field>\n                      <input matInput placeholder=\"Temporary Password\" formControlName=\"tempPassword\"  name =\"temppassword\" required>\n                      <mat-error *ngFor=\"let validation of ForgetPassword_validation_messages.temppassword\">\n                        <mat-error class=\"error-message\" *ngIf=\"UpdatePasswordForm.get('tempPassword').hasError(validation.type) && (UpdatePasswordForm.get('tempPassword').dirty || UpdatePasswordForm.get('tempPassword').touched)\">{{validation.message}}</mat-error>\n                      </mat-error>\n                      </mat-form-field>\n                    <!-- <div class=\"mat-body-1 center-align\" *ngIf=\"temppassword.touched && !temppassword.valid\">\n                    <div *ngIf=\"temppassword.errors.required\">Field is Required</div>\n              \n                    </div> -->\n                  <mat-form-field>\n                    <input matInput placeholder=\" Enter New Password\" [type]=\"hide ? 'password' : 'text'\" name=\"password\" formControlName=\"newPassword\" required>\n                      <mat-icon matSuffix class=\"cursor\" (click)=\"hide = !hide\">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon> \n                      <mat-error *ngFor=\"let validation of ForgetPassword_validation_messages.password\">\n                        <mat-error class=\"error-message\" *ngIf=\"UpdatePasswordForm.get('newPassword').hasError(validation.type) && (UpdatePasswordForm.get('newPassword').dirty || UpdatePasswordForm.get('newPassword').touched)\">{{validation.message}}</mat-error>\n                      </mat-error>\n                    </mat-form-field>\n                    <!-- <div class=\"mat-body-1 center-align\" *ngIf=\"Password.touched && !Password.valid\">\n                      <div *ngIf=\"Password.errors.required\">Password is Required</div>\n                \n                    </div> -->\n                      <mat-form-field>\n                          <input matInput placeholder=\"Repeat New Password\" [type]=\"hide1 ? 'password' : 'text'\" name=\"cnfpassword\" formControlName=\"cnfPassword\"  required>\n                            <mat-icon matSuffix class=\"cursor\" (click)=\"hide1 = !hide1\">{{hide1 ? 'visibility' : 'visibility_off'}}</mat-icon>\n                            <mat-error *ngFor=\"let validation of ForgetPassword_validation_messages.confirm_password\">\n                              <mat-error class=\"error-message\" *ngIf=\"(UpdatePasswordForm.get('cnfPassword').hasError(validation.type)|| UpdatePasswordForm.get('newPassword').hasError(validation.type)) && (UpdatePasswordForm.get('cnfPassword').dirty || UpdatePasswordForm.get('cnfPassword').touched)\">{{validation.message}}</mat-error>\n                            </mat-error> \n                          </mat-form-field>\n                          <!-- <div class=\"mat-body-1 center-align\" *ngIf=\"cnfPassword.touched && !cnfPassword.valid\">\n                            <div *ngIf=\"cnfPassword.errors.required\">Confirm Password is Required</div>\n                            <div *ngIf=\"confirmpassworderror\">Password is Not Match</div>\n                           </div> -->\n                          \n                <button mat-raised-button color=\"primary\" type=\"submit\" class=\"login\" [disabled]=\"passwordForm.invalid\" (click)=\"OnChangePassword()\">Change Password</button>\n                    </form>\n              <h5>{{noRecord}}</h5>\n            </mat-card-content>\n         \n    </mat-card>\n    \n  </div>"
+module.exports = "<div fxLayout=\"column\" fxFlexFill fxLayoutAlign=\"center center\" style=\"background-color:whitesmoke\">\n\t\n    <mat-card style=\"min-width: 45%;\">\n      <div class=\"example-loading-shade\" *ngIf=\"isLoading\">\n        <mat-spinner></mat-spinner>\n      </div>\n        <mat-card-title  style=\"text-align:center\" class=\"opticvision\">\n           \n              <img src=\"assets/camera.png\" width=\"50px\"> \n              <span>ptic Visions</span>\n         \n          </mat-card-title>\n          <mat-card-content class=\"opticvision_1\">\n            \t<h3 class=\"heading_1\">FORGET PASSWORD Block</h3>\n              <form [hidden]=\"content_hide\" [formGroup]=\"UpdatePasswordForm\"  class=\"example-container\" fxLayout=\"column\" fxLayoutAlign=\"start stretch\" #passwordForm=\"ngForm\">\n                  <mat-form-field>\n                      <input matInput placeholder=\"Temporary Password\" formControlName=\"tempPassword\"  name =\"temppassword\" required>\n                      <mat-error *ngFor=\"let validation of ForgetPassword_validation_messages.temppassword\">\n                        <mat-error class=\"error-message\" *ngIf=\"UpdatePasswordForm.get('tempPassword').hasError(validation.type) && (UpdatePasswordForm.get('tempPassword').dirty || UpdatePasswordForm.get('tempPassword').touched)\">{{validation.message}}</mat-error>\n                      </mat-error>\n                      </mat-form-field>\n                    <!-- <div class=\"mat-body-1 center-align\" *ngIf=\"temppassword.touched && !temppassword.valid\">\n                    <div *ngIf=\"temppassword.errors.required\">Field is Required</div>\n              \n                    </div> -->\n                  <mat-form-field>\n                    <input matInput placeholder=\" Enter New Password\" [type]=\"hide ? 'password' : 'text'\" name=\"password\" formControlName=\"newPassword\" required>\n                      <mat-icon matSuffix class=\"cursor\" (click)=\"hide = !hide\">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon> \n                      <mat-error *ngFor=\"let validation of ForgetPassword_validation_messages.password\">\n                        <mat-error class=\"error-message\" *ngIf=\"UpdatePasswordForm.get('newPassword').hasError(validation.type) && (UpdatePasswordForm.get('newPassword').dirty || UpdatePasswordForm.get('newPassword').touched)\">{{validation.message}}</mat-error>\n                      </mat-error>\n                    </mat-form-field>\n                    <!-- <div class=\"mat-body-1 center-align\" *ngIf=\"Password.touched && !Password.valid\">\n                      <div *ngIf=\"Password.errors.required\">Password is Required</div>\n                \n                    </div> -->\n                      <mat-form-field>\n                          <input matInput placeholder=\"Repeat New Password\" [type]=\"hide1 ? 'password' : 'text'\" name=\"cnfpassword\" formControlName=\"cnfPassword\"  required>\n                            <mat-icon matSuffix class=\"cursor\" (click)=\"hide1 = !hide1\">{{hide1 ? 'visibility' : 'visibility_off'}}</mat-icon>\n                            <mat-error *ngFor=\"let validation of ForgetPassword_validation_messages.confirm_password\">\n                              <mat-error class=\"error-message\" *ngIf=\"(UpdatePasswordForm.get('cnfPassword').hasError(validation.type)|| UpdatePasswordForm.get('newPassword').hasError(validation.type)) && (UpdatePasswordForm.get('cnfPassword').dirty || UpdatePasswordForm.get('cnfPassword').touched)\">{{validation.message}}</mat-error>\n                            </mat-error> \n                          </mat-form-field>\n                          <!-- <div class=\"mat-body-1 center-align\" *ngIf=\"cnfPassword.touched && !cnfPassword.valid\">\n                            <div *ngIf=\"cnfPassword.errors.required\">Confirm Password is Required</div>\n                            <div *ngIf=\"confirmpassworderror\">Password is Not Match</div>\n                           </div> -->\n                          \n                <button mat-raised-button color=\"primary\" type=\"submit\" class=\"login\" [disabled]=\"passwordForm.invalid\" (click)=\"OnChangePassword()\">Change Password</button>\n                    </form>\n              <h4 [style.textAlign]=\"'center'\">{{noRecord}}</h4>\n            </mat-card-content>\n         \n    </mat-card>\n    \n  </div>"
 
 /***/ }),
 
@@ -711,6 +711,7 @@ var ForgetPasswordComponent = /** @class */ (function () {
         this.ForgetPassword_validation_messages = src_app_custom_validators_custom_validator__WEBPACK_IMPORTED_MODULE_5__["ForgetPassword_validation_messages"];
         this.content_hide = false;
         this.noRecord = '';
+        this.isLoading = false;
         this.UpdatePasswordForm = this.fb.group({
             tempPassword: [null, [_angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required]],
             newPassword: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].compose([
@@ -729,15 +730,18 @@ var ForgetPasswordComponent = /** @class */ (function () {
     ForgetPasswordComponent.prototype.ngOnInit = function () {
         var _this = this;
         var id = this.route.snapshot.params['uuid'];
+        this.isLoading = true;
         this.loginservice.getforgetPassword(id).subscribe(function (data) {
+            _this.isLoading = false;
             _this.forgetpassword = data;
         }, function (err) {
             if (err instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpErrorResponse"]) {
-                if (err.status == 300) {
-                    _this.content_hide = true;
-                    _this.noRecord = err.error;
+                _this.isLoading = false;
+                if (err.status === 401) {
                     _this.router.navigateByUrl('login');
                 }
+                _this.content_hide = true;
+                _this.noRecord = err.error.error;
             }
         });
     };
@@ -752,9 +756,18 @@ var ForgetPasswordComponent = /** @class */ (function () {
                 fk_companyid: this.forgetpassword.fk_companyid,
                 uuid: this.forgetpassword.uuid
             });
+            this.isLoading = true;
             this.loginservice.updateforgetPassword(this.UpdatePasswordForm.value).subscribe(function (data) {
+                _this.isLoading = false;
                 if (data.success) {
                     _this.router.navigateByUrl('login');
+                }
+            }, function (err) {
+                if (err instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpErrorResponse"]) {
+                    _this.isLoading = false;
+                    _this.snackbar.open(err.error.error, "Alert", {
+                        duration: 4000
+                    });
                 }
             });
         }

@@ -19,20 +19,24 @@ ForgetPassword_validation_messages=ForgetPassword_validation_messages;
 forgetpassword:ForgetPassword;
 content_hide:boolean=false;
 noRecord:string='';
+isLoading: boolean = false;
   constructor(private route:ActivatedRoute, private router:Router,private loginservice:LoginService,private fb:FormBuilder,private snackbar:MatSnackBar) { }
 
   ngOnInit() {
     let id=this.route.snapshot.params['uuid'];
+    this.isLoading = true;
     this.loginservice.getforgetPassword(id).subscribe((data:ForgetPassword)=>{
+        this.isLoading = false;
       this.forgetpassword=data;
     },
     (err)=>{
       if(err instanceof HttpErrorResponse){
-        if(err.status==300){
-          this.content_hide=true;
-          this.noRecord=err.error;
+        this.isLoading = false;
+        if(err.status === 401){
           this.router.navigateByUrl('login');
         }
+        this.content_hide=true;
+        this.noRecord=err.error.error;
       }
     }
     )
@@ -52,26 +56,36 @@ noRecord:string='';
    fk_companyid: [''],
    uuid:['']
   })
-  emptyvalue:string;
-  OnChangePassword(){
-    this.emptyvalue=this.UpdatePasswordForm.get('tempPassword').value;
-    if(this.forgetpassword.tempPassword===this.emptyvalue){
-      this.UpdatePasswordForm.setValue({
-        tempPassword:this.UpdatePasswordForm.get('tempPassword').value,
-        newPassword:this.UpdatePasswordForm.get('newPassword').value,
-        cnfPassword:this.UpdatePasswordForm.get('cnfPassword').value,
-        fk_companyid:this.forgetpassword.fk_companyid,
-        uuid:this.forgetpassword.uuid
-      })
-this.loginservice.updateforgetPassword(this.UpdatePasswordForm.value).subscribe((data:any)=>{
-  if(data.success){
-    this.router.navigateByUrl('login');
-  }
-})
-    }else{
-this.snackbar.open("Temporary Password is Wrong","Alert",{
-  duration:4000
-})
+    emptyvalue:string;
+    OnChangePassword() {
+        this.emptyvalue=this.UpdatePasswordForm.get('tempPassword').value;
+        if(this.forgetpassword.tempPassword===this.emptyvalue){
+            this.UpdatePasswordForm.setValue({
+                tempPassword:this.UpdatePasswordForm.get('tempPassword').value,
+                newPassword:this.UpdatePasswordForm.get('newPassword').value,
+                cnfPassword:this.UpdatePasswordForm.get('cnfPassword').value,
+                fk_companyid:this.forgetpassword.fk_companyid,
+                uuid:this.forgetpassword.uuid
+            })
+            this.isLoading = true;
+            this.loginservice.updateforgetPassword(this.UpdatePasswordForm.value).subscribe((data:any)=>{
+                this.isLoading = false;
+                if(data.success){
+                    this.router.navigateByUrl('login');
+                }
+            },
+            (err)=>{
+                if(err instanceof HttpErrorResponse){
+                    this.isLoading = false;
+                    this.snackbar.open(err.error.error,"Alert",{
+                        duration:4000
+                    })
+                }
+            })
+        } else{
+            this.snackbar.open("Temporary Password is Wrong","Alert",{
+                duration:4000
+            })
+        }
     }
-  }
 }

@@ -31,16 +31,12 @@ exports.getAllBrand = async(req,res) =>{
 }
 
 exports.deleteBrand = async(req,res)=>{
-    await Brand.destroy({
-        where: { uuid: req.params.uuid }
-      }).then(() => {
-        return  res.send({success:true});
-      }).catch(err=>{
-        return res.status(401).send("UnAuthorized Request");
-      });
+    await Brand.destroy({ where: { uuid: req.params.uuid }})
+        
+    return  res.json({ success:true });
     // console.log(Id);
     // return Brand
-    // .findById(Id)
+    // .findByPk(Id)
     // .then(brand => {
     //   if (!brand) {
     //     return res.status(400).send({

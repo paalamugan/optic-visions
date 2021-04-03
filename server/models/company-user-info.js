@@ -8,10 +8,6 @@ module.exports = (sequelize, Datatypes, options = {}) => {
             primaryKey: true
         },
 
-        customId: {
-            type :Datatypes.INTEGER
-        },
-
         companyName: {
             type :Datatypes.STRING,
             allowNull: false

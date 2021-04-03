@@ -151,7 +151,7 @@ var LoginComponent = /** @class */ (function () {
     };
     LoginComponent.prototype.forgetPassword = function () {
         var _this = this;
-        if (this.adminlogin.email != "") {
+        if (this.adminlogin.email) {
             this.isLoading = true;
             this.loginservice.forgetPassword(this.adminlogin)
                 .subscribe(function (data) {
@@ -168,8 +168,6 @@ var LoginComponent = /** @class */ (function () {
                         duration: 3000
                     });
                 }
-            }, function () {
-                _this.isLoading = false;
             });
         }
         else {

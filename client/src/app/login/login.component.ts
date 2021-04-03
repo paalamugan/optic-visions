@@ -115,7 +115,7 @@ this.adminhide=false;
     });
 }
   forgetPassword(){
-    if(this.adminlogin.email != ""){
+    if(this.adminlogin.email){
         this.isLoading = true;
       this.loginservice.forgetPassword(this.adminlogin)
       .subscribe(
@@ -134,9 +134,6 @@ this.adminhide=false;
                     duration:3000
             });
         }
-    },
-    () => {
-        this.isLoading = false;
     });
     }else{
       this.snackBar.open('Email Field is Not Empty','Alert',{
