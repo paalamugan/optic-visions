@@ -760,6 +760,7 @@ var ForgetPasswordComponent = /** @class */ (function () {
             this.loginservice.updateforgetPassword(this.UpdatePasswordForm.value).subscribe(function (data) {
                 _this.isLoading = false;
                 if (data.success) {
+                    _this.loginservice.resetUserName();
                     _this.router.navigateByUrl('login');
                 }
             }, function (err) {
@@ -934,6 +935,7 @@ var LoginService = /** @class */ (function () {
     };
     LoginService.prototype.resetUserName = function () {
         this.currentUser = null;
+        _utils__WEBPACK_IMPORTED_MODULE_2__["Utils"].isLoggedOut();
     };
     LoginService.prototype.getUserName = function () {
         var _this = this;
@@ -2137,7 +2139,6 @@ var UserMenuComponent = /** @class */ (function () {
         this.isOpen = false;
     };
     UserMenuComponent.prototype.logout = function () {
-        localStorage.removeItem('token');
         this.loginservice.resetUserName();
         //localStorage.removeItem('Identifier');
         this.router.navigate(['/login']);
