@@ -1,5 +1,8 @@
 <div class="main-content">
     <div class="container-fluid">
+      <div class="example-loading-shade" *ngIf="isLoading">
+        <mat-spinner></mat-spinner>
+      </div>
         <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="20px" fxLayout.xs="column">
             <div fxFlex="30">
                 <div class="card card-profile">

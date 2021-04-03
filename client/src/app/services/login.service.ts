@@ -28,6 +28,7 @@ export class LoginService {
 
   resetUserName() {
     this.currentUser = null;
+    Utils.isLoggedOut();
   }
   
   getUserName() {

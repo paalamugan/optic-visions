@@ -93,7 +93,8 @@ adminshow_2:boolean=true;
       this.signupService.UpdateCompany(this.currentCompany).subscribe(
         (resultData:any)=>{
             this.isLoading = false;
-        this.router.navigateByUrl('login');
+            this.loginservice.resetUserName();
+            this.router.navigateByUrl('login');
         },
         (err)=>{
           if(err instanceof HttpErrorResponse){
@@ -116,16 +117,21 @@ adminshow_2:boolean=true;
   }
   deleteProfile(){
     if(confirm('Are You Sure to Delete this Company ?') === true){
+        this.isLoading = true;
       this.signupService.deleteCompany(this.profile.companyId).subscribe(data=>{
+        this.isLoading = false;
+        this.loginservice.resetUserName();
         this.router.navigateByUrl('login');
        },
        
        (err)=>{
+        this.isLoading = false;
         if(err instanceof HttpErrorResponse){
             this.snackBar.open(err.error.error, "Error", {
                 duration: 5000,
             });
           if(err.status===401){
+            this.loginservice.resetUserName();
           this.router.navigateByUrl('login');
           }
         }

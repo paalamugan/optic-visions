@@ -57,7 +57,6 @@ export class UserMenuComponent implements OnInit {
     this.isOpen=false;
   }
   logout(){
-    localStorage.removeItem('token');
     this.loginservice.resetUserName();
     //localStorage.removeItem('Identifier');
     this.router.navigate(['/login']);

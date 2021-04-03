@@ -52,12 +52,10 @@ this.adminhide=false;
                         duration:3000
                 });
             }
-        },
-        () => {
-            this.isLoading = false;
         });
   }
   loginEmployee() {
+      this.isLoading = true;
     this.loginservice.employeeLogin(this.employeelogin)
     .subscribe((res:any)=>{
         this.isLoading = false;
@@ -78,9 +76,6 @@ this.adminhide=false;
                     duration:3000
             });
         }
-    },
-    () => {
-        this.isLoading = false;
     });
 }
   signup(){

@@ -71,6 +71,7 @@ isLoading: boolean = false;
             this.loginservice.updateforgetPassword(this.UpdatePasswordForm.value).subscribe((data:any)=>{
                 this.isLoading = false;
                 if(data.success){
+                    this.loginservice.resetUserName();
                     this.router.navigateByUrl('login');
                 }
             },

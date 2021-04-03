@@ -93,12 +93,11 @@ var LoginComponent = /** @class */ (function () {
                     duration: 3000
                 });
             }
-        }, function () {
-            _this.isLoading = false;
         });
     };
     LoginComponent.prototype.loginEmployee = function () {
         var _this = this;
+        this.isLoading = true;
         this.loginservice.employeeLogin(this.employeelogin)
             .subscribe(function (res) {
             _this.isLoading = false;
@@ -117,8 +116,6 @@ var LoginComponent = /** @class */ (function () {
                     duration: 3000
                 });
             }
-        }, function () {
-            _this.isLoading = false;
         });
     };
     LoginComponent.prototype.signup = function () {

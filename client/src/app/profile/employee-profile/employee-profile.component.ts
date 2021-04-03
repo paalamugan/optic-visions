@@ -21,9 +21,12 @@ employee:Employee=new Employee('','','','','','',this.doj,this.dob,'','','',this
 Identifier:string;
 userName:string;
 companyName:string;
+isLoading: boolean = false;
 constructor(private loginservice:LoginService,private router:Router) { }
   ngOnInit() {
+      this.isLoading = true;
     this.loginservice.getUserName().subscribe((data:any)=>{
+        this.isLoading = false;
       if(data.Identifier=="employee" || data.Identifier=="employee-admin"){
         this.Identifier=data.Identifier;
         this.userName=data.userName;
@@ -35,6 +38,7 @@ constructor(private loginservice:LoginService,private router:Router) { }
      
     },
     (err)=>{
+        this.isLoading = false;
       if(err instanceof HttpErrorResponse){
         if(err.status===401){
           this.router.navigateByUrl('login');
