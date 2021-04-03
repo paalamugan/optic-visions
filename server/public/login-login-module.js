@@ -18,7 +18,7 @@ module.exports = "<div fxLayout=\"row\" fxLayoutAlign=\"center center\" style=\"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".redirect {\n  color: #607d8b; }\n\n.login {\n  font-size: 20px;\n  font-weight: bold;\n  color: white;\n  font-family: -webkit-body; }\n\n.forget {\n  color: dodgerblue;\n  text-align: right; }\n\n.opticvision {\n  font-size: 60px;\n  font-family: -webkit-body; }\n\n.opticvision span {\n  color: dodgerblue; }\n\n.mat-form-field {\n  font-size: 17px; }\n\n.form_bottom {\n  margin: 20px 0px; }\n\n.visionheight {\n  background-color: #ffffff; }\n\n@media only screen and (min-width: 1281px) {\n  .opticvision_1 {\n    font-size: 18px;\n    font-family: -webkit-body; } }\n\n@media only screen and (min-width: 768px) and (max-width: 1024px) {\n  .opticvision {\n    font-size: 30px;\n    font-family: -webkit-body; } }\n\n.heading_1 {\n  text-align: center;\n  color: #ffffff;\n  background-color: dodgerblue; }\n"
+module.exports = ".redirect {\n  color: #607d8b; }\n\n.login {\n  font-size: 20px;\n  font-weight: bold;\n  color: white;\n  font-family: -webkit-body;\n  margin: 5px 0; }\n\n.forget {\n  color: dodgerblue;\n  text-align: right; }\n\n.opticvision {\n  font-size: 60px;\n  font-family: -webkit-body; }\n\n.opticvision span {\n  color: dodgerblue; }\n\n.mat-form-field {\n  font-size: 17px; }\n\n.form_bottom {\n  margin: 20px 0px; }\n\n.visionheight {\n  background-color: #ffffff; }\n\n@media only screen and (min-width: 1281px) {\n  .opticvision_1 {\n    font-size: 18px;\n    font-family: -webkit-body; } }\n\n@media only screen and (min-width: 768px) and (max-width: 1024px) {\n  .opticvision {\n    font-size: 30px;\n    font-family: -webkit-body; } }\n\n.heading_1 {\n  text-align: center;\n  color: #ffffff;\n  background-color: dodgerblue; }\n"
 
 /***/ }),
 
@@ -83,8 +83,9 @@ var LoginComponent = /** @class */ (function () {
         this.loginservice.adminLogin(this.adminlogin)
             .subscribe(function (res) {
             _this.isLoading = false;
-            _this.router.navigate(['/dashboard']);
+            localStorage.removeItem('token');
             localStorage.setItem('token', res.token);
+            _this.router.navigateByUrl('/dashboard');
         }, function (err) {
             if (err instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpErrorResponse"]) {
                 _this.isLoading = false;
@@ -101,15 +102,13 @@ var LoginComponent = /** @class */ (function () {
         this.loginservice.employeeLogin(this.employeelogin)
             .subscribe(function (res) {
             _this.isLoading = false;
+            localStorage.removeItem('token');
+            localStorage.setItem('token', res.token);
             if (res.Identifier === "employee-admin") {
-                _this.router.navigate(['/dashboard']);
-                localStorage.setItem('token', res.token);
-                // localStorage.setItem('Identifier',res.Identifier_User);
+                _this.router.navigateByUrl('/dashboard');
             }
             else {
-                _this.router.navigate(['/employees']);
-                localStorage.setItem('token', res.token);
-                // this.auth.setLoggedIn(res.Identifier);
+                _this.router.navigateByUrl('/employees');
             }
         }, function (err) {
             if (err instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpErrorResponse"]) {

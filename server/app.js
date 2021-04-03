@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require("express");
 const morgan = require("morgan");
 const createError = require('http-errors');
@@ -209,7 +211,7 @@ app.use('/api/get/eyepowers', eyepowerroute);
 // Health check
 
 app.use('/api/health', function (req, res, next) {
-    res.send('OK');
+    res.status(200).send('OK');
 });
 
 // catch 404 and forward to error handler
@@ -220,9 +222,15 @@ app.use(function (req, res, next) {
 // error handler
 app.use(function (err, req, res, next) {
     // set locals, only providing error in development
+    let isDevelopment = req.app.get("env") === "development";
     res.locals.message = err.message;
-    res.locals.error = req.app.get("env") === "development" ? err : {};
+    res.locals.error = isDevelopment ? err : {};
     // render the error page
+
+    if (isDevelopment) {
+        console.error("error", err);
+    }
+
     res.status(err.status || 400);
     res.json({ error: err.message || err });
 });

@@ -182,8 +182,9 @@ exports.UpdateForgetPassword = async (req, res, next) => {
 
 exports.getDetails = async (req, res, next) => {
 
-    let companydetail = CompanyUserInfo.findOne({
+    let companydetail = await CompanyUserInfo.findOne({
         where: { uuid: req.params.id },
+        attributes: { exclude: ['password'] }
     });
 
     if (!companydetail) {

@@ -919,6 +919,9 @@ var LoginService = /** @class */ (function () {
     LoginService.prototype.employeeLogin = function (employeelogin) {
         return this.httpClient.post("" + _utils__WEBPACK_IMPORTED_MODULE_2__["Utils"].employeeLoginURL(), employeelogin);
     };
+    LoginService.prototype.resetUserName = function () {
+        this.currentUser = null;
+    };
     LoginService.prototype.getUserName = function () {
         var _this = this;
         if (this.currentUser) {
@@ -2122,7 +2125,8 @@ var UserMenuComponent = /** @class */ (function () {
     };
     UserMenuComponent.prototype.logout = function () {
         localStorage.removeItem('token');
-        //  localStorage.removeItem('Identifier');
+        this.loginservice.resetUserName();
+        //localStorage.removeItem('Identifier');
         this.router.navigate(['/login']);
     };
     __decorate([

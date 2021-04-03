@@ -15,12 +15,14 @@ module.exports = {
         fromOpticVisions: 'Optic Visions <support@opticvisions.com>'
     },
     sendgrid: { // all emails are delivered to destination (production)
-        host: 'smtp.sendgrid.net',
-        port: 587,
-        auth: {
-            user: process.env.SENDGRID_USERNAME,
-            pass: process.env.SENDGRID_PASSWORD
-        }
+        domain: 'mail.opticvisions.com',
+        apiKey: process.env.SENDGRID_API_KEY
+        // host: 'smtp.sendgrid.net',
+        // port: 587,
+        // auth: {
+        //     user: process.env.SENDGRID_USERNAME,
+        //     pass: process.env.SENDGRID_PASSWORD
+        // }
     },
     gmail: { // all emails are delivered to destination by gmail service (development)
         service: "gmail",
@@ -36,8 +38,8 @@ module.exports = {
         host: "smtp.mailtrap.io",
         port: 2525,
         auth: {
-            user: process.env.MAILTRAP_USER || "20c42f5564c5d6",
-            pass: process.env.MAILTRAP_PASSWORD || "26bf366fd4e6df"
+            user: process.env.MAILTRAP_USER || "",
+            pass: process.env.MAILTRAP_PASSWORD || ""
         }
     },
 

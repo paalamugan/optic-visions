@@ -2,12 +2,11 @@ const nodemailer = require('nodemailer');
 const htmlToText = require('nodemailer-html-to-text').htmlToText;
 const Mailgun = require('mailgun-js');
 const  _  = require('lodash');
-
 const config = require('../config');
 const { emailTemplate } = require('../templates');
 
 let mailer = {
-    from: '"Optic Visions" <support@opticvisions.tk>',
+    from: '"Optic Visions" <paalamugan26@gmail.com>',
     smtp: config.mailtrap
 };
 
@@ -26,13 +25,14 @@ if (process.env.NODE_ENV === 'production') {
             apikey: config.mailgun.apiKey,
             domain: config.mailgun.domain
         });
-    } else if (config.sendgrid.auth.user) {
-        // logic for sendgrid email service provider.
+    } else if (config.sendgrid.apiKey) {
+       sendgrid = require('@sendgrid/mail');
+       sendgrid.setApiKey(config.sendgrid.apiKey);
     } else {
         transporter = nodemailer.createTransport(mailer.smtp);
     }
 
-} else if (process.env.NODE_ENV === 'development') {
+} else {
     transporter = nodemailer.createTransport(mailer.smtp);
 }
 

@@ -20405,8 +20405,10 @@ var MainComponent = /** @class */ (function () {
         }
         this.isLoading = true;
         this.loginservice.getUserName().subscribe(function (data) {
+            _this.isLoading = false;
             _this.userCompanyname = data.companyname;
         }, function (err) {
+            _this.isLoading = false;
             if (err instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpErrorResponse"]) {
                 if (err.status === 401) {
                     _this.router.navigateByUrl('login');

@@ -67,9 +67,8 @@ var AuthGuard = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Employee", function() { return Employee; });
 var Employee = /** @class */ (function () {
-    function Employee(uuid, employeeId, employeeName, mobileNumber, employeeEmail, employeePassword, address, DOB, DOJ, adminAccess, userImage, fk_companyid, companySignUp) {
+    function Employee(uuid, employeeName, mobileNumber, employeeEmail, employeePassword, address, DOB, DOJ, adminAccess, avatar, fk_companyid, companySignUp) {
         this.uuid = uuid;
-        this.employeeId = employeeId;
         this.employeeName = employeeName;
         this.mobileNumber = mobileNumber;
         this.employeeEmail = employeeEmail;
@@ -78,7 +77,7 @@ var Employee = /** @class */ (function () {
         this.DOB = DOB;
         this.DOJ = DOJ;
         this.adminAccess = adminAccess;
-        this.userImage = userImage;
+        this.avatar = avatar;
         this.fk_companyid = fk_companyid;
         this.companySignUp = companySignUp;
     }
