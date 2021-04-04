@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 export class LensTypeEditComponent implements OnInit {
   PowerLensType : typeof PowerLensType = PowerLensType;
   powerlenstypes : string[];
+  isLoading: boolean = false;
   constructor( private dialogRef: MatDialogRef<LensTypeEditComponent>, private lenstypeService:LensTypeService,private router:Router,private snackBar:MatSnackBar,@Inject(MAT_DIALOG_DATA) public data: LensType) { }
   onNoClick(): void {
     this.dialogRef.close();
@@ -24,16 +25,19 @@ export class LensTypeEditComponent implements OnInit {
     this.powerlenstypes = options.slice(options.length / 2);
   }
   onSubmit(){
+      this.isLoading = true;
     this.lenstypeService.updateLensType(this.data).subscribe(
       ()=>{
+          this.isLoading = false;
         this.dialogRef.close();
     },
     (err)=>{
       if(err instanceof HttpErrorResponse){
+        this.isLoading = false;
         if(err.status===401){
               this.router.navigateByUrl('login');
         }else{
-          this.snackBar.open("Updated Failed","Alert",{
+          this.snackBar.open(err.error.error,"Alert",{
             duration:4000
           });
         }

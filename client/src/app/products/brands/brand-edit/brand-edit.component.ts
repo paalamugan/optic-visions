@@ -11,7 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./brand-edit.component.scss']
 })
 export class BrandEditComponent implements OnInit {
-
+isLoading: boolean = false;
   constructor( private dialogRef: MatDialogRef<BrandEditComponent>,private brandService:BrandService,private router:Router,private snackBar:MatSnackBar,@Inject(MAT_DIALOG_DATA) public data: Brand) { }
   onNoClick(): void {
     this.dialogRef.close();
@@ -19,12 +19,15 @@ export class BrandEditComponent implements OnInit {
   ngOnInit() {
   }
   onSubmit(){
+      this.isLoading = true;
     this.brandService.updateBrand(this.data).subscribe(
       ()=>{
+          this.isLoading = false;
         this.dialogRef.close();
     },
     (err)=>{
       if(err instanceof HttpErrorResponse){
+        this.isLoading = false;
         if(err.status===401){
               this.router.navigateByUrl('login');
         }else{

@@ -83,7 +83,7 @@ var LoginComponent = /** @class */ (function () {
         this.loginservice.adminLogin(this.adminlogin)
             .subscribe(function (res) {
             _this.isLoading = false;
-            localStorage.removeItem('token');
+            _this.loginservice.resetUserName();
             localStorage.setItem('token', res.token);
             _this.router.navigateByUrl('/dashboard');
         }, function (err) {
@@ -101,13 +101,13 @@ var LoginComponent = /** @class */ (function () {
         this.loginservice.employeeLogin(this.employeelogin)
             .subscribe(function (res) {
             _this.isLoading = false;
-            localStorage.removeItem('token');
+            _this.loginservice.resetUserName();
             localStorage.setItem('token', res.token);
             if (res.Identifier === "employee-admin") {
                 _this.router.navigateByUrl('/dashboard');
             }
             else {
-                _this.router.navigateByUrl('/employees');
+                _this.router.navigateByUrl('/employees/listemployees');
             }
         }, function (err) {
             if (err instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpErrorResponse"]) {

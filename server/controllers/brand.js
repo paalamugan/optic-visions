@@ -1,39 +1,34 @@
 const { Brand, FrameModel } = require('../models');
 
 exports.addNew = async(req,res,next) =>{
-   await Brand.findOrCreate({
+
+  let [brand, created] = await Brand.findOrCreate({
             where :{name:req.body.name,
                     fk_companyid:req.currentUser.companyId
             },
-            defaults: {name:req.body.name,code:req.body.code,fk_companyid:req.currentUser.companyId}
-        }).spread((material,created) =>{
-            if(created){
-                res.status(200).send(material);
-            }else{
-                res.status(300).send({error:"Already Same Brand has created.",data:req.body});
-            }
-            // console.log(material.get({
-            //     plain:true
-            // }))
-        }).catch((err)=>{
-           return res.status(401).send("UnAuthorized Request");
-        });
+            defaults: { name:req.body.name, code:req.body.code, fk_companyid: req.currentUser.companyId }
+        })
+
+        if(!created){
+            return next(new Error("Already Same Brand has created."));
+        }
+        res.json(brand);
+
 }
 
 exports.getAllBrand = async(req,res) =>{
-    await Brand.findAndCountAll({
+
+    let displayAllList = await Brand.findAndCountAll({
         where :{fk_companyid : req.currentUser.companyId}
-    }).then(displayAllList=>{
-       return res.status(200).send(displayAllList.rows);
-    }).catch(err=>{
-        return res.status(401).send("UnAuthorized Request");
-    });
+    })
+
+    return res.json(displayAllList.rows);
 }
 
 exports.deleteBrand = async(req,res)=>{
     await Brand.destroy({ where: { uuid: req.params.uuid }})
         
-    return  res.json({ success:true });
+    return res.json({ success:true });
     // console.log(Id);
     // return Brand
     // .findByPk(Id)
@@ -66,20 +61,12 @@ exports.deleteBrand = async(req,res)=>{
 }
 
 exports.updateBrand= async(req,res,next)=>{
-    const Id = req.params.uuid;
-   await Brand.update({
+    const id = req.params.uuid;
+   let updateBrand = await Brand.update({
             name: req.body.name,
             code:  req.body.code,
     },{
-        where :{uuid :Id,fk_companyid:req.body.fk_companyid}
-    }).then(updatedFrameMat=>{
-        return res.send(updatedFrameMat);
-        // if(updatedFrameMat==0){
-        //     return res.status(300).send("There is no framtype matching with companyid")
-        // }else{
-        //     return res.status(200).send("Updated the Product Sucessfully"+Id);
-        // }
-    }).catch(err=>{
-        return res.status(401).send("UnAuthorized Request");
+        where: { uuid :id, fk_companyid: req.body.fk_companyid }
     })
+    return res.json({ success: true });
 }

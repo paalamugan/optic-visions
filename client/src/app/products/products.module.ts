@@ -42,6 +42,7 @@ import { BrandComponent } from './brands/brand/brand.component';
 import { BrandAddComponent } from './brands/brand-add/brand-add.component';
 import { BrandEditComponent } from './brands/brand-edit/brand-edit.component';
 import { LensTypeService } from '../services/lens-type.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 @NgModule({
 	imports: [
 		CommonModule,
@@ -64,7 +65,8 @@ import { LensTypeService } from '../services/lens-type.service';
          MatDialogModule,
 		 MatSortModule,
 		 MatSelectModule,
-		 MatAutocompleteModule
+		 MatAutocompleteModule,
+         MatProgressSpinnerModule
 	],
 	declarations: [FrameMaterialComponent,FrameTypeComponent,LensTypeComponent,BoxModelComponent, BoxModelAddComponent, BoxModelEditComponent, LensTypeAddComponent, LensTypeEditComponent, FrameMaterialAddComponent, FrameMaterialEditComponent, FrameTypeAddComponent, FrameTypeEditComponent, FrameModelComponent, FrameModelAddComponent, FrameModelEditComponent, BrandComponent, BrandAddComponent, BrandEditComponent],
 	providers:[],

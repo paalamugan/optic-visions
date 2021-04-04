@@ -18,7 +18,7 @@ export class FrameMaterialComponent implements OnInit {
   public dataSource = new MatTableDataSource<FrameMaterial>(this.framematerials);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
+  isLoading: boolean = false;
   constructor(private frameMaterialService:FrameMaterialService,private router:Router,public dialog: MatDialog) {
     // Create 100 users
     // const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
@@ -28,8 +28,10 @@ export class FrameMaterialComponent implements OnInit {
   }
 
   ngOnInit() {
+      this.isLoading = true;
     this.frameMaterialService.getallFrameMaterial().subscribe(
       (data:Array<FrameMaterial>)=>{
+        this.isLoading = false;
         this.framematerials=data;
         this.dataSource = new MatTableDataSource(this.framematerials);
         this.dataSource.paginator = this.paginator;
@@ -37,6 +39,7 @@ export class FrameMaterialComponent implements OnInit {
     },
     (err)=>{
       if(err instanceof HttpErrorResponse){
+        this.isLoading = false;
         if(err.status===401){
           this.router.navigateByUrl('login');
          }

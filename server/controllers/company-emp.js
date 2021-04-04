@@ -43,8 +43,10 @@ exports.addNewEmployee = async(req, res, next) => {
 
 exports.Employeelogin = async(req, res, next) => {
 
+    let body = req.body;
+
     let employeedetail = await CompanyEmpInfo.findOne({
-        where: { employeeEmail: req.body.email},
+        where: { employeeEmail: body.email},
         include: [{
             model: CompanyUserInfo
         }]
@@ -61,18 +63,18 @@ exports.Employeelogin = async(req, res, next) => {
     if (!comparePassword) {
         return next(new Error("Password is Incorrect"));
     }
-
+    
     let data = {
         userName: employeedetail.employeeName,
         userImage: employeedetail.userImage,
-        companyName: employeedetail.companyuserinfo.companyName,
-        companyId: employeedetail.companyuserinfo.uuid,
+        companyName: employeedetail.CompanyUserInfo.companyName,
+        companyId: employeedetail.CompanyUserInfo.uuid,
         Identifier: employeeValue,
         employee: employeedetail  
     }
 
     if (employeeValue === "employee-admin") {
-        data.company = employeedetail.companyuserinfo;
+        data.company = employeedetail.CompanyUserInfo;
     }
 
     let token = getToken(data);

@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class BoxModelEditComponent implements OnInit {
 
+    isLoading: boolean = false;
   constructor( private dialogRef: MatDialogRef<BoxModelEditComponent>,private boxesservice:BoxesService,private router:Router,private snackBar:MatSnackBar,@Inject(MAT_DIALOG_DATA) public data: Boxes) { }
   onNoClick(): void {
     this.dialogRef.close();
@@ -19,16 +20,19 @@ export class BoxModelEditComponent implements OnInit {
   ngOnInit() {
   }
   onSubmit(){
+      this.isLoading = true;
     this.boxesservice.updateBoxes(this.data).subscribe(
       ()=>{
+        this.isLoading = false;
         this.dialogRef.close();
     },
     (err)=>{
       if(err instanceof HttpErrorResponse){
+        this.isLoading = false;
         if(err.status===401){
               this.router.navigateByUrl('login');
         }else{
-          this.snackBar.open("Updated Failed","Alert",{
+          this.snackBar.open(err.error.error, "Alert", {
             duration:4000
           });
         }

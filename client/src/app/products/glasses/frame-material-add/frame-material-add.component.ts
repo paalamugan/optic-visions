@@ -22,7 +22,7 @@ models : string[];
 @ViewChild('nameSelect') nameSelect: ElementRef;
 @ViewChild('QuantitySelect') QuantitySelect: ElementRef;
 @ViewChild('retailerpriceSelect') retailerpriceSelect: ElementRef;
-
+isLoading: boolean = false;
   constructor(private frameMaterialService:FrameMaterialService,private router:Router,private snackBar:MatSnackBar) { }
  
   ngOnInit() {
@@ -52,8 +52,10 @@ models : string[];
     //        });
     //   }
     //   else{
+        this.isLoading = true;
 this.frameMaterialService.addFrameMaterial(this.framematerial).subscribe(
       (data)=>{
+        this.isLoading = false;
         this.snackBar.open("Frame Material Added","Success",{
           duration:4000
         });
@@ -63,18 +65,18 @@ this.frameMaterialService.addFrameMaterial(this.framematerial).subscribe(
     },
     (err)=>{
       if(err instanceof HttpErrorResponse){
+        this.isLoading = false;
         if(err.status===401){
           this.router.navigateByUrl('login');
          
-        }else if(err.status===300){
+        } else {
           this.snackBar.open(err.error.error,"Alert",{
             duration:3000
           });
-          this.framematerial=err.error.data;
-          this.nameInput.focus();
-          const nameselect=<HTMLInputElement>this.nameSelect.nativeElement;
-          setTimeout(function() {  nameselect.select(); }, 50);
-         
+        //   this.framematerial=err.error.data;
+        //   this.nameInput.focus();
+        //   const nameselect=<HTMLInputElement>this.nameSelect.nativeElement;
+        //   setTimeout(function() {  nameselect.select(); }, 50);
          
         }
        

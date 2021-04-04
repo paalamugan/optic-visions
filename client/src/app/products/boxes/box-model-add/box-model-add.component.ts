@@ -14,10 +14,11 @@ import { Admin } from 'src/app/models/admin';
 })
 export class BoxModelAddComponent implements OnInit {
 
-  boxes:Boxes=new Boxes('','','',1,1,1,'');
-@ViewChild('nameInput') nameInput: MatInput;
-@ViewChild('nameSelect') nameSelect: ElementRef;
-  constructor(private boxesService:BoxesService,private loginservice:LoginService,private router:Router,private snackBar:MatSnackBar) { }
+    boxes:Boxes=new Boxes('', '', '', 1, 1, 1, '');
+    @ViewChild('nameInput') nameInput: MatInput;
+    @ViewChild('nameSelect') nameSelect: ElementRef;
+    isLoading: boolean = false;
+    constructor(private boxesService:BoxesService,private loginservice:LoginService,private router:Router,private snackBar:MatSnackBar) { }
 
   ngOnInit() {
     this.loginservice.getUserName().subscribe((data:Admin)=>{
@@ -27,32 +28,27 @@ export class BoxModelAddComponent implements OnInit {
       });
   }
   OnSubmit(){
-    this.boxesService.addBoxes(this.boxes).subscribe(
-      (data)=>{
-      this.snackBar.open("Box Added","Success",{
-        duration:4000
-      });
-this.nameInput.focus();
-this.boxes=new Boxes('','','',1,1,1,'');
+      this.isLoading = true;
+    this.boxesService.addBoxes(this.boxes).subscribe((data)=>{
+        this.isLoading = false;
+        this.snackBar.open("Box Added","Success",{
+            duration:4000
+        });
+        this.nameInput.focus();
+        this.boxes = new Boxes('', '', '', 1, 1, 1,'');
 
     },
     
     (err)=>{
       if(err instanceof HttpErrorResponse){
+        this.isLoading = false;
         if(err.status===401){
           this.router.navigateByUrl('login');
          
-        }else if(err.status===300){
-          this.snackBar.open(err.error.error,"Alert",{
-            duration:3000
-          });
-          this.boxes=err.error.data;
-          this.nameInput.focus();
-          const nameselect=<HTMLInputElement>this.nameSelect.nativeElement;
-          setTimeout(function() {  nameselect.select(); }, 50);
-         
-         
         }
+        this.snackBar.open(err.error.error,"Alert",{
+            duration:3000
+        });
        
       }
     });

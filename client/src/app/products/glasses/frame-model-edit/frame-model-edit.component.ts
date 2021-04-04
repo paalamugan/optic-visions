@@ -22,6 +22,7 @@ export class FrameModelEditComponent implements OnInit {
   myControl = new FormControl();
   frametypes : string[];
   filteredOptions: Observable<Brand[]>;
+  isLoading: boolean = false;
   constructor( private dialogRef: MatDialogRef<FrameModelEditComponent>,private framemodelService:FrameModelService,private brandService:BrandService,private router:Router,private snackBar:MatSnackBar,@Inject(MAT_DIALOG_DATA) public data: FrameModel) { }
   onNoClick(): void {
     this.dialogRef.close();
@@ -30,12 +31,15 @@ export class FrameModelEditComponent implements OnInit {
     var x = FrameType;
     var options = Object.keys(x);
     this.frametypes = options.slice(options.length / 2);
+    this.isLoading = true;
     this.brandService.getallBrand().subscribe(
       (data:Array<Brand>)=>{
+          this.isLoading = false;
         this.brands=data;
     },
     (err)=>{
       if(err instanceof HttpErrorResponse){
+        this.isLoading = false;
         if(err.status===401){
           this.router.navigateByUrl('login');
          }
@@ -59,16 +63,19 @@ export class FrameModelEditComponent implements OnInit {
      }
     
      onSubmit(){
+        this.isLoading = true;
       this.framemodelService.updateFrameModel(this.data).subscribe(
         ()=>{
+            this.isLoading = false;
           this.dialogRef.close();
       },
       (err)=>{
         if(err instanceof HttpErrorResponse){
+            this.isLoading = false;
           if(err.status===401){
                 this.router.navigateByUrl('login');
           }else{
-            this.snackBar.open("Updated Failed","Alert",{
+            this.snackBar.open(err.error.error, "Alert", {
               duration:4000
             });
           }

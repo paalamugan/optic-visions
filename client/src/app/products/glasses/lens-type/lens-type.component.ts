@@ -22,12 +22,13 @@ export class LensTypeComponent implements OnInit {
   public dataSource = new MatTableDataSource<LensType>(this.lenstypes);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
+  isLoading: boolean = false;
   constructor(private lenstypeService:LensTypeService,private loginservice:LoginService,private router:Router,public dialog: MatDialog) {
     
   }
 
   ngOnInit(){
+      this.isLoading = true;
     this.loginservice.getUserName().subscribe((data:Admin)=>{
       if(data.Identifier==="employee"){
        this.editHidden=true;
@@ -36,6 +37,7 @@ export class LensTypeComponent implements OnInit {
       });
     this.lenstypeService.getallLensType().subscribe(
       (data:Array<LensType>)=>{
+          this.isLoading = false;
         this.lenstypes=data;
         this.dataSource = new MatTableDataSource(this.lenstypes);
         this.dataSource.paginator = this.paginator;
@@ -43,6 +45,7 @@ export class LensTypeComponent implements OnInit {
     },
     (err)=>{
       if(err instanceof HttpErrorResponse){
+          this.isLoading = false;
         if(err.status===401){
           this.router.navigateByUrl('login');
          }

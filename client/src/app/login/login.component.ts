@@ -41,7 +41,7 @@ this.adminhide=false;
     this.loginservice.adminLogin(this.adminlogin)
         .subscribe((res:any) => {
             this.isLoading = false;
-            localStorage.removeItem('token');
+            this.loginservice.resetUserName();
             localStorage.setItem('token',res.token);
             this.router.navigateByUrl('/dashboard');
         },
@@ -59,13 +59,13 @@ this.adminhide=false;
     this.loginservice.employeeLogin(this.employeelogin)
     .subscribe((res:any)=>{
         this.isLoading = false;
-        localStorage.removeItem('token');
+        this.loginservice.resetUserName();
         localStorage.setItem('token',res.token);
 
         if(res.Identifier === "employee-admin") {
             this.router.navigateByUrl('/dashboard');
         } else {
-            this.router.navigateByUrl('/employees');
+            this.router.navigateByUrl('/employees/listemployees');
         }
         
      },

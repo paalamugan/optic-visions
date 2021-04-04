@@ -22,13 +22,14 @@ export class FrameModelComponent implements OnInit {
    dataSource : MatTableDataSource<FrameModel>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
+    isLoading: boolean = false;
   constructor(private frameModelService:FrameModelService,private loginservice:LoginService,private router:Router,public dialog: MatDialog) {
     
     
   }
 
   ngOnInit() {
+      this.isLoading = true;
     this.loginservice.getUserName().subscribe((data:Admin)=>{
       if(data.Identifier==="employee"){
        this.editHidden=true;
@@ -37,6 +38,7 @@ export class FrameModelComponent implements OnInit {
       });
     this.frameModelService.getallFrameModel().subscribe(
       (data:Array<FrameModel>)=>{
+          this.isLoading = false;
         this.framemodels=data;
         this.dataSource = new MatTableDataSource(this.framemodels);
         this.dataSource.paginator = this.paginator;
@@ -44,6 +46,7 @@ export class FrameModelComponent implements OnInit {
     },
     (err)=>{
       if(err instanceof HttpErrorResponse){
+          this.isLoading = false;
         if(err.status===401){
           this.router.navigateByUrl('login');
          }

@@ -18,6 +18,7 @@ export class LensTypeAddComponent implements OnInit {
   powerlenstypes : string[];
   lenstype:LensType=new LensType('','','','',1,1,1,'');
   @ViewChild('powerlensInput') powerlensInput: MatInput;
+  isLoading: boolean = false;
   constructor(private lenstypeService:LensTypeService,private loginservice:LoginService,private router:Router,private snackBar:MatSnackBar) { }
 
   ngOnInit() {
@@ -33,9 +34,10 @@ export class LensTypeAddComponent implements OnInit {
     this.lenstype.lensmaterial="Fiber";
   }
   findname(){
+
     this.lenstypeService.findByName(this.lenstype.powerlenstype,this.lenstype.name)
     .subscribe((lenstype: LensType) => {
-      if (lenstype != null) {
+      if (lenstype) {
         this.lenstype=lenstype;
         this.lenstype.fk_companyid="";
         this.lenstype.uuid="";
@@ -43,31 +45,34 @@ export class LensTypeAddComponent implements OnInit {
     });
   }
   OnSubmit(){
+      this.isLoading = true;
     this.lenstypeService.addLensType(this.lenstype).subscribe(
       (data)=>{
-this.snackBar.open("LensType Added","Success",{
-  duration:4000
-});
-this.powerlensInput.focus();
-this.lenstype=new LensType('','','','',1,1,1,'');
-var x = PowerLensType;
-var options = Object.keys(x);
-this.powerlenstypes = options.slice(options.length / 2);
-this.lenstype.powerlenstype=this.powerlenstypes[0];
-this.lenstype.lensmaterial="Fiber";
+          this.isLoading = false;
+    this.snackBar.open("LensType Added","Success",{
+    duration:4000
+    });
+    this.powerlensInput.focus();
+    this.lenstype=new LensType('','','','',1,1,1,'');
+    var x = PowerLensType;
+    var options = Object.keys(x);
+    this.powerlenstypes = options.slice(options.length / 2);
+    this.lenstype.powerlenstype=this.powerlenstypes[0];
+    this.lenstype.lensmaterial="Fiber";
     },
     
     (err)=>{
       if(err instanceof HttpErrorResponse){
+          this.isLoading = false;
         if(err.status===401){
           this.router.navigateByUrl('login');
          
-        }else if(err.status===300){
+        }else {
           this.snackBar.open(err.error.error,"Alert",{
             duration:3000
           });
-          this.lenstype=err.error.data;
-          this.powerlensInput.focus();
+        //   this.lenstype=err.error.data;
+        //   this.powerlensInput.focus();
           // const nameselect=<HTMLInputElement>this.nameSelect.nativeElement;
           // setTimeout(function() {  nameselect.select(); }, 50);
          

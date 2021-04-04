@@ -16,6 +16,7 @@ export class BrandAddComponent implements OnInit {
 brand:Brand=new Brand('','','','');
 @ViewChild('nameInput') nameInput: MatInput;
 @ViewChild('nameSelect') nameSelect: ElementRef;
+isLoading: boolean = false;
   constructor(private brandService:BrandService,private loginservice:LoginService,private router:Router,private snackBar:MatSnackBar) { }
 
   ngOnInit() {
@@ -26,9 +27,10 @@ brand:Brand=new Brand('','','','');
       });
   }
   OnSubmit(form){
-    
+    this.isLoading = true;
 this.brandService.addBrand(this.brand).subscribe(
       (data)=>{
+        this.isLoading = false;
         this.snackBar.open("Brand Added","Success",{
           duration:4000
         });
@@ -38,17 +40,18 @@ this.brandService.addBrand(this.brand).subscribe(
     },
     (err)=>{
       if(err instanceof HttpErrorResponse){
+        this.isLoading = false;
         if(err.status===401){
           this.router.navigateByUrl('login');
          
-        }else if(err.status===300){
+        } else {
           this.snackBar.open(err.error.error,"Alert",{
             duration:3000
           });
-          this.brand=err.error.data;
-          this.nameInput.focus();
-          const nameselect=<HTMLInputElement>this.nameSelect.nativeElement;
-          setTimeout(function() {  nameselect.select(); }, 50);
+        //   this.brand=err.error.data;
+        //   this.nameInput.focus();
+        //   const nameselect=<HTMLInputElement>this.nameSelect.nativeElement;
+        //   setTimeout(function() {  nameselect.select(); }, 50);
          
          
         }

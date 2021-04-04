@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 export class FrameMaterialEditComponent implements OnInit {
   FrameMaterialModel : typeof FrameMaterialModel = FrameMaterialModel;
   models : string[];
+  isLoading: boolean = false;
   constructor( private dialogRef: MatDialogRef<FrameMaterialEditComponent>,private framematerialService:FrameMaterialService,private router:Router,private snackBar:MatSnackBar,@Inject(MAT_DIALOG_DATA) public data: FrameMaterial) { }
   onNoClick(): void {
     this.dialogRef.close();
@@ -24,12 +25,15 @@ export class FrameMaterialEditComponent implements OnInit {
     this.models = options.slice(options.length / 2);
   }
   onSubmit(){
+    this.isLoading = true;
     this.framematerialService.updateFrameMaterial(this.data).subscribe(
       ()=>{
+        this.isLoading = false;
         this.dialogRef.close();
     },
     (err)=>{
       if(err instanceof HttpErrorResponse){
+        this.isLoading = false;
         if(err.status===401){
               this.router.navigateByUrl('login');
         }else{

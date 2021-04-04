@@ -22,7 +22,7 @@ export class BoxModelComponent implements OnInit {
    dataSource : MatTableDataSource<Boxes>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
+    isLoading: boolean = false;
   constructor(private boxesService:BoxesService,private loginservice:LoginService,private router:Router,public dialog: MatDialog) {
     
   }
@@ -34,8 +34,10 @@ export class BoxModelComponent implements OnInit {
      this.addHidden=true;
     }
     });
+    this.isLoading = true;
     this.boxesService.getallBoxes().subscribe(
       (data:Array<Boxes>)=>{
+        this.isLoading = false;
         this.boxes=data;
         this.dataSource = new MatTableDataSource(this.boxes);
         this.dataSource.paginator = this.paginator;
@@ -43,6 +45,7 @@ export class BoxModelComponent implements OnInit {
     },
     (err)=>{
       if(err instanceof HttpErrorResponse){
+        this.isLoading = false;
         if(err.status===401){
           this.router.navigateByUrl('login');
          }

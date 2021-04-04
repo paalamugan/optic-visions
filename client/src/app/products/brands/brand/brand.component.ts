@@ -23,7 +23,7 @@ export class BrandComponent implements OnInit {
   public dataSource = new MatTableDataSource<Brand>(this.brands);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
+    isLoading: boolean = false;
   constructor(private brandService:BrandService,private loginservice:LoginService,private router:Router,public dialog: MatDialog) {
     
   }
@@ -67,12 +67,15 @@ dialogRef.afterClosed().subscribe(result => {
   }
   deleteBrand(brand:Brand){
     if(confirm('Are You Sure to Delete this Brand ?') === true){
+        this.isLoading = true;
     this.brandService.deleteBrand(brand.uuid).subscribe((response:any)=>{
+        this.isLoading = false;
      this.onload();
     })
   }
 }
 onload():void{
+    this.isLoading = true;
   this.loginservice.getUserName().subscribe((data:Admin)=>{
     if(data.Identifier==="employee"){
       this.editHidden=true;
@@ -81,6 +84,7 @@ onload():void{
     }
    this.brandService.getallBrand().subscribe(
     (data:Array<Brand>)=>{
+        this.isLoading = false;
       this.brands=data;
       this.dataSource = new MatTableDataSource(this.brands);
       this.dataSource.paginator = this.paginator;
@@ -88,6 +92,7 @@ onload():void{
   },
   (err)=>{
     if(err instanceof HttpErrorResponse){
+        this.isLoading = false;
       if(err.status===401){
         this.router.navigateByUrl('login');
        }
