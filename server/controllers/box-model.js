@@ -1,35 +1,34 @@
 const { BoxModel } = require('../models');
 
-exports.addNew = async(req,res) =>{
-    BoxModel.findOrCreate({
+exports.addNew = async(req, res, next) => {
+
+    let body = req.body;
+
+    let [ box, created ] = await BoxModel.findOrCreate({
             where :{name:req.body.name,
                 box_model:req.body.box_model,
                 fk_companyid:req.currentUser.companyId
             },
-            defaults: {name: req.body.name,box_model:req.body.box_model,
-                         quantity:req.body.quantity,retailerPrice:req.body.retailerPrice,wholesalerPrice:req.body.retailerPrice,fk_companyid:req.currentUser.companyId }
-        }).spread((box,created) =>{
-            if(created){
-                res.status(200).send(box);
-            }else{
-                res.status(300).send({error:"Already Box Name has created.",data:req.body});
-            }
-            // console.log(box.get({
-            //     plain:true
-            // }))
-        }).catch(err =>{
-            return res.status(401).send("UnAuthorized Request");
-        });
+            defaults: {name: body.name, box_model: body.box_model,
+                        quantity: body.quantity, retailerPrice: body.retailerPrice, 
+                        wholesalerPrice: body.retailerPrice, fk_companyid: req.currentUser.companyId }
+        })
+
+        if (!created) {
+            return next(new Error("Already Box Name has created."));
+        }
+
+        res.json(box);
 }
 
-exports.getAllBoxModel = async(req,res) =>{
-    BoxModel.findAndCountAll({
-        where :{fk_companyid : req.currentUser.companyId}
-    }).then(displayAllList=>{
-        res.status(200).send(displayAllList.rows);
-    }).catch(err=>{
-        return res.status(401).send("UnAuthorized Request");
-    });
+exports.getAllBoxModel = async(req, res, next) => {
+
+    let displayAllList = await BoxModel.findAndCountAll({
+        where : { fk_companyid : req.currentUser.companyId }
+    })
+
+    res.json(displayAllList.rows);
+
 }
 
 exports.deleteBoxModel = async(req,res)=>{
@@ -43,23 +42,16 @@ exports.deleteBoxModel = async(req,res)=>{
 }
 
 exports.updateBoxModel = async(req,res)=>{
-    const Id = req.params.uuid;
-    BoxModel.update({
+    const id = req.params.uuid;
+    let boxModel = await BoxModel.update({
         name : req.body.name,
-        box_model:req.body.box_model,
-        qunatity:req.body.quantity,
-        retailerPrice : req.body.retailerPrice,
-        wholesalerPrice : req.body.wholesalerPrice,
+        box_model: req.body.box_model,
+        qunatity: req.body.quantity,
+        retailerPrice: req.body.retailerPrice,
+        wholesalerPrice: req.body.wholesalerPrice,
     },{
-        where :{uuid :Id,fk_companyid:req.body.fk_companyid}
-    }).then(updatedBoxModel=>{
-        return res.send(updatedBoxModel);
-        // if(updatedFrameMat==0){
-        //     return res.status(300).send("There is no framtype matching with companyid")
-        // }else{
-        //     return res.status(200).send("Updated the Product Sucessfully"+Id);
-        // }
-    }).catch(err=>{
-        return res.status(401).send("UnAuthorized Request");
+        where: { uuid: id, fk_companyid: req.body.fk_companyid }
     })
+
+    res.json(boxModel);
 }

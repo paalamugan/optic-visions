@@ -33,7 +33,7 @@ module.exports = (sequelize, Datatypes, options = {}) => {
     FrameModel.associate = function(models) {
         // associations can be defined here
        FrameModel.belongsTo(models.CompanyUserInfo, { foreignKey: 'fk_companyid', targetKey: 'uuid', onDelete: 'CASCADE' });
-       FrameModel.belongsTo(models.Brand, { foreignKey: 'fk_brandid',targetKey: 'uuid', onDelete: 'CASCADE' });
+       FrameModel.belongsTo(models.Brand, { as: 'brand', foreignKey: 'fk_brandid',targetKey: 'uuid', onDelete: 'CASCADE' });
     };
 
     return FrameModel;

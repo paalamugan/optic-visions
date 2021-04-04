@@ -1,39 +1,30 @@
 const { FrameModel, Brand } = require('../models');
 
 exports.addNew = async(req,res,next) =>{
-   await FrameModel.findOrCreate({
+    let [frameModel, created] = await FrameModel.findOrCreate({
             where :{fk_brandid:req.body.brand.uuid,
                     model:req.body.model,
                     frametype:req.body.frametype,
                     fk_companyid:req.currentUser.companyId
             },
             defaults: {fk_brandid:req.body.brand.uuid,model:req.body.model,frametype:req.body.frametype,size:req.body.size,quantity:req.body.quantity,retailerPrice: req.body.retailerPrice,wholesalerPrice:req.body.wholesalerPrice,fk_companyid:req.currentUser.companyId}
-        }).spread((material,created) =>{
-            if(created){
-                res.status(200).send(material);
-            }else{
-                res.status(300).send({error:"Already Same Frame Model has created.",data:req.body});
-            }
-            // console.log(material.get({
-            //     plain:true
-            // }))
-        }).catch((err)=>{
-           return res.status(401).send("UnAuthorized Request");
-        });
+        })
+        if (!created) {
+            return next(new Error("Already Same Frame Model has created."));
+        }
+        res.json(frameModel);
 }
 
 exports.getAllFrameModel = async(req,res) =>{
-    await FrameModel.findAndCountAll({
+    let displayAllList = await FrameModel.findAndCountAll({
         where :{fk_companyid : req.currentUser.companyId},
         include:[{
-            model:Brand
+            model: Brand,
+            as: 'brand'
         }]
-    }).then(displayAllList=>{
-        // console.log(displayAllList);
-       return res.status(200).send(displayAllList.rows);
-    }).catch(err=>{
-        return res.status(401).send("UnAuthorized Request");
-    });
+    })
+
+    res.json(displayAllList.rows);
 }
 
 exports.deleteFrameModel = async(req,res)=>{
@@ -57,28 +48,19 @@ exports.updateFrameModel = async(req,res,next)=>{
             wholesalerPrice: req.body.wholesalerPrice,
     },{
         where :{uuid :Id,fk_companyid:req.body.fk_companyid}
-    }).then(updatedFrameMat=>{
-        return res.send(updatedFrameMat);
-        // if(updatedFrameMat==0){
-        //     return res.status(300).send("There is no framtype matching with companyid")
-        // }else{
-        //     return res.status(200).send("Updated the Product Sucessfully"+Id);
-        // }
-    }).catch(err=>{
-        return res.status(401).send("UnAuthorized Request");
     })
+
+    res.json({ success: true })
    
 }
 exports.findFrameModel= async(req,res,next)=>{
-     FrameModel.findOne({
+    let data = await FrameModel.findOne({
         where:{model:req.query.model,fk_brandid:req.query.brand,fk_companyid:req.currentUser.companyId},
         include:[{
-            model:Brand
+            model:Brand,
+            as: 'brand'
         }]
         // attributes:['model','quantity','frametype','retailerPrice','wholesalerPrice'],
-    }).then(data=>{
-       res.send(data);
-    }).catch(err=>{
-        return res.status(401).send("UnAuthorized Request");
     })
+    res.json(data);
 }
