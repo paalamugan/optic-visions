@@ -16,7 +16,7 @@ let doActivity = () => {
 }
 
 let thiryMinJob = new CronJob({
-    cronTime: '*/15 * * * *',
+    cronTime: '*/30 * * * *',
     onTick: doActivity,
     start: false,
     timeZone: 'UTC'
