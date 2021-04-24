@@ -54,6 +54,27 @@ npm run client:build
 npm run prod
 ```
 
+### Deploy
+
+**You must push all your code changes into `main` branch not in `deploy` branch.then merge `main` branch changes to `deploy` branch.**
+
+- Push all your code in `main` branch
+
+```shell
+git checkout deploy
+```
+
+- Merge your main branch changes to deploy branch
+
+```shell
+git merge main
+```
+- Push your merge code into `deploy` branch
+
+```shell
+git push
+```
+
 ### Tips
 
 - Create Heroku app
