@@ -7,6 +7,7 @@
 @import '../app/dashboard-widget/profile-card/profile-card.component.scss';
 @import '../app/dashboard-widget/round-progressbar/round-progressbar.component.scss';
 @import '../app/dashboard-widget/sales-list/sales-list.component.scss';
+@import 'components/index';
 
 $mat-light-theme-background: (
   status-bar: map_get($mat-grey, 300),

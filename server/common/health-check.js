@@ -5,7 +5,7 @@ const config = require('../config');
 
 let doActivity = () => {
     const service = process.env.NODE_ENV === 'production' ? https : http;
-    const req = service.get(`${config.siteUrl}/api/health`);
+    const req = service.get(config.siteUrl);
     req.end();
     // req.once('response', (res) => {
     //     const ip = req.socket.localAddress;
@@ -15,10 +15,11 @@ let doActivity = () => {
     // });
 }
 
-let thiryMinJob = new CronJob({
-    cronTime: '*/30 * * * *',
+// Daily
+let dailyJob = new CronJob({
+    cronTime: '0 0 * * *',
     onTick: doActivity,
     start: false,
     timeZone: 'UTC'
 });
-thiryMinJob.start();
+dailyJob.start();

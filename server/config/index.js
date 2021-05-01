@@ -1,6 +1,6 @@
 module.exports = {
     siteUrl: process.env.SITE_URL || "http://localhost:9000",
-    dbUrl: process.env.DATABASE_URL || "postgres://root:root@localhost:5432/opticvisions",
+    dbUrl: process.env.DATABASE_URL || "postgres://root:root@127.0.0.1:5432/opticvisions",
     dbHost: process.env.DATABASE_HOST || "localhost",
     dbName: process.env.DATABASE_NAME || "opticvisions",
     dbUserName: process.env.DATABASE_USER_NAME || "root",
@@ -42,5 +42,10 @@ module.exports = {
             pass: process.env.MAILTRAP_PASSWORD || ""
         }
     },
+
+    redis: {
+        url: process.env.REDIS_URL || "redis://127.0.0.1:6379",
+        password: process.env.REDIS_PASSWORD || 'test'
+    }
 
 }

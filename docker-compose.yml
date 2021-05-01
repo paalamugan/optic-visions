@@ -1,25 +1,47 @@
 version: '3.3'
 services:
-  mysql:
-    image: mysql:5.7
+  # mysql:
+  #   image: mysql:5.7
+  #   restart: always
+  #   environment:
+  #     MYSQL_DATABASE: 'opticvisions'
+  #     # So you don't have to use root, but you can if you like
+  #     MYSQL_USER: 'root'
+  #     # You can use whatever password you like
+  #     MYSQL_PASSWORD: 'root'
+  #     # Password for root access
+  #     MYSQL_ROOT_PASSWORD: 'root'
+  #   ports:
+  #     # <Port exposed> : < MySQL Port running inside container>
+  #     - '3306:3306'
+  #   expose:
+  #     # Opens port 3306 on the container
+  #     - '3306'
+  #     # Where our data will be persisted
+  #   volumes:
+  #     - ./data/db/mysql:/var/lib/mysql
+  
+  postgres:
+    image: postgres
     restart: always
     environment:
-      MYSQL_DATABASE: 'opticalvision'
-      # So you don't have to use root, but you can if you like
-      MYSQL_USER: 'root'
-      # You can use whatever password you like
-      MYSQL_PASSWORD: 'root'
-      # Password for root access
-      MYSQL_ROOT_PASSWORD: 'root'
-    ports:
-      # <Port exposed> : < MySQL Port running inside container>
-      - '3306:3306'
+      POSTGRES_DB: 'opticvisions'
+      POSTGRES_USER: 'root' 
+      POSTGRES_PASSWORD: 'root'
+    ports: 
+      - '5432:5432'
     expose:
-      # Opens port 3306 on the container
-      - '3306'
-      # Where our data will be persisted
+      - '5432'
     volumes:
-      - ./data/db/mysql:/var/lib/mysql
-# Names our volume
-volumes:
-  mysql:
+      - ./data/db/postgresql:/var/lib/postgresql/data
+
+  redis:
+    image: redis
+    container_name: "redis"
+    command: redis-server --requirepass test
+    volumes:
+      - ./data/db/redis:/data
+    ports:
+      - '6379:6379'
+    expose:
+      - '6379'
