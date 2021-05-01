@@ -59,3 +59,37 @@ Install postgres in linux
     create schema public;
     grant  all on SCHEMA public to postgres;
     grant all on SCHEMA public  to PUBLIC;
+
+
+Tips:(postgres)
+
+postgres commands
+
+1. connect to postgres - psql postgres
+2. list of roles - \du
+3. connect to specific user -  psql postgres -U myuser
+4. list of databases - \l
+5. switch databases - \c databasename
+6. list of tables - \dt
+
+Errors:(postgres)
+
+1. psql: error: FATAL:  Peer authentication failed for user "root"
+
+Solutions:
+ - The problem is still your pg_hba.conf file (/etc/postgresql/9.1/main/pg_hba.conf*).
+
+ This line:
+ ```
+ local   all             postgres                                peer
+ ```
+
+ Should be:
+ ```
+    local   all             postgres                                md5
+
+ ```
+
+ If you can't find this file, running locate pg_hba.conf should show you where the file is.
+
+After altering this file, don't forget to restart your PostgreSQL server. If you're on Linux, that would be sudo service postgresql restart.

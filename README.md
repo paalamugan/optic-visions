@@ -1,15 +1,33 @@
 # GET STARTED
 
-**One Time Only**
+**One Time Only in linux**
 
-Install postgresql
+- Install postgresql
 ```shell
 sudo apt install postgresql
 ```
-- Make sure postgres server is running or not
+
+- Install redis
+```shell
+sudo apt install redis-server
+```
+
+- Make sure postgres server is running or not, if not use below command
 ```
 sudo service postgresql start
 ```
+
+- Make sure redis server is running or not, if not use below command
+```
+redis-server --requirepass test
+```
+
+*Alternative*
+- If you have docker machine, run below command
+```
+docker-compose up -d
+```
+
 ## Install Dependencies
 
 - For server

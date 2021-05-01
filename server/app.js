@@ -7,6 +7,7 @@ const path = require("path");
 const session = require("express-session");
 const config = require('./config');
 const RedisStore = require('connect-redis')(session);
+const redisClient = require("./common/redis");
 
 global.rootPath = path.resolve(__dirname);
 
@@ -64,12 +65,12 @@ app.use(session({
         maxAge: MONTH_IN_MILLISECONDS,
         // domain: config.cookieDomain
     },
-    // store: new RedisStore({
-    //     // host: config.redis.hostname,
-    //     // port: config.redis.port,
-    //     // pass: config.redis.password,
-    //     // client: redisClient
-    // })
+    store: new RedisStore({
+        // host: config.redis.hostname,
+        // port: config.redis.port,
+        // pass: config.redis.password,
+        client: redisClient
+    })
 }));
 
 // models

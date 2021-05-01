@@ -1,16 +1,13 @@
-const fs = require('fs');
-const path = require('path');
 const Sequelize = require('sequelize');
-const basename = path.basename(__filename);
+const config = require('.');
 
-const env = require('./env');
 const db ={};
 
 let sequelize;
 let options = {
     // operatorAliases: Sequelize.Op,
-    dialect: env.dialect,
-    host:'localhost',
+    dialect: config.dbDialect,
+    host:config.dbHost,
     define:{
         timestamps: true
     },
@@ -23,10 +20,10 @@ let options = {
 }
 
 if (process.env.NODE_ENV === "production") {
-    sequelize = new Sequelize(env.DATABASE_URL, options);
+    sequelize = new Sequelize(config.dbUrl, options);
 } else {
     // sequelize = new Sequelize(env.database, env.username, env.password, options);
-    sequelize = new Sequelize(env.DATABASE_URL, options);
+    sequelize = new Sequelize(config.dbUrl, options);
 }
 
 sequelize.authenticate().then(() =>{
@@ -37,21 +34,6 @@ sequelize.authenticate().then(() =>{
 .catch((err)=>{
     console.log("Some thing problem in database connection",err);
 })
-
-// fs.readdirSync(__dirname)
-// .filter(file => {
-//     return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
-// })
-// .forEach(file => {
-//     const model =  require(path.join(__dirname, '/../models' ,file))(sequelize, Sequelize.DataTypes);
-//     db[model.name] = model;
-// });
-
-// Object.keys(db).forEach(modelName => {
-//     if (db[modelName].associate) {
-//         db[modelName].associate(db);
-//     }
-// });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
