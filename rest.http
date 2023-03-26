@@ -10,7 +10,7 @@ Authorization: Bearer null
 Content-Disposition: form-data; name="avatar"; filename="avatar.png"
 Content-Type: image/png
 
-< ./server/public/assets/images/avatar.png
+< ./public/assets/images/avatar.png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="companyName"
 
