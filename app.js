@@ -1,77 +1,96 @@
-require('dotenv').config();
+require("dotenv").config();
 
 const express = require("express");
 const morgan = require("morgan");
-const createError = require('http-errors');
+const createError = require("http-errors");
 const path = require("path");
+const compression = require("compression");
+
 const session = require("express-session");
-const config = require('./server/config');
-const RedisStore = require('connect-redis')(session);
+const config = require("./server/config");
+const RedisStore = require("connect-redis")(session);
 const redisClient = require("./server/common/redis");
 
-global.rootPath = path.resolve(__dirname);
-
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV || "development";
 const MONTH_IN_MILLISECONDS = 2629743000;
-
-require('./server/common/health-check');
 
 const app = express();
 
 // Settings
-app.set('env', env);
-app.enable('trust proxy');
-app.disable('x-powered-by');
+app.set("env", env);
+app.enable("trust proxy");
+app.disable("x-powered-by");
 
-// Logging
-if (env === 'development') {
-    app.use(morgan('dev',  {
-        skip: function (req, res) {
-            return req.path.indexOf('.') !== -1;
-        }
-    }));
+app.use(compression({ filter: shouldCompress }));
+
+function shouldCompress(req, res) {
+  if (req.headers["x-no-compression"]) {
+    // don't compress responses with this request header
+    return false;
+  }
+
+  // fallback to standard filter function
+  return compression.filter(req, res);
+}
+
+// // Logging
+if (env === "development") {
+  app.use(
+    morgan("dev", {
+      skip: function (req, res) {
+        return req.path.indexOf(".") !== -1;
+      },
+    })
+  );
 } else {
-    // For production and staging
-    app.use(morgan('[:date[iso]] :method :url :status :res[content-length] :response-time ms', {
-        skip: function (req, res) {
-            // return res.statusCode < 400;
-            return req.path.indexOf('.') !== -1;
-        },
-        // stream: require('fs').createWriteStream('/tmp/optic_visions_api.log', {
-        //     flags: 'a'
-        // })
-    }));
-};
+  // For production and staging
+  app.use(
+    morgan("[:date[iso]] :method :url :status :res[content-length] :response-time ms", {
+      skip: function (req, res) {
+        // return res.statusCode < 400;
+        return req.path.indexOf(".") !== -1;
+      },
+      // stream: require('fs').createWriteStream('/tmp/optic_visions_api.log', {
+      //     flags: 'a'
+      // })
+    })
+  );
+}
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.join(global.rootPath, "public")));
-app.use('/', express.static(path.join(global.rootPath, "public")));
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "client", "build"), {
+  maxAge: 1000 * 60 * 60 * 24 * 15, // 15 days
+}));
+
+app.use("/", express.static(path.join(__dirname, "client", "build")));
 
 app.use((req, res, next) => {
+  if (req.path.includes("/api")) {
+    return next();
+  }
 
-    if (req.path.includes('/api')) {
-        return next();
-    }
+  return res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
 
-    return res.sendFile(`${rootPath}/public/index.html`);
-})
-
-app.use(session({
+app.use(
+  session({
     resave: false,
     saveUninitialized: false,
     secret: config.sessionSecret,
     cookie: {
-        maxAge: MONTH_IN_MILLISECONDS,
-        // domain: config.cookieDomain
+      maxAge: MONTH_IN_MILLISECONDS,
+      // domain: config.cookieDomain
     },
     store: new RedisStore({
-        // host: config.redis.hostname,
-        // port: config.redis.port,
-        // pass: config.redis.password,
-        client: redisClient
-    })
-}));
+      // host: config.redis.hostname,
+      // port: config.redis.port,
+      // pass: config.redis.password,
+      client: redisClient,
+    }),
+  })
+);
 
 // models
 require("./server/models");
@@ -90,7 +109,6 @@ require("./server/routes")(app);
 // const framemodel = require("./routes/frame-model");
 // const Lenstype = require("./routes/lens-type");
 // const boxes = require("./routes/box-model");
-
 
 //Signup
 // app.use("/api/company",companyinfo);
@@ -211,29 +229,29 @@ app.use('/api/get/eyepowers', eyepowerroute);
 
 // Health check
 
-app.use('/api/health', function (req, res, next) {
-    res.status(200).send('OK');
+app.use("/api/health", function (req, res, next) {
+  res.status(200).send("OK");
 });
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    next(createError(404));
+  next(createError(404));
 });
 
 // error handler
 app.use(function (err, req, res, next) {
-    // set locals, only providing error in development
-    let isDevelopment = req.app.get("env") === "development";
-    res.locals.message = err.message;
-    res.locals.error = isDevelopment ? err : {};
-    // render the error page
+  // set locals, only providing error in development
+  let isDevelopment = req.app.get("env") === "development";
+  res.locals.message = err.message;
+  res.locals.error = isDevelopment ? err : {};
+  // render the error page
 
-    if (isDevelopment) {
-        console.error("error", err);
-    }
+  if (isDevelopment) {
+    console.error("error", err);
+  }
 
-    res.status(err.status || 400);
-    res.json({ error: err.message || err });
+  res.status(err.status || 400);
+  res.json({ error: err.message || err });
 });
 
 module.exports = app;

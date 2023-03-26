@@ -3,7 +3,7 @@ const _ = require('lodash');
 const path = require('path');
 const Email = require('email-templates');
 // const minify = require('html-minifier').minify;
-const config = require(global.rootPath + '/config');
+const config = require('../../config');
 const defaultData = require('./data');
 
 const getTemplateData = (data) => {
