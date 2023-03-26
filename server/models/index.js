@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
 const config = require("../config");
-const { Client } = require("pg");
+const { Pool } = require("pg");
 
 const basename = path.basename(__filename);
 const options = {
@@ -29,11 +29,11 @@ const modelOptions = {
 const db = {};
 let sequelize;
 
-options.dialectOptions = {
-  ssl: {
-    rejectUnauthorized: false,
-  },
-};
+// options.dialectOptions = {
+//   ssl: {
+//     rejectUnauthorized: false,
+//   },
+// };
 if (process.env.NODE_ENV === "production") {
   sequelize = new Sequelize(config.dbUrl, options);
 } else {
@@ -60,11 +60,11 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-const client = new Client({
+const pool = new Pool({
   connectionString: config.dbUrl,
 });
 
-client.connect().then(() => {
+pool.connect().then(() => {
   sequelize
     .authenticate()
     .then(() => {

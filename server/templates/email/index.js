@@ -16,7 +16,9 @@ const getTemplateData = (data) => {
     data._ = _;
     data.moment = moment;
     data.copyrightYear = (new Date()).getFullYear();
-
+    data.t = (key) => {
+        return key;
+    }
     return data;
 
 };
@@ -32,7 +34,7 @@ const email = new Email({
             relativeTo: path.join(__dirname, 'views')
         }
     },
-    i18n: {},
+    // i18n: {},
 
     // message: {
     //     from: 'no-reply@gmail.com'
